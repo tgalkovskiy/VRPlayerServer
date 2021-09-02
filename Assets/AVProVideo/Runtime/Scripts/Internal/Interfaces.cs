@@ -465,7 +465,7 @@ namespace RenderHeads.Media.AVProVideo
 		[SerializeField] MediaPathType _pathType = MediaPathType.RelativeToStreamingAssetsFolder;
 		public MediaPathType PathType { get { return _pathType; } internal set { _pathType = value; } }
 
-		[SerializeField] string _path = string.Empty;
+		[SerializeField] public string _path = string.Empty;
 		public string Path { get { return _path; } internal set { _path = value; } }
 
 		public MediaPath()
