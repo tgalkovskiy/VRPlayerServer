@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8084053637650846255}
-  - component: {fileID: 7625616419165304158}
   - component: {fileID: 6045683725097506408}
   m_Layer: 0
   m_Name: Player
@@ -32,23 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7625616419165304158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299931384220571958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!114 &6045683725097506408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,5 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64c288beec8a9846ab2f6b45e66ecfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  path:
+  - BigBuckBunny-360p30-H264.mp4
+  - Cones-2D-1080p60-H264.mp4
+  - Cones-360Mono-4K30-H264.mp4
+  - Cones-360Stereo-2K30-H264.mp4
+  - Cones-360Stereo-2K30-H264.mp4
