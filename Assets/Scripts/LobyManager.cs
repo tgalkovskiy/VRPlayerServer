@@ -9,6 +9,8 @@ public class LobyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private PlayerNetBehavior _playerNetBehavior = default;
     [SerializeField] private InputField _inputName = default;
+    [SerializeField] private InputField _inputNameRoom = default;
+    [SerializeField] private Text _nameText = default;
     [SerializeField] private string _NameRoom = default;
     [SerializeField] private string _gameVersion = default;
     private PhotonView View;
@@ -20,6 +22,7 @@ public class LobyManager : MonoBehaviourPunCallbacks
     public void SetNamePlayerAndConect()
     {
         _namePlayer = _inputName.text;
+        _nameText.text = _inputName.text;
         PhotonNetwork.NickName = _namePlayer;
         PhotonNetwork.GameVersion = _gameVersion;
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -28,26 +31,30 @@ public class LobyManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
+        _playerNetBehavior.ShowControlVideo();
     }
     public override void OnJoinedRoom()
     {
         Debug.Log($"Conect {_namePlayer} in {_NameRoom}");
-    }
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("Connect to MasterServer");
-    }
-    public void CreateRoom()
-    {
-        PhotonNetwork.CreateRoom(_NameRoom, new Photon.Realtime.RoomOptions{ MaxPlayers = 10});
-    }
-    public void JoinRoom()
-    {
-        PhotonNetwork.JoinRoom(_NameRoom);
+        _playerNetBehavior.ShowControlVideo();
         if (!PhotonNetwork.IsMasterClient)
         {
             GetCommand("UnShow");
         }
+    }
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("Connect to MasterServer");
+        _playerNetBehavior.UnshowInputField();
+    }
+    public void CreateRoom()
+    {
+        PhotonNetwork.CreateRoom(_inputNameRoom.text, new Photon.Realtime.RoomOptions{ MaxPlayers = 10});
+       
+    }
+    public void JoinRoom()
+    {
+        PhotonNetwork.JoinRoom(_inputNameRoom.text);
     }
 
     private void SendMessage(string command)
@@ -67,6 +74,11 @@ public class LobyManager : MonoBehaviourPunCallbacks
     public void CommandStop()
     {
         SendMessage("Stop");
+    }
+
+    public void CommandVideo(int index)
+    {
+        SendMessage(index.ToString());
     }
 
 }
