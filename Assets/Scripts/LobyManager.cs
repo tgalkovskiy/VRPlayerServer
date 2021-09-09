@@ -11,7 +11,6 @@ public class LobyManager : MonoBehaviourPunCallbacks
     [SerializeField] private InputField _inputName = default;
     [SerializeField] private InputField _inputNameRoom = default;
     [SerializeField] private Text _nameText = default;
-    [SerializeField] private string _NameRoom = default;
     [SerializeField] private string _gameVersion = default;
     private PhotonView View;
     private string _namePlayer;
@@ -28,18 +27,18 @@ public class LobyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
+     
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
-        _playerNetBehavior.ShowControlVideo();
+        _playerNetBehavior.ShowControlMenu();
     }
     public override void OnJoinedRoom()
     {
-        Debug.Log($"Conect {_namePlayer} in {_NameRoom}");
-        _playerNetBehavior.ShowControlVideo();
+        Debug.Log($"Conect {_namePlayer} in {_inputNameRoom.text}");
         if (!PhotonNetwork.IsMasterClient)
         {
-            GetCommand("UnShow");
+            _playerNetBehavior.UnshowControllMenu();
         }
     }
     public override void OnConnectedToMaster()
