@@ -12,7 +12,6 @@ public class PlayerNetBehavior : MonoBehaviour
    [SerializeField] private GameObject _BackPanel = default;
    [SerializeField] private MediaPlayer _mediaPlayer = default;
    public List<string> path = new List<string>();
-   private bool selector = true;
    public void GetCommand(string command)
    {
         if(command == "Play")

@@ -6,7 +6,6 @@ using UnityEngine;
 public class LoaderWideo : MonoBehaviour
 {
     PlayerNetBehavior _playerNetBehavior;
-
     private void Awake()
     {
         _playerNetBehavior = GetComponent<PlayerNetBehavior>();
