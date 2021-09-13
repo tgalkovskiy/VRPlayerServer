@@ -10,10 +10,8 @@ public class PlayerNetBehavior : MonoBehaviour
    [SerializeField] private GameObject _MenuPanel = default;
    [SerializeField] private GameObject _LobyConector = default;
    [SerializeField] private GameObject _BackPanel = default;
-  
-
    [SerializeField] private MediaPlayer _mediaPlayer = default;
-   public string[] path;
+   public List<string> path = new List<string>();
    private bool selector = true;
    public void GetCommand(string command)
    {
