@@ -7,17 +7,24 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PhotonView))]
 public class LobyManager : MonoBehaviourPunCallbacks
 {
+    #region Field
     [SerializeField] private PlayerNetBehavior _playerNetBehavior = default;
     [SerializeField] private InputField _inputName = default;
     [SerializeField] private InputField _inputNameRoom = default;
     [SerializeField] private Text _nameText = default;
     [SerializeField] private string _gameVersion = default;
     private PhotonView View;
+    public static LobyManager Instance;
     private string _namePlayer;
+    #endregion
+    #region LifeCicle
     private void Awake()
     {
         View = GetComponent<PhotonView>();
+        Instance = this;
     }
+    #endregion
+    #region ConectionOfLoby
     public void SetNamePlayerAndConect()
     {
         _namePlayer = _inputName.text;
@@ -27,7 +34,6 @@ public class LobyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
-     
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
@@ -55,29 +61,50 @@ public class LobyManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRoom(_inputNameRoom.text);
     }
-
-    private void SendMessage(string command)
+    #endregion
+    #region SendMessage
+    private void SendMessageControllVideo(string command)
     {
-        View.RPC("GetCommand", RpcTarget.All, command);
+        View.RPC("GetCommandVideo", RpcTarget.All, command);
+    }
+    private void SendMessageChooseVideo(int index)
+    {
+        View.RPC("GetChooseVideo", RpcTarget.All, index);
+    }
+    #endregion
+    #region GetCommand
+    [PunRPC]
+    private void GetCommandVideo(string command)
+    {
+        _playerNetBehavior.ControllVideo(command);
     }
     [PunRPC]
-    private void GetCommand(string command)
+    private void GetChooseVideo(int index)
     {
-        _playerNetBehavior.GetCommand(command);
+        _playerNetBehavior.ChooseVideo(index);
     }
-
-    public void CommanPlay()
+    #endregion
+    #region Command
+    public void CommandPlay()
     {
-        SendMessage("Play");
+        SendMessageControllVideo("Play");
     }
     public void CommandStop()
     {
-        SendMessage("Stop");
+        SendMessageControllVideo("Stop");
     }
-
+    public void CommandMuteAudio()
+    {
+        SendMessageControllVideo("Mute");
+    }
+    public void CommandRebootVideo()
+    {
+        SendMessageControllVideo("Reboot");
+    }
     public void CommandVideo(int index)
     {
-        SendMessage(index.ToString());
+        SendMessageChooseVideo(index);
     }
+    #endregion
 
 }

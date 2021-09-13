@@ -12,45 +12,34 @@ public class PlayerNetBehavior : MonoBehaviour
    [SerializeField] private GameObject _BackPanel = default;
    [SerializeField] private MediaPlayer _mediaPlayer = default;
    public List<string> path = new List<string>();
-   public void GetCommand(string command)
+   private bool mute = false;
+   public void ControllVideo(string command)
    {
-        if(command == "Play")
+        switch (command)
         {
-            _mediaPlayer.Play();
-        }
-        if(command == "Stop")
-        {
-            _mediaPlayer.Stop();
-        }
-        if(command == "0")
-        {
-            _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[0], false);
-        }
-        if (command == "1")
-        {
-            _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[1], false);
-        }
-        if (command == "2")
-        {
-            _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[2], false);
-        }
-        if (command == "3")
-        {
-            _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[3], false);
+            case "Play": _mediaPlayer.Play(); break;
+            case "Stop": _mediaPlayer.Stop(); break;
+            case "Mute":  mute = !mute; _mediaPlayer.AudioMuted = mute; break;
+            case "Reboot": _mediaPlayer.Rewind(true); break;
         }
     }
+   public void ChooseVideo(int index)
+    {
+        _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
+    }
     //for master
-    public void UnshowInputField()
+   public void UnshowInputField()
     {
         _inputName.SetActive(false);
         _LobyConector.SetActive(true);
     }
-    public void ShowControlMenu()
+   public void ShowControlMenu()
     {
         _LobyConector.SetActive(false);
         _MenuPanel.SetActive(true);
     }
-    public void UnshowControllMenu()
+    //for client
+   public void UnshowControllMenu()
     {
         _LobyConector.SetActive(false);
         _MenuPanel.SetActive(false);
