@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using Photon.Realtime;
 
 [RequireComponent(typeof(PhotonView))]
 public class LobyManager : MonoBehaviourPunCallbacks
 {
     #region Field
     [SerializeField] private PlayerNetBehavior _playerNetBehavior = default;
-    [SerializeField] private InputField _inputName = default;
     [SerializeField] private InputField _inputNameRoom = default;
     [SerializeField] private Text _nameText = default;
     [SerializeField] private string _gameVersion = default;
     private PhotonView View;
     public static LobyManager Instance;
     private string _namePlayer;
+    List<string> playersInRoom = new List<string>();
     #endregion
     #region LifeCicle
     private void Awake()
@@ -23,17 +24,18 @@ public class LobyManager : MonoBehaviourPunCallbacks
         View = GetComponent<PhotonView>();
         Instance = this;
     }
+    private void Start()
+    {
+       _namePlayer = SystemInfo.deviceName;
+       _nameText.text = _namePlayer;
+       PhotonNetwork.NickName = _namePlayer;
+       PhotonNetwork.GameVersion = _gameVersion;
+       PhotonNetwork.AutomaticallySyncScene = true;
+       PhotonNetwork.NetworkingClient.EnableLobbyStatistics = true;
+       PhotonNetwork.ConnectUsingSettings();
+    }
     #endregion
     #region ConectionOfLoby
-    public void SetNamePlayerAndConect()
-    {
-        _namePlayer = _inputName.text;
-        _nameText.text = _inputName.text;
-        PhotonNetwork.NickName = _namePlayer;
-        PhotonNetwork.GameVersion = _gameVersion;
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
-    }
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
@@ -46,20 +48,42 @@ public class LobyManager : MonoBehaviourPunCallbacks
         {
             _playerNetBehavior.UnshowControllMenu();
         }
+        //update stats in room
+        View.RPC("RoomState", RpcTarget.MasterClient);
+    }
+    public override void OnLeftRoom()
+    {
+        Debug.Log($"Left {_namePlayer} in {_inputNameRoom.text}");
+        View.RPC("RoomState", RpcTarget.MasterClient);
     }
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connect to MasterServer");
         _playerNetBehavior.UnshowInputField();
     }
+    [PunRPC]
+    public void RoomState()
+    {
+        playersInRoom.Clear();
+        int countPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
+        for(int i=0; i<countPlayers; i++)
+        {
+            playersInRoom.Add(PhotonNetwork.CurrentRoom.GetPlayer(i+1).NickName);
+            Debug.Log(playersInRoom[i]);
+        }
+        _playerNetBehavior.UpdateListDevise(playersInRoom);
+    }
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(_inputNameRoom.text, new Photon.Realtime.RoomOptions{ MaxPlayers = 10});
-       
     }
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(_inputNameRoom.text);
+    }
+    public void LeftRoom()
+    {
+        PhotonNetwork.LeaveRoom(true);
     }
     #endregion
     #region SendMessage

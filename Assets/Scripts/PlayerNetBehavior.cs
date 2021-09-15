@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
+using UnityEngine.UI;
+using System;
 
 public class PlayerNetBehavior : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class PlayerNetBehavior : MonoBehaviour
    [SerializeField] private GameObject _MenuPanel = default;
    [SerializeField] private GameObject _LobyConector = default;
    [SerializeField] private GameObject _BackPanel = default;
+   [SerializeField] private Text _listDevise = default;
    [SerializeField] private MediaPlayer _mediaPlayer = default;
    public List<string> path = new List<string>();
    private bool mute = false;
@@ -24,9 +27,21 @@ public class PlayerNetBehavior : MonoBehaviour
         }
     }
    public void ChooseVideo(int index)
-    {
+   {
         _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
-    }
+        int a = 7;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(7);
+        Debug.Log(timeSpan);
+   }
+   public void UpdateListDevise(List<string> device)
+   {
+        string list =null;
+        for(int i =0;i<device.Count; i++)
+        {
+            list += "\n"+device[i];
+        }
+        _listDevise.text = list;
+   }
     //for master
    public void UnshowInputField()
     {
@@ -45,4 +60,5 @@ public class PlayerNetBehavior : MonoBehaviour
         _MenuPanel.SetActive(false);
         _BackPanel.SetActive(false);
     }
+    
 }
