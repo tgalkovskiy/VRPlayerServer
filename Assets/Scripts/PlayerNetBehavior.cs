@@ -12,7 +12,8 @@ public class PlayerNetBehavior : MonoBehaviour
    [SerializeField] private GameObject _MenuPanel = default;
    [SerializeField] private GameObject _LobyConector = default;
    [SerializeField] private GameObject _BackPanel = default;
-   [SerializeField] private Text _listDevise = default;
+    [SerializeField] private GameObject _pico = default;
+    [SerializeField] private Text _listDevise = default;
    [SerializeField] private MediaPlayer _mediaPlayer = default;
    public List<string> path = new List<string>();
    private bool mute = false;
@@ -59,6 +60,7 @@ public class PlayerNetBehavior : MonoBehaviour
         _LobyConector.SetActive(false);
         _MenuPanel.SetActive(false);
         _BackPanel.SetActive(false);
+        _pico.SetActive(true);
     }
     
 }
