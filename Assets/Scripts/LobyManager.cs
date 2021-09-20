@@ -10,12 +10,13 @@ public class LobyManager : MonoBehaviourPunCallbacks
 {
     #region Field
     [SerializeField] private PlayerNetBehavior _playerNetBehavior = default;
-    [SerializeField] private InputField _inputNameRoom = default;
+    //[SerializeField] private InputField _inputNameRoom = default;
     [SerializeField] private Text _nameText = default;
     [SerializeField] private string _gameVersion = default;
     private PhotonView View;
     public static LobyManager Instance;
     private string _namePlayer;
+    private string _nameRoom;
     List<string> playersInRoom = new List<string>();
     #endregion
     #region LifeCicle
@@ -28,6 +29,7 @@ public class LobyManager : MonoBehaviourPunCallbacks
     {
        _namePlayer = SystemInfo.deviceName;
        _nameText.text = _namePlayer;
+       _nameRoom = "VR360";
        PhotonNetwork.NickName = _namePlayer;
        PhotonNetwork.GameVersion = _gameVersion;
        PhotonNetwork.AutomaticallySyncScene = true;
@@ -43,7 +45,7 @@ public class LobyManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        Debug.Log($"Conect {_namePlayer} in {_inputNameRoom.text}");
+        Debug.Log($"Conect {_namePlayer} in {_nameRoom}");
         if (!PhotonNetwork.IsMasterClient)
         {
             _playerNetBehavior.UnshowControllMenu();
@@ -53,13 +55,19 @@ public class LobyManager : MonoBehaviourPunCallbacks
     }
     public override void OnLeftRoom()
     {
-        Debug.Log($"Left {_namePlayer} in {_inputNameRoom.text}");
+        Debug.Log($"Left {_namePlayer} in {_nameRoom}");
         View.RPC("RoomState", RpcTarget.MasterClient);
     }
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connect to MasterServer");
         _playerNetBehavior.UnshowInputField();
+#if UNITY_EDITOR || UNITY_STANDALONE
+        CreateRoom();
+#endif
+#if UNITY_ANDROID || ANDROID_DEVICE
+        JoinRoom();
+#endif
     }
     [PunRPC]
     public void RoomState()
@@ -75,11 +83,11 @@ public class LobyManager : MonoBehaviourPunCallbacks
     }
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(_inputNameRoom.text, new Photon.Realtime.RoomOptions{ MaxPlayers = 10});
+        PhotonNetwork.CreateRoom(_nameRoom, new Photon.Realtime.RoomOptions{ MaxPlayers = 10});
     }
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(_inputNameRoom.text);
+        PhotonNetwork.JoinRoom(_nameRoom);
     }
     public void LeftRoom()
     {
