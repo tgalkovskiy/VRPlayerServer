@@ -2,6 +2,7 @@
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../.." />
+    <content url="file://$USER_HOME$/Downloads/PicoXR_Platform_SDK-1.2.4_B72" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

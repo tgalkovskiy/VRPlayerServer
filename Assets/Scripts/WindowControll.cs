@@ -5,9 +5,10 @@ using DG.Tweening;
 using UnityEngine.Serialization;
 
 
-public class MenuControll : MonoBehaviour
+public class WindowControll : MonoBehaviour
 {
     [SerializeField] private GameObject _chooseVideoPanel = default;
+    [SerializeField] private GameObject _VideoControllPanel = default;
     [SerializeField] private GameObject _chooseExpPanel = default;
     [SerializeField] private GameObject _chooseFavorit = default;
     [SerializeField] private GameObject _chooseEvent = default;
@@ -16,7 +17,7 @@ public class MenuControll : MonoBehaviour
     [SerializeField] private Transform _posPreviewOriginal = default;
     [SerializeField] private Image _videoIcon = default;
     [SerializeField] private Text _videoDescription = default;
-    public static MenuControll Instance;
+    public static WindowControll Instance;
     private bool isScalePreview = false;
     private void Awake()
     {
@@ -29,20 +30,44 @@ public class MenuControll : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void ShowPanels(GameObject panel)
+
+    public void ShowVideo360()
+    {
+        UnShowPanels();
+        _chooseVideoPanel.SetActive(true);
+        _VideoControllPanel.SetActive(true);
+    }
+
+    public void ShowExp()
+    {
+        UnShowPanels();
+        _chooseExpPanel.SetActive(true);
+    }
+
+    public void ShowFavorite()
+    {
+        UnShowPanels();
+        _chooseFavorit.SetActive(true);
+    }
+
+    public void ShowEvent()
+    {
+        UnShowPanels();
+        _chooseEvent.SetActive(false);
+    }
+    private void UnShowPanels()
     {
         _chooseVideoPanel.SetActive(false);
         _chooseExpPanel.SetActive(false);
         _chooseFavorit.SetActive(false);
         _chooseEvent.SetActive(false);
-        panel.SetActive(true);
+        _VideoControllPanel.SetActive(false);
     }
     public void ChangeVideoPanel(Sprite sprite, string description)
     {
         _videoIcon.sprite = sprite;
         _videoDescription.text = description;
     }
-
     public void ScalePanelPreview(GameObject gameObject)
     {
         isScalePreview = !isScalePreview;

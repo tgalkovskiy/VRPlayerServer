@@ -62,14 +62,14 @@ public class LobyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connect to MasterServer");
         _playerNetBehavior.UnShowInputField();
-        //CreateRoom();
+        CreateRoom();
         //JoinRoom();
-#if UNITY_EDITOR || UNITY_STANDALONE
+/*#if UNITY_EDITOR || UNITY_STANDALONE
         CreateRoom();
 #endif
 #if UNITY_ANDROID || ANDROID_DEVICE
         JoinRoom();
-#endif
+#endif*/
     }
     [PunRPC]
     public void RoomState()

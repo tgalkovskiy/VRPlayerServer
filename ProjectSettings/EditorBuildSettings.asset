@@ -8,4 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VideoPlayerHost.unity
     guid: 7796b7d7b4386794289c8217d7253c5d
-  m_configObjects: {}
+  m_configObjects:
+    Unity.XR.PXR.Settings: {fileID: 11400000, guid: 7205b7dd3ac5f754289141eaa2b20e31, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8cc3a32feb4725549961cc28f18eaf81, type: 2}
