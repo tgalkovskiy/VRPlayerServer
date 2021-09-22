@@ -48,7 +48,7 @@ public class LobyManager : MonoBehaviourPunCallbacks
         Debug.Log($"Conect {_namePlayer} in {_nameRoom}");
         if (!PhotonNetwork.IsMasterClient)
         {
-            _playerNetBehavior.UnshowControllMenu();
+            _playerNetBehavior.UnShowControllMenu();
         }
         //update stats in room
         View.RPC("RoomState", RpcTarget.MasterClient);
@@ -61,7 +61,9 @@ public class LobyManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connect to MasterServer");
-        _playerNetBehavior.UnshowInputField();
+        _playerNetBehavior.UnShowInputField();
+        //CreateRoom();
+        //JoinRoom();
 #if UNITY_EDITOR || UNITY_STANDALONE
         CreateRoom();
 #endif

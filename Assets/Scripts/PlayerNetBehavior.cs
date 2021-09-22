@@ -44,7 +44,7 @@ public class PlayerNetBehavior : MonoBehaviour
         _listDevise.text = list;
    }
     //for master
-   public void UnshowInputField()
+   public void UnShowInputField()
     {
         _inputName.SetActive(false);
         _LobyConector.SetActive(true);
@@ -55,7 +55,7 @@ public class PlayerNetBehavior : MonoBehaviour
         _MenuPanel.SetActive(true);
     }
     //for client
-   public void UnshowControllMenu()
+   public void UnShowControllMenu()
     {
         _LobyConector.SetActive(false);
         _MenuPanel.SetActive(false);
