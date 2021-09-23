@@ -49,8 +49,19 @@ public class LobyManagerLocal : MonoBehaviour
           IPEndPoint remoteIp = null; // адрес входящего подключения
           byte[] data = receiver.Receive(ref remoteIp); // получаем данные
           string message = Encoding.Unicode.GetString(data);
+          Debug.Log(message);
           receiver.Close();
-          _menuBehavior.ControllVideo(message);  
+          _menuBehavior.ControllVideo(message);
+          /*try
+          {
+              int i = Convert.ToInt32(message);
+              _menuBehavior.ChooseVideo(i); 
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e);
+              throw;
+          }*/
         }
     }
 
@@ -77,8 +88,9 @@ public class LobyManagerLocal : MonoBehaviour
     }
     public void CommandVideo(int index)
     {
+        Debug.Log(1);
         _menuBehavior.ChooseVideo(index);
-        SendMessage("Reboot");
+        SendMessage(index.ToString());
     }
     
     

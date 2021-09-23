@@ -23,9 +23,10 @@ public class MenuBehavior : MonoBehaviour
             case "Mute":  mute = !mute; _mediaPlayer.AudioMuted = mute; break;
             case "Reboot": _mediaPlayer.Rewind(true); break;
         }
-    }
+   }
    public void ChooseVideo(int index)
    {
+        Debug.Log(index);
         _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
         /*int a = 7;
         TimeSpan timeSpan = TimeSpan.FromSeconds(7);
