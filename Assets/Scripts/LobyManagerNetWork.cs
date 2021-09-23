@@ -4,17 +4,17 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 using Photon.Realtime;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(PhotonView))]
-public class LobyManager : MonoBehaviourPunCallbacks
+public class LobyManagerNetWork : MonoBehaviourPunCallbacks
 {
     #region Field
-    [SerializeField] private PlayerNetBehavior _playerNetBehavior = default;
-    //[SerializeField] private InputField _inputNameRoom = default;
+    [SerializeField] private MenuBehavior menuBehavior = default;
     [SerializeField] private Text _nameText = default;
     [SerializeField] private string _gameVersion = default;
     private PhotonView View;
-    public static LobyManager Instance;
+    public static LobyManagerNetWork Instance;
     private string _namePlayer;
     private string _nameRoom;
     List<string> playersInRoom = new List<string>();
@@ -53,14 +53,14 @@ public class LobyManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
-        _playerNetBehavior.ShowControlMenu();
+        menuBehavior.ShowControlMenu();
     }
     public override void OnJoinedRoom()
     {
         Debug.Log($"Conect {_namePlayer} in {_nameRoom}");
         if (!PhotonNetwork.IsMasterClient)
         {
-            _playerNetBehavior.UnShowControllMenu();
+            menuBehavior.UnShowControllMenu();
         }
         //update stats in room
         View.RPC("RoomState", RpcTarget.MasterClient);
@@ -80,7 +80,7 @@ public class LobyManager : MonoBehaviourPunCallbacks
             playersInRoom.Add(PhotonNetwork.CurrentRoom.GetPlayer(i+1).NickName);
             Debug.Log(playersInRoom[i]);
         }
-        _playerNetBehavior.UpdateListDevise(playersInRoom);
+        menuBehavior.UpdateListDevise(playersInRoom);
     }
     public void CreateRoom()
     {
@@ -109,12 +109,12 @@ public class LobyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void GetCommandVideo(string command)
     {
-        _playerNetBehavior.ControllVideo(command);
+        menuBehavior.ControllVideo(command);
     }
     [PunRPC]
     private void GetChooseVideo(int index)
     {
-        _playerNetBehavior.ChooseVideo(index);
+        menuBehavior.ChooseVideo(index);
     }
     #endregion
     #region Command

@@ -20,7 +20,6 @@ public class VideoCell : MonoBehaviour
     }
     public void SendNumberVideo()
     {
-        LobyManager.Instance.CommandVideo(number);
         WindowControll.Instance.ChangeVideoPanel(_image.sprite, _description);
     }
 }

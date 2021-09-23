@@ -6,14 +6,14 @@ using RenderHeads.Media.AVProVideo;
 using UnityEngine.UI;
 using System;
 
-public class PlayerNetBehavior : MonoBehaviour
-{
-    [SerializeField] private GameObject _canvasControl = default;
+public class MenuBehavior : MonoBehaviour
+{ 
+    [SerializeField] private GameObject _canvasControl = default; 
     [SerializeField] private GameObject _pico = default;
-   [SerializeField] private Text _listDevise = default;
-   [SerializeField] private MediaPlayer _mediaPlayer = default;
-   public List<string> path = new List<string>();
-   private bool mute = false;
+    [SerializeField] private Text _listDevise = default;
+    [SerializeField] private MediaPlayer _mediaPlayer = default;
+    public List<string> path = new List<string>();
+    private bool mute = false;
    public void ControllVideo(string command)
    {
         switch (command)
@@ -27,9 +27,9 @@ public class PlayerNetBehavior : MonoBehaviour
    public void ChooseVideo(int index)
    {
         _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
-        int a = 7;
+        /*int a = 7;
         TimeSpan timeSpan = TimeSpan.FromSeconds(7);
-        Debug.Log(timeSpan);
+        Debug.Log(timeSpan);*/
    }
    public void UpdateListDevise(List<string> device)
    {
@@ -48,10 +48,9 @@ public class PlayerNetBehavior : MonoBehaviour
    }
     //for client
    public void UnShowControllMenu()
-    {
-        //_MenuPanel.SetActive(false);
+   {
         _pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
-    }
+   }
     
 }
