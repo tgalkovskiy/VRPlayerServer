@@ -50,7 +50,7 @@ public class MenuBehavior : MonoBehaviour
     //for client
    public void UnShowControllMenu()
    {
-        //_pico.SetActive(true);
+        _pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
    }
     
