@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Photon.unity
-    guid: 2d474279c47faa044a4c6bb8043a440c
+    path: Assets/Scenes/VideoPlayerHost.unity
+    guid: 7796b7d7b4386794289c8217d7253c5d
   m_configObjects: {}
