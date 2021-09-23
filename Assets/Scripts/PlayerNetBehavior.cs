@@ -8,12 +8,9 @@ using System;
 
 public class PlayerNetBehavior : MonoBehaviour
 {
-   [SerializeField] private GameObject _inputName = default;
-   [SerializeField] private GameObject _MenuPanel = default;
-   [SerializeField] private GameObject _LobyConector = default;
-   [SerializeField] private GameObject _BackPanel = default;
+    [SerializeField] private GameObject _canvasControl = default;
     [SerializeField] private GameObject _pico = default;
-    [SerializeField] private Text _listDevise = default;
+   [SerializeField] private Text _listDevise = default;
    [SerializeField] private MediaPlayer _mediaPlayer = default;
    public List<string> path = new List<string>();
    private bool mute = false;
@@ -44,23 +41,17 @@ public class PlayerNetBehavior : MonoBehaviour
         _listDevise.text = list;
    }
     //for master
-   public void UnShowInputField()
-    {
-        _inputName.SetActive(false);
-        _LobyConector.SetActive(true);
-    }
-   public void ShowControlMenu()
-    {
-        _LobyConector.SetActive(false);
-        _MenuPanel.SetActive(true);
-    }
+    public void ShowControlMenu()
+   {
+        _canvasControl.SetActive(true);
+        _mediaPlayer.gameObject.SetActive(true);
+   }
     //for client
    public void UnShowControllMenu()
     {
-        _LobyConector.SetActive(false);
-        _MenuPanel.SetActive(false);
-        _BackPanel.SetActive(false);
+        //_MenuPanel.SetActive(false);
         _pico.SetActive(true);
+        _mediaPlayer.gameObject.SetActive(true);
     }
     
 }

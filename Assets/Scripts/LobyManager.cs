@@ -38,6 +38,18 @@ public class LobyManager : MonoBehaviourPunCallbacks
     }
     #endregion
     #region ConectionOfLoby
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("Connect to MasterServer");
+        //CreateRoom();
+        //JoinRoom();
+    #if UNITY_EDITOR || UNITY_STANDALONE
+            CreateRoom();
+    #endif
+    #if UNITY_ANDROID || ANDROID_DEVICE
+            JoinRoom();
+    #endif
+        }
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
@@ -57,19 +69,6 @@ public class LobyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"Left {_namePlayer} in {_nameRoom}");
         View.RPC("RoomState", RpcTarget.MasterClient);
-    }
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("Connect to MasterServer");
-        _playerNetBehavior.UnShowInputField();
-        //CreateRoom();
-        JoinRoom();
-#if UNITY_EDITOR || UNITY_STANDALONE
-        //CreateRoom();
-#endif
-#if UNITY_ANDROID || ANDROID_DEVICE
-        //JoinRoom();
-#endif
     }
     [PunRPC]
     public void RoomState()
