@@ -19,12 +19,13 @@ public class LobyManagerLocal : NetworkManager
         {
             _menuBehavior.ShowControlMenu();
             StartServer();
-            networkDiscovery.AdvertiseServer();
+            //networkDiscovery.AdvertiseServer();
         }
         else
         {
             _menuBehavior.UnShowControllMenu();
-            StartCoroutine(Connect());
+            StartClient();
+            //StartCoroutine(Connect());
         }
     }
     public void SendMessageToAll(string command)

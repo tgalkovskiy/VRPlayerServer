@@ -439,10 +439,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1556883247}
-  - component: {fileID: 1556883245}
-  - component: {fileID: 1556883244}
   - component: {fileID: 1556883248}
   - component: {fileID: 1556883246}
+  - component: {fileID: 1556883245}
+  - component: {fileID: 1556883244}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Port: 8001
+  Port: 7777
   DualMode: 1
   NoDelay: 1
   Interval: 10
@@ -495,7 +495,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1556883244}
-  networkAddress: 192.168.0.103
+  networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -547,7 +547,7 @@ MonoBehaviour:
   serverBroadcastListenPort: 47777
   enableActiveDiscovery: 1
   ActiveDiscoveryInterval: 3
-  transport: {fileID: 0}
+  transport: {fileID: 1556883244}
   OnServerFound:
     m_PersistentCalls:
       m_Calls:
