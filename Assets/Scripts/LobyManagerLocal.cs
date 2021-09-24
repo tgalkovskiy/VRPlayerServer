@@ -29,23 +29,28 @@ public class LobyManagerLocal : NetworkManager
     }
     public void CommandPlay()
     {
+        MenuBehavior.Instance.ControllVideo("Play");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Play"});
     }
     public void CommandStop()
     {
+        MenuBehavior.Instance.ControllVideo("Stop");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Stop"});
     }
     public void CommandMuteAudio()
     {
+        MenuBehavior.Instance.ControllVideo("Mute");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Mute"});
     }
     public void CommandRebootVideo()
     {
+        MenuBehavior.Instance.ControllVideo("Reboot");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Reboot"});
     }
     public void CommandVideo(int index)
     {
-       NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {number = index});
+        MenuBehavior.Instance.ChooseVideo(index);
+        NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {number = index});
     }
     
 }
