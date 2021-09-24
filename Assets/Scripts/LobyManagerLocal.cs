@@ -1,26 +1,30 @@
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Mirror.Discovery;
 
 public class LobyManagerLocal : NetworkManager
 {
     [SerializeField] private MenuBehavior _menuBehavior = default;
     [SerializeField] private bool isServer = default;
-    private void Awake()
-    {
-        
-    }
+    public NetworkDiscovery networkDiscovery;
+    public NetworkDiscoveryHUD _Hud;
+    Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
+    
     public void OfflineStart()
     {
         if (isServer)
         {
             _menuBehavior.ShowControlMenu();
             StartServer();
+            networkDiscovery.AdvertiseServer();
         }
         else
         {
             _menuBehavior.UnShowControllMenu();
-            StartClient();
+            StartCoroutine(Connect());
         }
     }
     public void SendMessageToAll(string command)
@@ -52,5 +56,14 @@ public class LobyManagerLocal : NetworkManager
         MenuBehavior.Instance.ChooseVideo(index);
         NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {number = index});
     }
-    
+
+    IEnumerator Connect()
+    {
+        discoveredServers.Clear();
+        networkDiscovery.StartDiscovery();
+        yield return new WaitForSeconds(1f);
+        Debug.Log(1);
+        _Hud.Search();
+    }
+   
 }

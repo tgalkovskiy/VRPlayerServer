@@ -9,7 +9,7 @@ namespace Mirror.Discovery
     [RequireComponent(typeof(NetworkDiscovery))]
     public class NetworkDiscoveryHUD : MonoBehaviour
     {
-        readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
+        Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
         Vector2 scrollViewPos = Vector2.zero;
 
         public NetworkDiscovery networkDiscovery;
@@ -117,6 +117,15 @@ namespace Mirror.Discovery
             GUILayout.EndArea();
         }
 
+        public void Search()
+        {
+            foreach (ServerResponse info in discoveredServers.Values)
+            {
+                 Debug.Log(info.uri);
+                 Connect(info);
+            }
+               
+        }
         void Connect(ServerResponse info)
         {
             networkDiscovery.StopDiscovery();
