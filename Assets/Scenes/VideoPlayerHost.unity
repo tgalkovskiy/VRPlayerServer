@@ -10749,8 +10749,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1767436152}
   - component: {fileID: 1767436151}
-  - component: {fileID: 1767436150}
   - component: {fileID: 1767436149}
+  - component: {fileID: 1767436150}
   m_Layer: 0
   m_Name: NetworkManagerLocal
   m_TagString: Untagged

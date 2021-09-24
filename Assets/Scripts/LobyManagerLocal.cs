@@ -15,10 +15,12 @@ public class LobyManagerLocal : NetworkManager
         if (isServer)
         {
             _menuBehavior.ShowControlMenu();
+            StartServer();
         }
         else
         {
             _menuBehavior.UnShowControllMenu();
+            StartClient();
         }
     }
     public void SendMessageToAll(string command)
@@ -45,6 +47,5 @@ public class LobyManagerLocal : NetworkManager
     {
        NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {number = index});
     }
-    
     
 }
