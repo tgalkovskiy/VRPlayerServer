@@ -14,7 +14,14 @@ public class MenuBehavior : MonoBehaviour
     [SerializeField] private MediaPlayer _mediaPlayer = default;
     public List<string> path = new List<string>();
     private bool mute = false;
-   public void ControllVideo(string command)
+    public static MenuBehavior Instance;
+
+    private void Awake()
+    {
+         Instance = this;
+    }
+
+    public void ControllVideo(string command)
    {
         switch (command)
         {
@@ -28,9 +35,6 @@ public class MenuBehavior : MonoBehaviour
    {
         Debug.Log(index);
         _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
-        /*int a = 7;
-        TimeSpan timeSpan = TimeSpan.FromSeconds(7);
-        Debug.Log(timeSpan);*/
    }
    public void UpdateListDevise(List<string> device)
    {

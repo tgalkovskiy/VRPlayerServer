@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class CommandControll : MonoBehaviour
 {
-    private LobyManagerLocal _managerLocal;
-    private LobyManagerNetWork _lobyManagerNet;
+    [SerializeField] private LobyManagerLocal _managerLocal;
     private void Awake()
     {
         
     }
+
     public void Play()
     {
         if (ChooseTypeConnection.OnLine)
         {
-            _lobyManagerNet.CommandPlay();
+            
         }
         else
         {
@@ -26,7 +26,7 @@ public class CommandControll : MonoBehaviour
     {
         if (ChooseTypeConnection.OnLine)
         {
-            _lobyManagerNet.CommandStop();
+            
         }
         else
         {
@@ -37,7 +37,7 @@ public class CommandControll : MonoBehaviour
     {
         if (ChooseTypeConnection.OnLine)
         {
-            _lobyManagerNet.CommandMuteAudio();
+            
         }
         else
         {
@@ -48,23 +48,22 @@ public class CommandControll : MonoBehaviour
     {
         if (ChooseTypeConnection.OnLine)
         {
-            _lobyManagerNet.CommandRebootVideo();
+            
         }
         else
         {
             _managerLocal.CommandRebootVideo();
         }
     }
-    
     public void CommandVideo(int index)
     {
         if (ChooseTypeConnection.OnLine)
         {
-            _lobyManagerNet.CommandVideo(index);
+            
         }
         else
         {
             _managerLocal.CommandVideo(index);
-        }
+        } 
     }
 }

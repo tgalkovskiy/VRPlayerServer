@@ -11,6 +11,7 @@ public class ChooseTypeConnection : MonoBehaviour
     public GameObject _netWork;
     public GameObject _managerLocal;
     public static bool OnLine;
+    
     public void OnlineConnection()
     {
         _netWork.gameObject.SetActive(true);
@@ -23,7 +24,7 @@ public class ChooseTypeConnection : MonoBehaviour
         _managerLocal.gameObject.SetActive(true);
         _buttonOnline.SetActive(false);
         _buttonOffline.SetActive(false);
-        //_managerLocal.OfflineStart();
+        _managerLocal.GetComponent<LobyManagerLocal>().OfflineStart();
         OnLine = false;
     }
 }
