@@ -531,7 +531,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930465}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
         m_MethodName: Stop
         m_Mode: 1
@@ -623,7 +623,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &142214674
 GameObject:
@@ -797,7 +797,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930465}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
         m_MethodName: Mute
         m_Mode: 1
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930460}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobyManager, Assembly-CSharp
         m_MethodName: JoinRoom
         m_Mode: 1
@@ -1561,7 +1561,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930465}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
         m_MethodName: RebootVideo
         m_Mode: 1
@@ -2149,6 +2149,85 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 428262, guid: f4d2c95a82cadba4fb259ca17b5a8404, type: 3}
   m_PrefabInstance: {fileID: 1289456665}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &375557424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 375557425}
+  - component: {fileID: 375557427}
+  - component: {fileID: 375557426}
+  m_Layer: 0
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &375557425
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375557424}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1929567898}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &375557426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375557424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Button
+--- !u!222 &375557427
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375557424}
+  m_CullTransparentMesh: 1
 --- !u!1 &390146335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2232,7 +2311,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930460}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobyManager, Assembly-CSharp
         m_MethodName: CreateRoom
         m_Mode: 1
@@ -2384,7 +2463,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &427700683
 GameObject:
@@ -3613,7 +3692,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -4209,7 +4288,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -4684,8 +4763,9 @@ RectTransform:
   m_Children:
   - {fileID: 1847999123}
   - {fileID: 361278368}
+  - {fileID: 1929567898}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4829,16 +4909,13 @@ GameObject:
   - component: {fileID: 773930462}
   - component: {fileID: 773930461}
   - component: {fileID: 773930460}
-  - component: {fileID: 773930464}
-  - component: {fileID: 773930463}
-  - component: {fileID: 773930465}
   m_Layer: 0
-  m_Name: NetManager
+  m_Name: NetManagerOnline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &773930460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4846,13 +4923,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773930459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84b3d4ff8972deb42a6cb096c784c383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   menuBehavior: {fileID: 1234100207}
-  _nameText: {fileID: 1845412414}
+  _nameText: {fileID: 0}
   _gameVersion: 1
 --- !u!114 &773930461
 MonoBehaviour:
@@ -4890,51 +4967,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &773930463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773930459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3555b59cc23f1445a760c4bf1e5af18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _buttonOnline: {fileID: 1389517250}
-  _buttonOffline: {fileID: 1786417653}
-  _buttonApply: {fileID: 1877693866}
-  _ipField: {fileID: 321186407}
---- !u!114 &773930464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773930459}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ca1895c8c615db4fac34aab19422e46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menuBehavior: {fileID: 1234100207}
-  isServer: 1
-  remoteAddress: 
-  remotePort: 8001
-  localPort: 8002
---- !u!114 &773930465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773930459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16421783f51c78844a485ceffcdead6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &790736287
 GameObject:
   m_ObjectHideFlags: 0
@@ -5924,7 +5956,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -6468,7 +6500,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930460}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: LobyManager, Assembly-CSharp
         m_MethodName: SetNamePlayerAndConect
         m_Mode: 1
@@ -6603,7 +6635,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -7009,7 +7041,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1171542368
 GameObject:
@@ -7206,7 +7238,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -7618,6 +7650,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4196549945668657688, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+      propertyPath: _netWork
+      value: 
+      objectReference: {fileID: 773930459}
+    - target: {fileID: 4196549945668657688, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+      propertyPath: _buttonOnline
+      value: 
+      objectReference: {fileID: 1389517250}
+    - target: {fileID: 4196549945668657688, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+      propertyPath: _managerLocal
+      value: 
+      objectReference: {fileID: 1767436148}
+    - target: {fileID: 4196549945668657688, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+      propertyPath: _buttonOffline
+      value: 
+      objectReference: {fileID: 1786417653}
+    - target: {fileID: 4580106222243485972, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+      propertyPath: _content
+      value: 
+      objectReference: {fileID: 2068746173}
     - target: {fileID: 5299931384220571958, guid: f2dd371d221220748a87a7010564b90e, type: 3}
       propertyPath: m_Name
       value: Player
@@ -7753,15 +7805,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1234100208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2a03ec3012255a45bf6f272620efd4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 16421783f51c78844a485ceffcdead6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _envelope:
-  - {fileID: 21300000, guid: 219a53fde09b0c14b8dbe68085bb3de3, type: 3}
-  - {fileID: 21300000, guid: aa7f54182c446ad46bf083003061ab81, type: 3}
-  - {fileID: 21300000, guid: b59f59c97e0e3994d93591a279e92b64, type: 3}
-  _content: {fileID: 2068746173}
-  _cell: []
+--- !u!114 &1234100211 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4196549945668657688, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+  m_PrefabInstance: {fileID: 1234100206}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234100208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3555b59cc23f1445a760c4bf1e5af18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1255538140
 GameObject:
   m_ObjectHideFlags: 0
@@ -7830,7 +7887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428262, guid: f4d2c95a82cadba4fb259ca17b5a8404, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 428262, guid: f4d2c95a82cadba4fb259ca17b5a8404, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8307,7 +8364,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930465}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
         m_MethodName: Play
         m_Mode: 1
@@ -8515,7 +8572,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930463}
+      - m_Target: {fileID: 1234100211}
         m_TargetAssemblyTypeName: ChooseTypeConnection, Assembly-CSharp
         m_MethodName: OnlineConnection
         m_Mode: 1
@@ -9724,7 +9781,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1561763680
 GameObject:
@@ -10595,7 +10652,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -10756,6 +10813,109 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732816153}
   m_CullTransparentMesh: 1
+--- !u!1 &1767436148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1767436152}
+  - component: {fileID: 1767436151}
+  - component: {fileID: 1767436150}
+  - component: {fileID: 1767436149}
+  m_Layer: 0
+  m_Name: NetworkManagerLocal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1767436149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767436148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 7777
+  NoDelay: 1
+  SendTimeout: 5000
+  ReceiveTimeout: 30000
+  serverMaxMessageSize: 16384
+  serverMaxReceivesPerTick: 10000
+  serverSendQueueLimitPerConnection: 10000
+  serverReceiveQueueLimitPerConnection: 10000
+  clientMaxMessageSize: 16384
+  clientMaxReceivesPerTick: 1000
+  clientSendQueueLimit: 10000
+  clientReceiveQueueLimit: 10000
+--- !u!114 &1767436150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767436148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGUI: 1
+  offsetX: 0
+  offsetY: 0
+--- !u!114 &1767436151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767436148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca1895c8c615db4fac34aab19422e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  PersistNetworkManagerToOfflineScene: 0
+  runInBackground: 1
+  autoStartServerBuild: 1
+  serverTickRate: 30
+  offlineScene: 
+  onlineScene: 
+  transport: {fileID: 1767436149}
+  networkAddress: localhost
+  maxConnections: 100
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 4581445775471519327, guid: d507c2c9dfc92124d914c8d71bfa61a9, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 0
+  spawnPrefabs: []
+  _menuBehavior: {fileID: 1234100207}
+  isServer: 0
+--- !u!4 &1767436152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767436148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: 4, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1773323492
 GameObject:
   m_ObjectHideFlags: 0
@@ -10988,7 +11148,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930463}
+      - m_Target: {fileID: 1234100211}
         m_TargetAssemblyTypeName: ChooseTypeConnection, Assembly-CSharp
         m_MethodName: OfflineConnection
         m_Mode: 1
@@ -11123,7 +11283,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3
@@ -11409,7 +11569,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 773930463}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChooseTypeConnection, Assembly-CSharp
         m_MethodName: ApplyIp
         m_Mode: 1
@@ -11708,6 +11868,139 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1917338212}
+  m_CullTransparentMesh: 1
+--- !u!1 &1929567897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1929567898}
+  - component: {fileID: 1929567901}
+  - component: {fileID: 1929567900}
+  - component: {fileID: 1929567899}
+  m_Layer: 0
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1929567898
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929567897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 375557425}
+  m_Father: {fileID: 760051197}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2.693, y: -382.556}
+  m_SizeDelta: {x: 509.677, y: 278.805}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1929567899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929567897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1929567900}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1767436151}
+        m_TargetAssemblyTypeName: LobyManagerLocal, Assembly-CSharp
+        m_MethodName: SendMessageToAll
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: sgvdsfgds
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1929567900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929567897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1929567901
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929567897}
   m_CullTransparentMesh: 1
 --- !u!1 &1942393558
 GameObject:
@@ -12942,7 +13235,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 773930465}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CommandControll, Assembly-CSharp
           m_MethodName: CommandVideo
           m_Mode: 3

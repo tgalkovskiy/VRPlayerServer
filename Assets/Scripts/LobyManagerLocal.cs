@@ -1,19 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using Mirror;
 
-public class LobyManagerLocal : MonoBehaviour
+public class LobyManagerLocal : NetworkManager
 {
     [SerializeField] private MenuBehavior _menuBehavior = default;
     [SerializeField] private bool isServer;
-    public string remoteAddress; // host to send data
-    public int remotePort; // port to send data
-    public int localPort; // port to listen to messages 
     public static LobyManagerLocal Instance;
 
     private void Awake()
@@ -23,46 +19,15 @@ public class LobyManagerLocal : MonoBehaviour
 
     public void OfflineStart()
     {
-        if(isServer)
-        {
-            _menuBehavior.ShowControlMenu();
-        }
-        else
-        {
-            _menuBehavior.UnShowControllMenu();
-        }
-        Thread receiveThread = new Thread(new ThreadStart(ReceiveMessage));
-        receiveThread.Start();
+       
     }
-    private void SendMessage(string command)
+    public void SendMessageToAll(string command)
     {
-        UdpClient sender = new UdpClient(); // создаем UdpClient для отправки сообщений
-        byte[] data = Encoding.Unicode.GetBytes(command);
-        sender.Send(data, data.Length, remoteAddress, remotePort); // отправка
-        sender.Close();
+        NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "sdvsdv"});
     }
     private void ReceiveMessage()
     {
-        while (true)
-        {
-          UdpClient receiver = new UdpClient(localPort); // UdpClient для получения данных
-          IPEndPoint remoteIp = null; // адрес входящего подключения
-          byte[] data = receiver.Receive(ref remoteIp); // получаем данные
-          string message = Encoding.Unicode.GetString(data);
-          Debug.Log(message);
-          receiver.Close();
-          _menuBehavior.ControllVideo(message);
-          /*try
-          {
-              int i = Convert.ToInt32(message);
-              _menuBehavior.ChooseVideo(i); 
-          }
-          catch (Exception e)
-          {
-              Console.WriteLine(e);
-              throw;
-          }*/
-        }
+        
     }
 
     public void CommandPlay()

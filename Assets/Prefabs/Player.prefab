@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8084053637650846255}
   - component: {fileID: 6045683725097506408}
+  - component: {fileID: 4580106222243485972}
+  - component: {fileID: 4196549945668657688}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -43,9 +45,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64c288beec8a9846ab2f6b45e66ecfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasControl: {fileID: 0}
+  _pico: {fileID: 0}
+  _listDevise: {fileID: 0}
+  _mediaPlayer: {fileID: 0}
   path:
   - BigBuckBunny-360p30-H264.mp4
   - Cones-2D-1080p60-H264.mp4
   - Cones-360Mono-4K30-H264.mp4
   - Cones-360Stereo-2K30-H264.mp4
   - Cones-360Stereo-2K30-H264.mp4
+--- !u!114 &4580106222243485972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299931384220571958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a03ec3012255a45bf6f272620efd4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _envelope:
+  - {fileID: 21300000, guid: 219a53fde09b0c14b8dbe68085bb3de3, type: 3}
+  - {fileID: 21300000, guid: aa7f54182c446ad46bf083003061ab81, type: 3}
+  - {fileID: 21300000, guid: b59f59c97e0e3994d93591a279e92b64, type: 3}
+  _content: {fileID: 0}
+  _cell: []
+--- !u!114 &4196549945668657688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299931384220571958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3555b59cc23f1445a760c4bf1e5af18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonOnline: {fileID: 0}
+  _buttonOffline: {fileID: 0}
+  _netWork: {fileID: 0}

@@ -9,8 +9,7 @@ public class CommandControll : MonoBehaviour
     private LobyManagerNetWork _lobyManagerNet;
     private void Awake()
     {
-        _managerLocal = GetComponent<LobyManagerLocal>();
-        _lobyManagerNet = GetComponent<LobyManagerNetWork>();
+        
     }
     public void Play()
     {
