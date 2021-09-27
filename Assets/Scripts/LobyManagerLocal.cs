@@ -25,7 +25,7 @@ public class LobyManagerLocal : NetworkManager
         else
         {
             _menuBehavior.UnShowControllMenu();
-            StartClient();
+            //StartClient();
             StartCoroutine(Connect());
         }
     }
