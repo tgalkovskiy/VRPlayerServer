@@ -19,13 +19,14 @@ public class LobyManagerLocal : NetworkManager
         {
             _menuBehavior.ShowControlMenu();
             StartServer();
-            //networkDiscovery.AdvertiseServer();
+            networkDiscovery.AdvertiseServer();
+            
         }
         else
         {
             _menuBehavior.UnShowControllMenu();
             StartClient();
-            //StartCoroutine(Connect());
+            StartCoroutine(Connect());
         }
     }
     public void SendMessageToAll(string command)
@@ -63,7 +64,6 @@ public class LobyManagerLocal : NetworkManager
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
         yield return new WaitForSeconds(1f);
-        Debug.Log(1);
         _Hud.Search();
     }
    

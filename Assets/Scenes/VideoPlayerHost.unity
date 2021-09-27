@@ -10747,6 +10747,7 @@ GameObject:
   - component: {fileID: 1767436152}
   - component: {fileID: 1767436151}
   - component: {fileID: 1767436149}
+  - component: {fileID: 1767436153}
   - component: {fileID: 1767436150}
   m_Layer: 0
   m_Name: NetworkManagerLocal
@@ -10788,12 +10789,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1767436148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Script: {fileID: 11500000, guid: 88c37d3deca7a834d80cfd8d3cfcc510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showGUI: 1
-  offsetX: 0
-  offsetY: 0
+  networkDiscovery: {fileID: 1767436153}
 --- !u!114 &1767436151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10825,8 +10824,8 @@ MonoBehaviour:
   spawnPrefabs: []
   _menuBehavior: {fileID: 1234100207}
   isServer: 1
-  networkDiscovery: {fileID: 0}
-  _Hud: {fileID: 0}
+  networkDiscovery: {fileID: 1767436153}
+  _Hud: {fileID: 1767436150}
 --- !u!4 &1767436152
 Transform:
   m_ObjectHideFlags: 0
@@ -10841,6 +10840,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1767436153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767436148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c761308e733c51245b2e8bb4201f46dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secretHandshake: -7840498590369495911
+  serverBroadcastListenPort: 7777
+  enableActiveDiscovery: 1
+  ActiveDiscoveryInterval: 3
+  transport: {fileID: 1767436149}
+  OnServerFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1767436150}
+        m_TargetAssemblyTypeName: Mirror.Discovery.NetworkDiscoveryHUD, Mirror.Components
+        m_MethodName: OnDiscoveredServer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1773323492
 GameObject:
   m_ObjectHideFlags: 0
