@@ -6644,7 +6644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -95.884, y: 27.236}
+  m_AnchoredPosition: {x: -95.88403, y: 27.235962}
   m_SizeDelta: {x: 191.769, y: 54.472}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1095691791
@@ -10823,7 +10823,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs: []
   _menuBehavior: {fileID: 1234100207}
-  isServer: 1
+  isServer: 0
   networkDiscovery: {fileID: 1767436153}
   _Hud: {fileID: 1767436150}
 --- !u!4 &1767436152
@@ -12688,7 +12688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 82.48, y: 26.138}
+  m_AnchoredPosition: {x: 82.47998, y: 26.13794}
   m_SizeDelta: {x: 160, y: 56.668}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2080275359

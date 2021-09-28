@@ -25,8 +25,9 @@ public class LobyManagerLocal : NetworkManager
         else
         {
             _menuBehavior.UnShowControllMenu();
-            //StartClient();
             StartCoroutine(Connect());
+            //StartClient();
+            
         }
     }
     public void SendMessageToAll(string command)
