@@ -77,7 +77,7 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
         int countPlayers = PhotonNetwork.CurrentRoom.PlayerCount;
         for(int i=0; i<countPlayers; i++)
         {
-            playersInRoom.Add(PhotonNetwork.CurrentRoom.GetPlayer(i+1).NickName);
+            playersInRoom.Add(PhotonNetwork.CurrentRoom.GetPlayer(i+1).UserId);
             Debug.Log(playersInRoom[i]);
         }
         menuBehavior.UpdateListDevise(playersInRoom);

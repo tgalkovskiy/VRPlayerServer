@@ -10823,7 +10823,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs: []
   _menuBehavior: {fileID: 1234100207}
-  isServer: 0
+  isServer: 1
   networkDiscovery: {fileID: 1767436153}
   _Hud: {fileID: 1767436150}
 --- !u!4 &1767436152

@@ -1,0 +1,133 @@
+[HotA CRASH INFO file]
+
+Time: Wed Sep 29 12:16:50 2021
+
+HotA.dll version: 1.6.1
+HotA.dll test version: 0
+
+HotA_Settings.ini version: 0.0.0.0
+Test features disabled
+
+HotA internal map version: 3
+HotA internal savegame version: 5
+HD version: without HD
+
+Exception
+{
+   Module:  hota.dll
+   Adress:      0x64D200A3
+   Code:        EXCEPTION_ACCESS_VIOLATION
+   Flags:       0x00000000
+   Information: read of address: 0x00000000
+}
+
+Call stack
+{
+                      ? called from before 0x00000000
+}
+
+Context
+{
+   EAX: 0x0019FE24
+   ECX: 0x00000000
+   EDX: 0x0000000C
+   EBX: 0x0080EA18
+   ESP: 0x0019FDE4
+   EBP: 0x00000000
+   ESI: 0x0080EA18
+   EDI: 0x00000000
+}
+
+Modules
+{
+
+   \\ main module:
+   0x00400000: h3hota.exe  (size: 0x002CB000, entry point: 0x00639C00)
+   
+   \
+}
+
+Command Line
+{
+   "C:\Games\Heroes3_HotA\h3hota.exe" 
+}
+
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion
+{
+   ProductName:    Windows 10 Enterprise
+   CurrentVersion: 6.3
+   BuildLab:       19041.vb_release.191206-1406
+}
+
+GetVersionEx
+{
+   PlatformId  = 2
+   Version:      6.2
+   Build:        9200
+   CSDVersion  = 
+   ProductType = 1
+   SuiteMask   = 256
+}
+
+Some ingame values
+{
+   FullScreen Mode = 0
+   Game Type       = 0
+   Network Game    = 0
+
+             Me ID = 0
+  Active Player ID = 0
+     Last RMG Seed = 0
+}
+
+Files
+{
+   \Assembly-CSharp-Editor.csproj
+   \Assembly-CSharp-firstpass.csproj
+   \Assembly-CSharp.csproj
+   \AVProVideo.Demos.csproj
+   \AVProVideo.Editor.csproj
+   \AVProVideo.Extensions.Timeline.csproj
+   \AVProVideo.Extensions.UnityUI.csproj
+   \AVProVideo.Extensions.UnityUI.Editor.csproj
+   \AVProVideo.Extensions.VisualEffectGraph.csproj
+   \AVProVideo.Runtime.csproj
+   \GazeModifierEditor.csproj
+   \kcp2k.csproj
+   \Mirror.Authenticators.csproj
+   \Mirror.CompilerSymbols.csproj
+   \Mirror.Components.csproj
+   \Mirror.csproj
+   \Mirror.Editor.csproj
+   \Mirror.Examples.csproj
+   \Mirror.Weaver.csproj
+   \ParrelSync.csproj
+   \PhotonChat.csproj
+   \PhotonRealtime.csproj
+   \PhotonUnityNetworking.csproj
+   \PhotonUnityNetworking.Demos.csproj
+   \PhotonUnityNetworking.Editor.csproj
+   \PhotonUnityNetworking.Utilities.csproj
+   \PhotonUnityNetworking.Utilities.Culling.Editor.csproj
+   \PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj
+   \PunDemos.DemoHubEditor.csproj
+   \PunDemos.DemoSlotcarEditor.csproj
+   \SimpleWebTransport.csproj
+   \Telepathy.csproj
+   \TobiiXRCore.csproj
+   \TobiiXRDevTools.csproj
+   \TobiiXREditor.csproj
+   \TobiiXRG2OM.csproj
+   \TobiiXRInternalEditor.csproj
+   \TobiiXRSDK.csproj
+   \Unity.XR.PicoXR.csproj
+   \Unity.XR.PicoXR.Editor.csproj
+   \VRPlayer.sln
+   \where-allocations.csproj
+}
+
+HKLM\SOFTWARE\New World Computing\Heroes of Might and Magic® III\1.0
+{
+   AppPath: C:\Games\Heroes3_HotA\
+}
+
