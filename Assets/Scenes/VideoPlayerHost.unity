@@ -1939,7 +1939,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Video 360
+  m_Text: 360 Videos
 --- !u!222 &330789009
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7911,7 +7911,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Event
+  m_Text: My Events
 --- !u!222 &1195465787
 CanvasRenderer:
   m_ObjectHideFlags: 0
