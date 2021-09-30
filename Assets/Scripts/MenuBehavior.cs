@@ -5,6 +5,7 @@ using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class MenuBehavior : MonoBehaviour
 { 
@@ -20,8 +21,7 @@ public class MenuBehavior : MonoBehaviour
     {
          Instance = this;
     }
-
-    public void ControllVideo(string command)
+    public void ControlVideo(string command)
    {
         switch (command)
         {
@@ -30,12 +30,16 @@ public class MenuBehavior : MonoBehaviour
             case "Mute":  mute = !mute; _mediaPlayer.AudioMuted = mute; break;
             case "Reboot": _mediaPlayer.Rewind(true); break;
         }
-   }
-   public void ChooseVideo(int index)
+   } 
+    public void ChooseVideo(int index)
    {
         Debug.Log(index);
         _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
    }
+    public void OpenScene(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
    public void UpdateListDevise(List<string> device)
    {
         string list =null;

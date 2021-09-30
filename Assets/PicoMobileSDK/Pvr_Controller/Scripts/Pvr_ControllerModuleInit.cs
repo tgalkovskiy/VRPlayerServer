@@ -27,7 +27,6 @@ public class Pvr_ControllerModuleInit : MonoBehaviour
     private GameObject rayLine;
     [SerializeField]
     private GameObject controller;
-    private int controllerDof = -1;
     private bool moduleState = true;
 
     void Awake()
@@ -92,7 +91,7 @@ public class Pvr_ControllerModuleInit : MonoBehaviour
         yield return null;
         if (moduleState)
         {
-            var state = Controller.UPvr_GetMainHandNess() == id && Controller.UPvr_GetControllerState(id) == ControllerState.Connected;
+            var state = Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess() == id && Pvr_UnitySDKAPI.Controller.UPvr_GetControllerState(id) == ControllerState.Connected;
             dot.SetActive(state);
             rayLine.SetActive(state);
         }
@@ -125,7 +124,7 @@ public class Pvr_ControllerModuleInit : MonoBehaviour
         
         if (isupdate && rayLine != null && rayLine.gameObject.activeSelf)
         {
-            int type = Controller.UPvr_GetDeviceType();
+            int type = Pvr_UnitySDKAPI.Controller.UPvr_GetDeviceType();
             if (type == 1)
             {
                 rayLine.GetComponent<LineRenderer>().SetPosition(0, transform.TransformPoint(0, 0, 0.058f));

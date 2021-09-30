@@ -10,14 +10,14 @@ using UnityEngine.Serialization;
 public class LobyManagerNetWork : MonoBehaviourPunCallbacks
 {
     #region Field
-    [SerializeField] private MenuBehavior menuBehavior = default;
     [SerializeField] private Text _nameText = default;
-    [SerializeField] private string _gameVersion = default;
-    private PhotonView View;
-    public static LobyManagerNetWork Instance;
-    private string _namePlayer;
-    private string _nameRoom;
-    List<string> playersInRoom = new List<string>();
+   [SerializeField] private string _gameVersion = default;
+   private MenuBehavior _menuBehavior = default;
+   private PhotonView View;
+   public static LobyManagerNetWork Instance;
+   private string _namePlayer;
+   private string _nameRoom;
+   List<string> playersInRoom = new List<string>();
     #endregion
     #region LifeCicle
     private void Awake()
@@ -27,6 +27,7 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
+        _menuBehavior = MenuBehavior.Instance;
        _namePlayer = SystemInfo.deviceName;
        _nameText.text = _namePlayer;
        _nameRoom = "VR360";
@@ -53,14 +54,14 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
-        menuBehavior.ShowControlMenu();
+        _menuBehavior.ShowControlMenu();
     }
     public override void OnJoinedRoom()
     {
         Debug.Log($"Conect {_namePlayer} in {_nameRoom}");
         if (!PhotonNetwork.IsMasterClient)
         {
-            menuBehavior.UnShowControllMenu();
+            _menuBehavior.UnShowControllMenu();
         }
         //update stats in room
         View.RPC("RoomState", RpcTarget.MasterClient);
@@ -80,7 +81,7 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
             playersInRoom.Add(PhotonNetwork.CurrentRoom.GetPlayer(i+1).UserId);
             Debug.Log(playersInRoom[i]);
         }
-        menuBehavior.UpdateListDevise(playersInRoom);
+        _menuBehavior.UpdateListDevise(playersInRoom);
     }
     public void CreateRoom()
     {
@@ -109,12 +110,12 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
     [PunRPC]
     private void GetCommandVideo(string command)
     {
-        menuBehavior.ControllVideo(command);
+        _menuBehavior.ControlVideo(command);
     }
     [PunRPC]
     private void GetChooseVideo(int index)
     {
-        menuBehavior.ChooseVideo(index);
+        _menuBehavior.ChooseVideo(index);
     }
     #endregion
     #region Command

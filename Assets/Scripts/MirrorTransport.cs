@@ -10,22 +10,31 @@ using Mirror;
         }
         public struct NumberVideo : NetworkMessage
         {
-            public int number;
+            public int numberVideo;
+        }
+        public struct NumberSceneOpen: NetworkMessage
+        {
+            public int numberScene;
         }
         private void Start()
         {
             if(!NetworkClient.active) return;
             NetworkClient.RegisterHandler<MessageCommand>(OnGetMessage);
             NetworkClient.RegisterHandler<NumberVideo>(OnGetNumberVideo);
+            NetworkClient.RegisterHandler<NumberSceneOpen>(OnGetNumberScene);
         }
 
         private void OnGetMessage(NetworkConnection connection, MessageCommand messageCommand)
         {
-            MenuBehavior.Instance.ControllVideo(messageCommand.message);
+            MenuBehavior.Instance.ControlVideo(messageCommand.message);
         }
 
         private void OnGetNumberVideo(NetworkConnection connection, NumberVideo numberVideo)
         {
-            MenuBehavior.Instance.ChooseVideo(numberVideo.number);
+            MenuBehavior.Instance.ChooseVideo(numberVideo.numberVideo);
+        }
+        private void OnGetNumberScene(NetworkConnection connection, NumberSceneOpen numberSceneOpen)
+        {
+            MenuBehavior.Instance.OpenScene(numberSceneOpen.numberScene);
         }
     }

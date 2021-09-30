@@ -19,8 +19,6 @@ public class Pvr_Controller : MonoBehaviour
     public GameObject controller0;
     public GameObject controller1;
     private static UserHandNess handness;
-    private bool controller0is3dof = false;
-    private bool controller1is3dof = false;
 
     public enum UserHandNess
     {
@@ -67,7 +65,7 @@ public class Pvr_Controller : MonoBehaviour
     }
     void Start()
     {
-        handness = (UserHandNess)Pvr_ControllerManager.controllerlink.getHandness();
+        handness = Pvr_UnitySDKAPI.Controller.UPvr_GetHandNess();
 
         if ((int)handness == -1)
         {
@@ -96,23 +94,12 @@ public class Pvr_Controller : MonoBehaviour
     private void ServiceStartSuccess()
     {
         RefreshHandness();
-        if (Pvr_ControllerManager.controllerlink.neoserviceStarted)
-        {
-            if (Controller.UPvr_GetControllerState(0) == ControllerState.Connected)
-            {
-                controller0is3dof = Controller.UPvr_GetControllerAbility(0) == 1;
-            }
-            if (Controller.UPvr_GetControllerState(1) == ControllerState.Connected)
-            {
-                controller1is3dof = Controller.UPvr_GetControllerAbility(1) == 1;
-            }
-        }
     }
 
     private void RefreshHandness()
     {
-        handness = (UserHandNess)Pvr_ControllerManager.controllerlink.getHandness();
-        if (Controller.UPvr_GetMainHandNess() == 1)
+        handness = Pvr_UnitySDKAPI.Controller.UPvr_GetHandNess();
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess() == 1)
         {
             ChangeHandNess();
         }
@@ -127,7 +114,7 @@ public class Pvr_Controller : MonoBehaviour
             if (controller1 != null)
                 controller1.transform.localScale = Vector3.zero;
         }
-        Invoke("ShowController", 0.1f);
+        Invoke("ShowController", 0.1f * Time.timeScale);
     }
 
     private void ShowController()
@@ -142,16 +129,11 @@ public class Pvr_Controller : MonoBehaviour
     {
         var state = Convert.ToBoolean(Convert.ToInt16(data.Substring(4, 1)));
         var id = Convert.ToInt16(data.Substring(0, 1));
-        var ability = Convert.ToInt16(data.Substring(2, 1));
+        //var ability = Convert.ToInt16(data.Substring(2, 1));
         if (state)
         {
-            if (id == 0)
-            {
-                controller0is3dof = ability == 1;
-            }
             if (id == 1)
             {
-                controller1is3dof = ability == 1;
                 RefreshHandness();
             }
         }
@@ -173,7 +155,7 @@ public class Pvr_Controller : MonoBehaviour
         }
         else
         {
-            if (Controller.UPvr_GetPreferenceDevice() == 1)
+            if (Pvr_UnitySDKAPI.Controller.UPvr_GetPreferenceDevice() == 1)
             {
                 DoUpdateControler0();
                 DoUpdateControler1();
@@ -182,29 +164,15 @@ public class Pvr_Controller : MonoBehaviour
             else
             {
                 if (controller0 != null)
-                {                    
-                    if (controller0is3dof)
-                    {
-                        DoUpdateControler0();
-                    }
-                    else
-                    {
-                        controller0.transform.localRotation = Controller.UPvr_GetControllerQUA(0);
-                        controller0.transform.localPosition = Controller.UPvr_GetControllerPOS(0);
-                    }
+                {
+                    controller0.transform.localRotation = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerQUA(0);
+                    controller0.transform.localPosition = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerPOS(0);
                     UpdateControlloerRay(true, false);
                 }
                 if (controller1 != null)
                 {
-                    if (controller1is3dof)
-                    {
-                        DoUpdateControler1();
-                    }
-                    else
-                    {
-                        controller1.transform.localRotation = Controller.UPvr_GetControllerQUA(1);
-                        controller1.transform.localPosition = Controller.UPvr_GetControllerPOS(1);
-                    }
+                    controller1.transform.localRotation = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerQUA(1);
+                    controller1.transform.localPosition = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerPOS(1);
                     UpdateControlloerRay(false, true);
                 }
             }
@@ -288,8 +256,8 @@ public class Pvr_Controller : MonoBehaviour
         float[] Handrot = new float[4] { 0.0f, 0.0f, 0.0f, 0.0f };
         float[] AgeeAngularVelocity = new float[3] { 0.0f, 0.0f, 0.0f };
         Quaternion controllerData = new Quaternion();
-        controllerData = Controller.UPvr_GetControllerQUA(hand);
-        Vector3 angVelocity = Controller.UPvr_GetAngularVelocity(hand);
+        controllerData = Pvr_UnitySDKAPI.Controller.UPvr_GetControllerQUA(hand);
+        Vector3 angVelocity = Pvr_UnitySDKAPI.Controller.UPvr_GetAngularVelocity(hand);
 
         Handrot[0] = controllerData.x;
         Handrot[1] = controllerData.y;
@@ -301,13 +269,13 @@ public class Pvr_Controller : MonoBehaviour
         AgeeAngularVelocity[2] = angVelocity.z;
         if (Gazetype == GazeType.DuringMotion)
         {
-            Vector3 gazeDirection = Pvr_UnitySDKManager.SDK.HeadPose.Orientation * Vector3.forward;
+            Vector3 gazeDirection = Pvr_UnitySDKSensor.Instance.HeadPose.Orientation * Vector3.forward;
             gazeDirection.y = 0.0f;
             gazeDirection.Normalize();
             float angular = angVelocity.magnitude;
             float gazeFilter = Mathf.Clamp((angular - 0.2f) / 45.0f, 0.0f, 0.1f);
             inputDirection[hand] = Vector3.Slerp(inputDirection[hand], gazeDirection, gazeFilter);
-            if (Controller.UPvr_GetKeyLongPressed(hand, Pvr_KeyCode.HOME))
+            if (Pvr_UnitySDKAPI.Controller.UPvr_GetKeyLongPressed(hand, Pvr_KeyCode.HOME))
             {
                 inputDirection[hand] = new Vector3();
             }
@@ -321,12 +289,12 @@ public class Pvr_Controller : MonoBehaviour
         }
         else
         {
-            Headrot[0] = Pvr_UnitySDKManager.SDK.HeadPose.Orientation.x;
-            Headrot[1] = Pvr_UnitySDKManager.SDK.HeadPose.Orientation.y;
-            Headrot[2] = Pvr_UnitySDKManager.SDK.HeadPose.Orientation.z;
-            Headrot[3] = Pvr_UnitySDKManager.SDK.HeadPose.Orientation.w;
+            Headrot[0] = Pvr_UnitySDKSensor.Instance.HeadPose.Orientation.x;
+            Headrot[1] = Pvr_UnitySDKSensor.Instance.HeadPose.Orientation.y;
+            Headrot[2] = Pvr_UnitySDKSensor.Instance.HeadPose.Orientation.z;
+            Headrot[3] = Pvr_UnitySDKSensor.Instance.HeadPose.Orientation.w;
         }
-        Controller.UPvr_CalcArmModelParameters(Headrot, Handrot, AgeeAngularVelocity);
+        Pvr_UnitySDKAPI.Controller.UPvr_CalcArmModelParameters(Headrot, Handrot, AgeeAngularVelocity);
     }
 
     public void UpdateControllerDataSO(int hand)
@@ -339,28 +307,28 @@ public class Pvr_Controller : MonoBehaviour
         switch (Axis)
         {
             case ControllerAxis.Controller:
-                Controller.UPvr_GetPointerPose(rot, pos);
+                Pvr_UnitySDKAPI.Controller.UPvr_GetPointerPose(rot, pos);
                 pointerPosition = new Vector3(pos[0], pos[1], pos[2]);
                 pointerRotation = new Quaternion(rot[0], rot[1], rot[2], rot[3]);
                 finalyPosition = pointerPosition;
                 finalyRotation = pointerRotation;
                 break;
             case ControllerAxis.Wrist:
-                Controller.UPvr_GetWristPose(rot, pos);
+                Pvr_UnitySDKAPI.Controller.UPvr_GetWristPose(rot, pos);
                 wristPosition = new Vector3(pos[0], pos[1], pos[2]);
                 wristRotation = new Quaternion(rot[0], rot[1], rot[2], rot[3]);
                 finalyPosition = wristPosition;
                 finalyRotation = wristRotation;
                 break;
             case ControllerAxis.Elbow:
-                Controller.UPvr_GetElbowPose(rot, pos);
+                Pvr_UnitySDKAPI.Controller.UPvr_GetElbowPose(rot, pos);
                 elbowPosition = new Vector3(pos[0], pos[1], pos[2]);
                 elbowRotation = new Quaternion(rot[0], rot[1], rot[2], rot[3]);   
                 finalyPosition = elbowPosition;
                 finalyRotation = elbowRotation;
                 break;
             case ControllerAxis.Shoulder:
-                Controller.UPvr_GetShoulderPose(rot, pos);
+                Pvr_UnitySDKAPI.Controller.UPvr_GetShoulderPose(rot, pos);
                 shoulderPosition = new Vector3(pos[0], pos[1], pos[2]);
                 shoulderRotation = new Quaternion(rot[0], rot[1], rot[2], rot[3]);  
                 finalyPosition = shoulderPosition;
@@ -376,13 +344,13 @@ public class Pvr_Controller : MonoBehaviour
             {
                 if (!Pvr_UnitySDKManager.SDK.HmdOnlyrot)
                 {
-                    controller0.transform.localPosition = finalyPosition + Pvr_UnitySDKManager.SDK.HeadPose.Position;
+                    controller0.transform.localPosition = finalyPosition + Pvr_UnitySDKSensor.Instance.HeadPose.Position;
                 }
                 else
                 {
                     if (Pvr_UnitySDKManager.SDK.TrackingOrigin == TrackingOrigin.FloorLevel)
                     {
-                        controller0.transform.localPosition = finalyPosition + Pvr_UnitySDKManager.SDK.HeadPose.Position;
+                        controller0.transform.localPosition = finalyPosition + Pvr_UnitySDKSensor.Instance.HeadPose.Position;
                     }
                     else
                     {
@@ -399,13 +367,13 @@ public class Pvr_Controller : MonoBehaviour
             {
                 if (!Pvr_UnitySDKManager.SDK.HmdOnlyrot)
                 {
-                    controller1.transform.localPosition = finalyPosition + Pvr_UnitySDKManager.SDK.HeadPose.Position;
+                    controller1.transform.localPosition = finalyPosition + Pvr_UnitySDKSensor.Instance.HeadPose.Position;
                 }
                 else
                 {
                     if (Pvr_UnitySDKManager.SDK.TrackingOrigin == TrackingOrigin.FloorLevel)
                     {
-                        controller1.transform.localPosition = finalyPosition + Pvr_UnitySDKManager.SDK.HeadPose.Position;
+                        controller1.transform.localPosition = finalyPosition + Pvr_UnitySDKSensor.Instance.HeadPose.Position;
                     }
                     else
                     {

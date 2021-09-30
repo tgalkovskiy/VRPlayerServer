@@ -36,6 +36,8 @@ public class Pvr_ControllerDemo : MonoBehaviour
     private bool isHasController = false;
     private bool headcontrolmode = false;
     private RaycastHit hit;
+    private GameObject rayLine;
+    private GameObject dot;
 
     void Start()
     {
@@ -50,8 +52,10 @@ public class Pvr_ControllerDemo : MonoBehaviour
 #if UNITY_EDITOR
             HeadSetController.SetActive(false);
             currentController = controller1;
-            controller1.transform.Find("dot").gameObject.SetActive(true);
-            controller1.transform.Find("ray_alpha").gameObject.SetActive(true);
+            dot = controller1.transform.Find("dot").gameObject;
+            dot.SetActive(true);
+            rayLine = controller1.transform.Find("ray_LengthAdaptive").gameObject;
+            rayLine.SetActive(true);
 #endif
         }
         referenceObj = new GameObject("ReferenceObj");
@@ -71,7 +75,8 @@ public class Pvr_ControllerDemo : MonoBehaviour
     {
         if (HeadSetController.activeSelf)
         {
-            HeadSetController.transform.parent.localRotation = Quaternion.Euler(Pvr_UnitySDKManager.SDK.HeadPose.Orientation.eulerAngles.x, Pvr_UnitySDKManager.SDK.HeadPose.Orientation.eulerAngles.y, 0);
+            HeadSetController.transform.parent.localRotation = Quaternion.Euler(Pvr_UnitySDKSensor.Instance.HeadPose.Orientation.eulerAngles.x, Pvr_UnitySDKSensor.Instance.HeadPose.Orientation.eulerAngles.y, 0);
+            HeadSetController.transform.parent.localPosition = Pvr_UnitySDKSensor.Instance.HeadPose.Position;
 
             ray.direction = HeadSetController.transform.position - HeadSetController.transform.parent.parent.Find("Head").position;
             ray.origin = HeadSetController.transform.parent.parent.Find("Head").position;
@@ -150,7 +155,7 @@ public class Pvr_ControllerDemo : MonoBehaviour
         {
             if (currentController != null)
             {
-                ray.direction = currentController.transform.Find("dot").position - currentController.transform.Find("start").position;
+                ray.direction = currentController.transform.forward - currentController.transform.up * 0.25f;
                 ray.origin = currentController.transform.Find("start").position;
 
                 if (Physics.Raycast(ray, out hit))
@@ -177,7 +182,7 @@ public class Pvr_ControllerDemo : MonoBehaviour
                         if (!noClick)
                             hit.transform.GetComponent<Renderer>().material = gazemat;
 
-                        if (Controller.UPvr_GetKeyDown(0, Pvr_KeyCode.TOUCHPAD) || Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD) || Input.GetMouseButtonDown(0))
+                        if (Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(0, Pvr_KeyCode.TOUCHPAD) || Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD) || Input.GetMouseButtonDown(0))
                         {
                             referenceObj.transform.position = hit.point;
 
@@ -185,7 +190,7 @@ public class Pvr_ControllerDemo : MonoBehaviour
                             disY = hit.transform.position.y - referenceObj.transform.position.y;
                             dragObj = hit.transform;
                         }
-                        if (Controller.UPvr_GetKey(0, Pvr_KeyCode.TOUCHPAD) || Controller.UPvr_GetKey(1, Pvr_KeyCode.TOUCHPAD) || Input.GetMouseButton(0))
+                        if (Pvr_UnitySDKAPI.Controller.UPvr_GetKey(0, Pvr_KeyCode.TOUCHPAD) || Pvr_UnitySDKAPI.Controller.UPvr_GetKey(1, Pvr_KeyCode.TOUCHPAD) || Input.GetMouseButton(0))
                         {
                             if (hit.transform == dragObj.transform)
                             {
@@ -218,13 +223,16 @@ public class Pvr_ControllerDemo : MonoBehaviour
                     if(Pvr_ControllerManager.Instance.LengthAdaptiveRay)
                     {
                         currentController.transform.Find("dot").localScale = new Vector3(0.178f, 0.178f, 1);
-                        currentController.transform.Find("dot").position = currentController.transform.position + currentController.transform.forward.normalized * (0.5f + rayDefaultLength);
                     }
                 }
+#if UNITY_EDITOR
+                rayLine.GetComponent<LineRenderer>().SetPosition(0,currentController.transform.TransformPoint(0, 0, 0.072f));
+                rayLine.GetComponent<LineRenderer>().SetPosition(1, dot.transform.position);
+#endif
             }
 
-            if (Controller.UPvr_GetKeyDown(0, Pvr_KeyCode.TOUCHPAD) ||
-                Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD) || Input.GetMouseButtonDown(0))
+            if (Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(0, Pvr_KeyCode.TOUCHPAD) ||
+                Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD) || Input.GetMouseButtonDown(0))
             {
                 if (lastHit != null && 1 << lastHit.transform.gameObject.layer == LayerMask.GetMask("Water") && currentHit != null)
                 {
@@ -239,8 +247,8 @@ public class Pvr_ControllerDemo : MonoBehaviour
 
     private void ServiceStartSuccess()
     {
-        if (Controller.UPvr_GetControllerState(0) == ControllerState.Connected ||
-            Controller.UPvr_GetControllerState(1) == ControllerState.Connected)
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetControllerState(0) == ControllerState.Connected ||
+            Pvr_UnitySDKAPI.Controller.UPvr_GetControllerState(1) == ControllerState.Connected)
         {
             HeadSetController.SetActive(false);
         }
@@ -248,11 +256,11 @@ public class Pvr_ControllerDemo : MonoBehaviour
         {
             HeadSetController.SetActive(true);
         }
-        if (Controller.UPvr_GetMainHandNess() == 0)
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess() == 0)
         {
             currentController = controller0;
         }
-        if (Controller.UPvr_GetMainHandNess() == 1)
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess() == 1)
         {
             currentController = controller1;
         }
@@ -261,8 +269,8 @@ public class Pvr_ControllerDemo : MonoBehaviour
     private void ControllerStateListener(string data)
     {
 
-        if (Controller.UPvr_GetControllerState(0) == ControllerState.Connected ||
-            Controller.UPvr_GetControllerState(1) == ControllerState.Connected)
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetControllerState(0) == ControllerState.Connected ||
+            Pvr_UnitySDKAPI.Controller.UPvr_GetControllerState(1) == ControllerState.Connected)
         {
             HeadSetController.SetActive(false);
         }
@@ -271,11 +279,11 @@ public class Pvr_ControllerDemo : MonoBehaviour
             HeadSetController.SetActive(true);
         }
 
-        if (Controller.UPvr_GetMainHandNess() == 0)
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess() == 0)
         {
             currentController = controller0;
         }
-        if (Controller.UPvr_GetMainHandNess() == 1)
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess() == 1)
         {
             currentController = controller1;
         }
@@ -283,7 +291,7 @@ public class Pvr_ControllerDemo : MonoBehaviour
 
     private void CheckControllerStateForGoblin(string state)
     {
-        HeadSetController.SetActive(!Convert.ToBoolean(Convert.ToInt16(state)));
+        HeadSetController.SetActive(Convert.ToInt16(state) != 1);
     }
 
     public void SwitchControlMode()

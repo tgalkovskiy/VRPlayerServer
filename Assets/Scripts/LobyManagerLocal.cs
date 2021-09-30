@@ -7,14 +7,17 @@ using Mirror.Discovery;
 
 public class LobyManagerLocal : NetworkManager
 {
-    [SerializeField] private MenuBehavior _menuBehavior = default;
     [SerializeField] private bool isServer = default;
-    public NetworkDiscovery networkDiscovery;
-    public NetworkDiscoveryHUD _Hud;
+    private MenuBehavior _menuBehavior;
+    private NetworkDiscovery networkDiscovery;
+    private NetworkDiscoveryHUD _Hud;
     Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
     
     public void OfflineStart()
     {
+        _menuBehavior = MenuBehavior.Instance;
+        networkDiscovery = GetComponent<NetworkDiscovery>();
+        _Hud = GetComponent<NetworkDiscoveryHUD>();
         if (isServer)
         {
             _menuBehavior.ShowControlMenu();
@@ -35,28 +38,33 @@ public class LobyManagerLocal : NetworkManager
     }
     public void CommandPlay()
     {
-        MenuBehavior.Instance.ControllVideo("Play");
+        MenuBehavior.Instance.ControlVideo("Play");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Play"});
     }
     public void CommandStop()
     {
-        MenuBehavior.Instance.ControllVideo("Stop");
+        MenuBehavior.Instance.ControlVideo("Stop");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Stop"});
     }
     public void CommandMuteAudio()
     {
-        MenuBehavior.Instance.ControllVideo("Mute");
+        MenuBehavior.Instance.ControlVideo("Mute");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Mute"});
     }
     public void CommandRebootVideo()
     {
-        MenuBehavior.Instance.ControllVideo("Reboot");
+        MenuBehavior.Instance.ControlVideo("Reboot");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Reboot"});
     }
     public void CommandVideo(int index)
     {
         MenuBehavior.Instance.ChooseVideo(index);
-        NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {number = index});
+        NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {numberVideo = index});
+    }
+    
+    public void OpenScene(int index)
+    {
+        NetworkServer.SendToAll(new MirrorTransport.NumberSceneOpen() {numberScene = index});
     }
 
     IEnumerator Connect()

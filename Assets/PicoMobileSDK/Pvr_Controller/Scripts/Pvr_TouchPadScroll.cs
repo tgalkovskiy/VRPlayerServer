@@ -43,7 +43,7 @@ public class Pvr_TouchPadScroll : MonoBehaviour
 
     bool IsControllerConnect()
     {
-        mainHand = Controller.UPvr_GetMainHandNess();
+        mainHand = Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess();
         if (mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected)
         {
             return true;
@@ -57,7 +57,7 @@ public class Pvr_TouchPadScroll : MonoBehaviour
 
     void UpdateTargetPos()
     {
-        if (Controller.UPvr_GetKey(0, Pvr_KeyCode.TOUCHPAD) || Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD))
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetKey(0, Pvr_KeyCode.TOUCHPAD) || Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD))
         {
             ResetParameter();
                 return;
@@ -65,13 +65,13 @@ public class Pvr_TouchPadScroll : MonoBehaviour
 
         if (isHoving)
         {            
-            if(Pvr_ControllerManager.controllerlink.GetDeviceType() == 4)
+            if(Pvr_ControllerManager.controllerlink.GetControllerType() == 3)
             {
-                ComputeNeo2Pos();
+                ComputeTouchPos();
             }
             else
             {
-                ComputePos();
+                ComputeRockerPos();
             }
 
             if ((currPos - tarPos).sqrMagnitude <= 10)
@@ -82,18 +82,18 @@ public class Pvr_TouchPadScroll : MonoBehaviour
         }
     }
 
-    void ComputePos()
+    void ComputeTouchPos()
     {
-        mainHand = Controller.UPvr_GetMainHandNess();
+        mainHand = Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess();
         currPos = scrollRect.content.localPosition;
         Vector2 nowTouchPos = vecOrigin;
         if (mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected)
         {
-            nowTouchPos = Controller.UPvr_GetTouchPadPosition(mainHand);
+            nowTouchPos = Pvr_UnitySDKAPI.Controller.UPvr_GetTouchPadPosition(mainHand);
         }
         if (mainHand == 1 && Pvr_ControllerManager.controllerlink.controller1Connected)
         {
-            nowTouchPos = Controller.UPvr_GetTouchPadPosition(mainHand);
+            nowTouchPos = Pvr_UnitySDKAPI.Controller.UPvr_GetTouchPadPosition(mainHand);
         }
 
         if ((nowTouchPos - vecOrigin).sqrMagnitude >= 1)//touching
@@ -134,23 +134,20 @@ public class Pvr_TouchPadScroll : MonoBehaviour
         }
     }
 
-    void ComputeNeo2Pos()
+    void ComputeRockerPos()
     {
-        mainHand = Controller.UPvr_GetMainHandNess();
+        mainHand = Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess();
         currPos = scrollRect.content.localPosition;
         Vector2 nowTouchPos = vecOriginNeo2;
         if (mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected)
         {
-            nowTouchPos = Controller.UPvr_GetTouchPadPosition(mainHand);
+            nowTouchPos = Pvr_UnitySDKAPI.Controller.UPvr_GetTouchPadPosition(mainHand);
         }
         if (mainHand == 1 && Pvr_ControllerManager.controllerlink.controller1Connected)
         {
-            nowTouchPos = Controller.UPvr_GetTouchPadPosition(mainHand);
+            nowTouchPos = Pvr_UnitySDKAPI.Controller.UPvr_GetTouchPadPosition(mainHand);
         }
-        float temp = nowTouchPos.x;
-        nowTouchPos.x = nowTouchPos.y;
-        nowTouchPos.y = temp;
-
+        
         if (VerifyNeo2TouchValid(nowTouchPos) && ((nowTouchPos - vecOriginNeo2).sqrMagnitude >= 1))//touching
         {
             if (!isTouching)
@@ -205,7 +202,7 @@ public class Pvr_TouchPadScroll : MonoBehaviour
 
     void UpdatePos()
     {
-        if (Controller.UPvr_GetKey(0, Pvr_KeyCode.TOUCHPAD) || Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD))
+        if (Pvr_UnitySDKAPI.Controller.UPvr_GetKey(0, Pvr_KeyCode.TOUCHPAD) || Pvr_UnitySDKAPI.Controller.UPvr_GetKeyDown(1, Pvr_KeyCode.TOUCHPAD))
         {
             ResetParameter();
             return;
@@ -258,7 +255,7 @@ public class Pvr_TouchPadScroll : MonoBehaviour
         {
             if(FindTree(hoveredObject.transform))
             {
-                mainHand = Controller.UPvr_GetMainHandNess();
+                mainHand = Pvr_UnitySDKAPI.Controller.UPvr_GetMainHandNess();
                 if (mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected)
                 {
                     return true;

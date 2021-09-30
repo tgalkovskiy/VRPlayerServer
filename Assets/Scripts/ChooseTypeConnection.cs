@@ -8,10 +8,19 @@ public class ChooseTypeConnection : MonoBehaviour
 {
     [SerializeField] private GameObject _buttonOnline = default;
     [SerializeField] private GameObject _buttonOffline = default;
+    [SerializeField] private bool isAutoConnection = default;
     public GameObject _netWork;
     public GameObject _managerLocal;
     public static bool OnLine;
-    
+
+    private void Start()
+    {
+        if (isAutoConnection)
+        {
+            OfflineConnection();
+        }
+    }
+
     public void OnlineConnection()
     {
         _netWork.gameObject.SetActive(true);
