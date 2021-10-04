@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using SFB;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -12,22 +14,28 @@ public class LoaderVideo : MonoBehaviour
     [SerializeField] private GameObject _content = default;
     [SerializeField] private GameObject _cellVideo = default;
     MenuBehavior _menuBehavior;
+    private List<GameObject> _allVideo = new List<GameObject>();
     private List<GameObject> _engVideoPath = new List<GameObject>();
     private List<GameObject> _herbVideoPath = new List<GameObject>();
     private void Awake()
     {
-        BetterStreamingAssets.Initialize();
         _menuBehavior = GetComponent<MenuBehavior>();
+        LoadVideo();
+    }
+    private void LoadVideo()
+    {
+        BetterStreamingAssets.Initialize();
+        ClearCellVideo();
         string[] paths = BetterStreamingAssets.GetFiles("/", "*.mp4", SearchOption.AllDirectories);
-        for(int i=0; i<paths.Length; i++)
+        for (int i = 0; i < paths.Length; i++)
         {
             _menuBehavior.path.Add(paths[i]);
             var cell = Instantiate(_cellVideo, _content.transform);
-            cell.GetComponent<VideoCell>()
-                .SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, _menuBehavior.path[i]);
+            _allVideo.Add(cell);
+            cell.GetComponent<VideoCell>().SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, _menuBehavior.path[i]);
             if (paths[i].Contains("ENG"))
             {
-               _engVideoPath.Add(cell);
+                _engVideoPath.Add(cell);
             }
             if (paths[i].Contains("HERB"))
             {
@@ -35,7 +43,40 @@ public class LoaderVideo : MonoBehaviour
             }
         }
     }
+    public void OpenFile()
+    {
+        var extensions = new [] {  //какие файлы вообще можно открыть
+            new ExtensionFilter("Move Files", "mp4"),
+            new ExtensionFilter("All Files", "*" ),
+        };
+        foreach(string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
+        { //открытие формы для загрузки файла
+            Debug.Log(path);
+            File.Copy(path, Path.Combine(Application.streamingAssetsPath, "copy.mp4"));
+            AssetDatabase.Refresh();
+            LoadVideo();
+        }
+    }
 
+    private void ClearCellVideo()
+    {
+        for(int i = 0; i < _allVideo.Count; i++)
+        {
+            Destroy(_allVideo[i]);
+        }
+        _allVideo.Clear();
+        _engVideoPath.Clear();
+        _herbVideoPath.Clear();
+        _menuBehavior.path.Clear();
+        
+    }
+    public void ShowAll()
+    {
+        for(int i = 0; i < _allVideo.Count; i++)
+        {
+            _allVideo[i].SetActive(true);
+        }
+    }
     public void ShowEng()
     {
         for(int i = 0; i < _engVideoPath.Count; i++)
