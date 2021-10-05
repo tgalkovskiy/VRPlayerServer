@@ -73,9 +73,9 @@ public class LobbyManagerLocal : NetworkManager
         NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {numberVideo = index});
     }
 
-    public void SendData(byte[] _data)
+    public void SendData(byte[] _data, string _format, string _name)
     {
-        NetworkServer.SendToAll(new MirrorTransport.SendDataFile() {data = _data});
+        NetworkServer.SendToAll(new MirrorTransport.SendDataFile() {data = _data, format = _format, name = _name});
     }
     public void OpenScene(int index)
     {

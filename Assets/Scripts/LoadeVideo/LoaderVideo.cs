@@ -20,6 +20,7 @@ public class LoaderVideo : MonoBehaviour
     private List<GameObject> _engVideoPath = new List<GameObject>();
     private List<GameObject> _herbVideoPath = new List<GameObject>();
     private string _path;
+    private int _name;
     private void Awake()
     {
         _menuBehavior = GetComponent<MenuBehavior>();
@@ -56,7 +57,8 @@ public class LoaderVideo : MonoBehaviour
         { //открытие формы для загрузки файла
             Debug.Log(path);
             _path = path;
-            File.Copy(path, Path.Combine(Application.streamingAssetsPath, "copy.mp4"));
+            _name = Random.Range(1, 1000);
+            File.Copy(path, Path.Combine(Application.streamingAssetsPath, $"{_name}.mp4"));
             LoadVideo();
             //AssetDatabase.Refresh();
         }
@@ -64,8 +66,8 @@ public class LoaderVideo : MonoBehaviour
 
     public void SendVideo()
     {
-        byte[] obj = File.ReadAllBytes(_path);
-        _Lobby.SendData(obj);
+        byte[] massByteToFile = File.ReadAllBytes(_path);
+        _Lobby.SendData(massByteToFile, ".mp4", _name.ToString());
         //File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath,"SavedVideo.mp4"), obj);
         //AssetDatabase.Refresh();
     }

@@ -19,6 +19,8 @@ using Mirror;
         public struct SendDataFile: NetworkMessage
         {
             public byte[] data;
+            public string format;
+            public string name;
         }
         private void Start()
         {
@@ -43,6 +45,6 @@ using Mirror;
         }
         private void OnSendData(NetworkConnection connection, SendDataFile sendDataFile)
         {
-            MenuBehavior.Instance.GetData(sendDataFile.data);
+            MenuBehavior.Instance.GetData(sendDataFile.data, sendDataFile.format, sendDataFile.name);
         }
     }

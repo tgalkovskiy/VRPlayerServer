@@ -66,10 +66,10 @@ public class MenuBehavior : MonoBehaviour
         _mediaPlayer.gameObject.SetActive(true);
    }
 
-   public void GetData(byte[] data)
+   public void GetData(byte[] data, string format, string name)
    {
        Debug.Log(data.Length);
-       File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath,"SavedVideo.mp4"), data);
+       File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath, $"{name}{format}"), data);
        _loaderVideo.LoadVideo();
        //AssetDatabase.Refresh();
    }
