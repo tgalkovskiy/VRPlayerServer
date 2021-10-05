@@ -35,6 +35,8 @@ public class LobbyManagerLocal : NetworkManager
             //StartClient();
         }
     }
+    
+    
     public void GetAllConnection()
     {
         
@@ -69,6 +71,11 @@ public class LobbyManagerLocal : NetworkManager
     {
         MenuBehavior.Instance.ChooseVideo(index);
         NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {numberVideo = index});
+    }
+
+    public void SendData(byte[] _data)
+    {
+        NetworkServer.SendToAll(new MirrorTransport.SendDataFile() {data = _data});
     }
     public void OpenScene(int index)
     {

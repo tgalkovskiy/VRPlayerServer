@@ -236,7 +236,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 51988653}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 106000600}
+        m_TargetAssemblyTypeName: LoaderVideo, Assembly-CSharp
+        m_MethodName: SendVideo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &51988653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2470,7 +2482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.82538474, y: 0.90700006}
   m_AnchorMax: {x: 0.89061534, y: 0.9406839}
-  m_AnchoredPosition: {x: 0.075683594, y: -59.900024}
+  m_AnchoredPosition: {x: 0.075683594, y: -59.900146}
   m_SizeDelta: {x: -0.15139961, y: 0.1317997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &369304012
@@ -2692,14 +2704,14 @@ MonoBehaviour:
   NoDelay: 1
   SendTimeout: 5000
   ReceiveTimeout: 30000
-  serverMaxMessageSize: 16384
-  serverMaxReceivesPerTick: 10000
-  serverSendQueueLimitPerConnection: 10000
-  serverReceiveQueueLimitPerConnection: 10000
-  clientMaxMessageSize: 16384
-  clientMaxReceivesPerTick: 1000
-  clientSendQueueLimit: 10000
-  clientReceiveQueueLimit: 10000
+  serverMaxMessageSize: 99999999
+  serverMaxReceivesPerTick: 99999999
+  serverSendQueueLimitPerConnection: 99999999
+  serverReceiveQueueLimitPerConnection: 99999999
+  clientMaxMessageSize: 99999999
+  clientMaxReceivesPerTick: 99999999
+  clientSendQueueLimit: 99999999
+  clientReceiveQueueLimit: 99999999
 --- !u!4 &373842711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 428262, guid: f4d2c95a82cadba4fb259ca17b5a8404, type: 3}
@@ -4999,7 +5011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.82651293, y: 0.40755898}
   m_AnchorMax: {x: 0.98, y: 0.8253162}
-  m_AnchoredPosition: {x: 0, y: -0.09921265}
+  m_AnchoredPosition: {x: 0, y: -0.099243164}
   m_SizeDelta: {x: 0, y: -0.1984024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &729628692
@@ -7962,6 +7974,10 @@ PrefabInstance:
       propertyPath: isAutoConnection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4580106222243485972, guid: f2dd371d221220748a87a7010564b90e, type: 3}
+      propertyPath: _Lobby
+      value: 
+      objectReference: {fileID: 370094808}
     - target: {fileID: 4580106222243485972, guid: f2dd371d221220748a87a7010564b90e, type: 3}
       propertyPath: _content
       value: 

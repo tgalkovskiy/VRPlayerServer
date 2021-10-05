@@ -16,19 +16,23 @@ using Mirror;
         {
             public int numberScene;
         }
+        public struct SendDataFile: NetworkMessage
+        {
+            public byte[] data;
+        }
         private void Start()
         {
             if(!NetworkClient.active) return;
             NetworkClient.RegisterHandler<MessageCommand>(OnGetMessage);
             NetworkClient.RegisterHandler<NumberVideo>(OnGetNumberVideo);
             NetworkClient.RegisterHandler<NumberSceneOpen>(OnGetNumberScene);
+            NetworkClient.RegisterHandler<SendDataFile>(OnSendData);
         }
 
         private void OnGetMessage(NetworkConnection connection, MessageCommand messageCommand)
         {
             MenuBehavior.Instance.ControlVideo(messageCommand.message);
         }
-
         private void OnGetNumberVideo(NetworkConnection connection, NumberVideo numberVideo)
         {
             MenuBehavior.Instance.ChooseVideo(numberVideo.numberVideo);
@@ -36,5 +40,9 @@ using Mirror;
         private void OnGetNumberScene(NetworkConnection connection, NumberSceneOpen numberSceneOpen)
         {
             MenuBehavior.Instance.OpenScene(numberSceneOpen.numberScene);
+        }
+        private void OnSendData(NetworkConnection connection, SendDataFile sendDataFile)
+        {
+            MenuBehavior.Instance.GetData(sendDataFile.data);
         }
     }

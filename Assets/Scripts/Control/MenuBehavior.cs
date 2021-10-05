@@ -5,6 +5,8 @@ using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine.UI;
 using System;
+using System.IO;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class MenuBehavior : MonoBehaviour
@@ -15,11 +17,13 @@ public class MenuBehavior : MonoBehaviour
     [SerializeField] private MediaPlayer _mediaPlayer = default;
     public List<string> path = new List<string>();
     private bool mute = false;
+    private LoaderVideo _loaderVideo;
     public static MenuBehavior Instance;
 
     private void Awake()
     {
          Instance = this;
+         _loaderVideo = GetComponent<LoaderVideo>();
     }
     public void ControlVideo(string command)
    {
@@ -61,5 +65,12 @@ public class MenuBehavior : MonoBehaviour
         //_pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
    }
-    
+
+   public void GetData(byte[] data)
+   {
+       Debug.Log(data.Length);
+       File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath,"SavedVideo.mp4"), data);
+       _loaderVideo.LoadVideo();
+       //AssetDatabase.Refresh();
+   }
 }
