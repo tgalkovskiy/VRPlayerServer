@@ -67,10 +67,10 @@ public class LobbyManagerLocal : NetworkManager
         MenuBehavior.Instance.ControlVideo("Reboot");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Reboot"});
     }
-    public void CommandVideo(int index)
+    public void CommandVideo(string _nameVideo)
     {
-        MenuBehavior.Instance.ChooseVideo(index);
-        NetworkServer.SendToAll(new MirrorTransport.NumberVideo() {numberVideo = index});
+        MenuBehavior.Instance.ChooseVideo(_nameVideo);
+        NetworkServer.SendToAll(new MirrorTransport.NameVideo() {nameVideo = _nameVideo});
     }
 
     public void SendData(byte[] _data, string _format, string _name)

@@ -27,6 +27,6 @@ public class VideoCell : MonoBehaviour
     public void SendNumberVideo()
     {
         WindowControll.Instance.ChangeVideoPanel(_image.sprite, _description);
-        _command.CommandVideo(number);
+        _command.CommandVideo(_description);
     }
 }

@@ -8,9 +8,9 @@ using Mirror;
         {
             public string message;
         }
-        public struct NumberVideo : NetworkMessage
+        public struct NameVideo : NetworkMessage
         {
-            public int numberVideo;
+            public string nameVideo;
         }
         public struct NumberSceneOpen: NetworkMessage
         {
@@ -26,7 +26,7 @@ using Mirror;
         {
             if(!NetworkClient.active) return;
             NetworkClient.RegisterHandler<MessageCommand>(OnGetMessage);
-            NetworkClient.RegisterHandler<NumberVideo>(OnGetNumberVideo);
+            NetworkClient.RegisterHandler<NameVideo>(OnGetNumberVideo);
             NetworkClient.RegisterHandler<NumberSceneOpen>(OnGetNumberScene);
             NetworkClient.RegisterHandler<SendDataFile>(OnSendData);
         }
@@ -35,9 +35,9 @@ using Mirror;
         {
             MenuBehavior.Instance.ControlVideo(messageCommand.message);
         }
-        private void OnGetNumberVideo(NetworkConnection connection, NumberVideo numberVideo)
+        private void OnGetNumberVideo(NetworkConnection connection, NameVideo nameVideo)
         {
-            MenuBehavior.Instance.ChooseVideo(numberVideo.numberVideo);
+            MenuBehavior.Instance.ChooseVideo(nameVideo.nameVideo);
         }
         private void OnGetNumberScene(NetworkConnection connection, NumberSceneOpen numberSceneOpen)
         {

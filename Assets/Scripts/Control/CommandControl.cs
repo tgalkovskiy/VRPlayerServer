@@ -56,7 +56,7 @@ public class CommandControl : MonoBehaviour
             _managerLocal.CommandRebootVideo();
         }
     }
-    public void CommandVideo(int index)
+    public void CommandVideo(string _nameVideo)
     {
         if (ChooseTypeConnection.OnLine)
         {
@@ -64,7 +64,7 @@ public class CommandControl : MonoBehaviour
         }
         else
         {
-            _managerLocal.CommandVideo(index);
+            _managerLocal.CommandVideo(_nameVideo);
         } 
     }
 

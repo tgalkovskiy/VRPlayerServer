@@ -36,10 +36,9 @@ public class MenuBehavior : MonoBehaviour
             case "Reboot": _mediaPlayer.Rewind(true); break;
         }
    } 
-    public void ChooseVideo(int index)
+    public void ChooseVideo(string nameVideo)
    {
-        Debug.Log(index);
-        _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path[index], false);
+       _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, Path.Combine(Application.persistentDataPath, nameVideo), false);
    }
     public void OpenScene(int index)
     {
@@ -69,9 +68,12 @@ public class MenuBehavior : MonoBehaviour
 
    public void GetData(byte[] data, string format, string name)
    {
-       Debug.Log(data.Length);
+       Debug.Log("Get file" + data.Length);
        File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.mp4"), data);
+       Debug.Log("save file");
        File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), name);
+       Debug.Log("save Json");
+       Debug.Log("Update Video");
        _loaderVideo.LoadVideo();
        //AssetDatabase.Refresh();
    }

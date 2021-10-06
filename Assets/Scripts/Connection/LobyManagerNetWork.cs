@@ -115,7 +115,7 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
     [PunRPC]
     private void GetChooseVideo(int index)
     {
-        _menuBehavior.ChooseVideo(index);
+        //_menuBehavior.ChooseVideo(index);
     }
     #endregion
     #region Command

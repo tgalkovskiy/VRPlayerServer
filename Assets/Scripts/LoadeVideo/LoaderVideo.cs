@@ -29,20 +29,23 @@ public class LoaderVideo : MonoBehaviour
     }
     public void LoadVideo()
     {
-        BetterStreamingAssets.Initialize();
+        Debug.Log("Refresh Video");
+        //BetterStreamingAssets.Initialize();
         ClearCellVideo();
         if (File.Exists(Path.Combine(Application.persistentDataPath, "ListVideo.Json")))
         {
+            Debug.Log("Find Json");
             WWW listVideo = new WWW(Path.Combine(Application.persistentDataPath, "ListVideo.Json"));
             _videoList = listVideo.text;
             string[] _dataList = _videoList.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < _dataList.Length; i++)
             {
+                Debug.Log("Create Cell Video");
                 _menuBehavior.path.Add(Path.Combine(Application.persistentDataPath, $"{_dataList[i]}.mp4"));
                 var cell = Instantiate(_cellVideo, _content.transform);
                 _allVideo.Add(cell);
                 cell.GetComponent<VideoCell>()
-                    .SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, _menuBehavior.path[i]);
+                    .SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, $"{_dataList[i]}.mp4");
                 if (_dataList[i].Contains("ENG"))
                 {
                     _engVideoPath.Add(cell);
