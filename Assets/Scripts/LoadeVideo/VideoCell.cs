@@ -17,7 +17,7 @@ public class VideoCell : MonoBehaviour
        _command = CommandControl.Instance;
    }
 
-   public void SetParamertsCell(Sprite sprite, int number, string _description)
+   public void SetParametrsCell(Sprite sprite, int number, string _description)
     {
         _image.sprite = sprite;
         this.number = number;

@@ -1,4 +1,4 @@
-using System;
+
 using UnityEngine;
 using Mirror;
 
@@ -22,13 +22,30 @@ using Mirror;
             public string format;
             public string name;
         }
+        public struct DataClient: NetworkMessage
+        {
+            public string name;
+            public int battery;
+            public string connection;
+        }
+        public struct VolumePower: NetworkMessage
+        {
+            public float volumePower;
+        }
         private void Start()
         {
-            if(!NetworkClient.active) return;
-            NetworkClient.RegisterHandler<MessageCommand>(OnGetMessage);
-            NetworkClient.RegisterHandler<NameVideo>(OnGetNumberVideo);
-            NetworkClient.RegisterHandler<NumberSceneOpen>(OnGetNumberScene);
-            NetworkClient.RegisterHandler<SendDataFile>(OnSendData);
+            if (NetworkClient.active)
+            {
+                NetworkClient.RegisterHandler<MessageCommand>(OnGetMessage);
+                NetworkClient.RegisterHandler<NameVideo>(OnGetNumberVideo);
+                NetworkClient.RegisterHandler<NumberSceneOpen>(OnGetNumberScene);
+                NetworkClient.RegisterHandler<SendDataFile>(OnGetDataFile);
+                NetworkClient.RegisterHandler<VolumePower>(OngetVolumePower);
+            }
+            if (NetworkServer.active)
+            {
+                NetworkServer.RegisterHandler<DataClient>(OnGetClientData);
+            }
         }
 
         private void OnGetMessage(NetworkConnection connection, MessageCommand messageCommand)
@@ -43,8 +60,16 @@ using Mirror;
         {
             MenuBehavior.Instance.OpenScene(numberSceneOpen.numberScene);
         }
-        private void OnSendData(NetworkConnection connection, SendDataFile sendDataFile)
+        private void OnGetDataFile(NetworkConnection connection, SendDataFile sendDataFile)
         {
-            MenuBehavior.Instance.GetData(sendDataFile.data, sendDataFile.format, sendDataFile.name);
+            DataManager.Instance.GetDataFile(sendDataFile.data, sendDataFile.format, sendDataFile.name);
+        }
+        private void OngetVolumePower(NetworkConnection connection, VolumePower volumePower)
+        {
+            MenuBehavior.Instance.ChangeVolumePower(volumePower.volumePower);
+        }
+        private void OnGetClientData(NetworkConnection connection, DataClient dataClient)
+        {
+            MenuBehavior.Instance.UpdateList(dataClient.name, dataClient.battery, dataClient.connection);
         }
     }

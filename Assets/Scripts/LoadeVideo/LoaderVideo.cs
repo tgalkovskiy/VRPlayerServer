@@ -3,25 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using SFB;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class LoaderVideo : MonoBehaviour
 {
     public languagesEnum _LanguagesEnum;
-    public LobbyManagerLocal _Lobby;
     [SerializeField] private Sprite[] _envelope = default;
     [SerializeField] private GameObject _content = default;
     [SerializeField] private GameObject _cellVideo = default;
-    MenuBehavior _menuBehavior;
+    private MenuBehavior _menuBehavior;
     private List<GameObject> _allVideo = new List<GameObject>();
     private List<GameObject> _engVideoPath = new List<GameObject>();
     private List<GameObject> _herbVideoPath = new List<GameObject>();
     private string _videoList;
-    private string _path;
-    private int _name;
+    public string _path;
+    public string _Name;
     private void Awake()
     {
         _menuBehavior = GetComponent<MenuBehavior>();
@@ -29,23 +26,19 @@ public class LoaderVideo : MonoBehaviour
     }
     public void LoadVideo()
     {
-        Debug.Log("Refresh Video");
-        //BetterStreamingAssets.Initialize();
         ClearCellVideo();
         if (File.Exists(Path.Combine(Application.persistentDataPath, "ListVideo.Json")))
         {
-            Debug.Log("Find Json");
             WWW listVideo = new WWW(Path.Combine(Application.persistentDataPath, "ListVideo.Json"));
             _videoList = listVideo.text;
             string[] _dataList = _videoList.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < _dataList.Length; i++)
             {
-                Debug.Log("Create Cell Video");
-                _menuBehavior.path.Add(Path.Combine(Application.persistentDataPath, $"{_dataList[i]}.mp4"));
+                _menuBehavior.path.Add(Path.Combine(Application.persistentDataPath, _dataList[i]));
                 var cell = Instantiate(_cellVideo, _content.transform);
                 _allVideo.Add(cell);
                 cell.GetComponent<VideoCell>()
-                    .SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, $"{_dataList[i]}.mp4");
+                    .SetParametrsCell(_envelope[Random.Range(0, _envelope.Length)], i, _dataList[i]);
                 if (_dataList[i].Contains("ENG"))
                 {
                     _engVideoPath.Add(cell);
@@ -56,7 +49,6 @@ public class LoaderVideo : MonoBehaviour
                 }
             }
         }
-        //string[] allfiles = Directory.GetFiles(Application.persistentDataPath);
     }
     public void OpenFile()
     {
@@ -65,22 +57,21 @@ public class LoaderVideo : MonoBehaviour
             new ExtensionFilter("All Files", "*" ),
         };
         foreach(string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
-        { //открытие формы для загрузки файла
+        {
             _path = path;
-            _name = Random.Range(1, 1000);
-            File.Copy(path, Path.Combine(Application.persistentDataPath, $"{_name}.mp4"));
+            int index = path.LastIndexOf("\\");
+            string _name = path.Substring(index+1);
+            _Name = _name;
+            File.Copy(path, Path.Combine(Application.persistentDataPath, _name));
             _videoList += $"{_name} ";
             File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), _videoList);
             LoadVideo();
-            //AssetDatabase.Refresh();
         }
     }
-    public void SendVideo()
+
+    public void SendData()
     {
-        byte[] massByteToFile = File.ReadAllBytes(_path);
-        _Lobby.SendData(massByteToFile, ".mp4", _name.ToString());
-        //File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath,"SavedVideo.mp4"), obj);
-        //AssetDatabase.Refresh();
+        GetComponent<DataManager>().SendDataFile(_path, _Name);
     }
     private void ClearCellVideo()
     {

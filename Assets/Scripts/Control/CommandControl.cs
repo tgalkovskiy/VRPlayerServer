@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CommandControl : MonoBehaviour
 {
@@ -45,6 +46,17 @@ public class CommandControl : MonoBehaviour
             _managerLocal.CommandMuteAudio();
         }
     }
+    public void ChangeVolumePower(Slider _slider)
+    {
+        if (ChooseTypeConnection.OnLine)
+        {
+            
+        }
+        else
+        {
+            _managerLocal.CommandChangeVolumePower(_slider.value);
+        }
+    }
     public void RebootVideo()
     {
         if (ChooseTypeConnection.OnLine)
@@ -67,7 +79,6 @@ public class CommandControl : MonoBehaviour
             _managerLocal.CommandVideo(_nameVideo);
         } 
     }
-
     public void OpenScene(int index)
     {
         if (ChooseTypeConnection.OnLine)

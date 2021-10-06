@@ -7,14 +7,14 @@ using Photon.Realtime;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(PhotonView))]
-public class LobyManagerNetWork : MonoBehaviourPunCallbacks
+public class LobbyManagerNetWork : MonoBehaviourPunCallbacks
 {
     #region Field
     [SerializeField] private Text _nameText = default;
    [SerializeField] private string _gameVersion = default;
    private MenuBehavior _menuBehavior = default;
    private PhotonView View;
-   public static LobyManagerNetWork Instance;
+   public static LobbyManagerNetWork Instance;
    private string _namePlayer;
    private string _nameRoom;
    List<string> playersInRoom = new List<string>();
@@ -81,7 +81,7 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
             playersInRoom.Add(PhotonNetwork.CurrentRoom.GetPlayer(i+1).UserId);
             Debug.Log(playersInRoom[i]);
         }
-        _menuBehavior.UpdateListDevise(playersInRoom);
+        //_menuBehavior.UpdateListDevise(playersInRoom);
     }
     public void CreateRoom()
     {

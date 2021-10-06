@@ -26,26 +26,21 @@ public class LobbyManagerLocal : NetworkManager
             _menuBehavior.ShowControlMenu();
             StartServer();
             networkDiscovery.AdvertiseServer();
-            //StartCoroutine(Connect());
         }
         else
         {
             _menuBehavior.UnShowControlMenu();
             StartCoroutine(Connect());
-            //StartClient();
         }
     }
-    
-    
     public void GetAllConnection()
     {
-        
-        List<string> connection = new List<string>();
+        /*List<string> connection = new List<string>();
         for(int i = 0; i < NetworkServer.connections.Count; i++)
         {
             connection.Add(NetworkServer.connections[i+1].address);
         }
-        MenuBehavior.Instance.UpdateListDevise(connection);
+        MenuBehavior.Instance.UpdateListDevise(connection);*/
     }
     public void CommandPlay()
     {
@@ -62,6 +57,11 @@ public class LobbyManagerLocal : NetworkManager
         MenuBehavior.Instance.ControlVideo("Mute");
         NetworkServer.SendToAll(new MirrorTransport.MessageCommand() {message = "Mute"});
     }
+    public void CommandChangeVolumePower(float power)
+    {
+        _menuBehavior.ChangeVolumePower(power);
+        NetworkServer.SendToAll(new MirrorTransport.VolumePower(){volumePower = power});
+    }
     public void CommandRebootVideo()
     {
         MenuBehavior.Instance.ControlVideo("Reboot");
@@ -72,7 +72,6 @@ public class LobbyManagerLocal : NetworkManager
         MenuBehavior.Instance.ChooseVideo(_nameVideo);
         NetworkServer.SendToAll(new MirrorTransport.NameVideo() {nameVideo = _nameVideo});
     }
-
     public void SendData(byte[] _data, string _format, string _name)
     {
         NetworkServer.SendToAll(new MirrorTransport.SendDataFile() {data = _data, format = _format, name = _name});
@@ -87,6 +86,8 @@ public class LobbyManagerLocal : NetworkManager
         networkDiscovery.StartDiscovery();
         yield return new WaitForSeconds(1f);
         _Hud.Search();
+        yield return new WaitForSeconds(1f);
+        NetworkClient.Send(new MirrorTransport.DataClient(){name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good"});
     }
    
 }
