@@ -30,7 +30,7 @@ public class LobbyManagerLocal : NetworkManager
         }
         else
         {
-            _menuBehavior.UnShowControllMenu();
+            _menuBehavior.UnShowControlMenu();
             StartCoroutine(Connect());
             //StartClient();
         }

@@ -9977,15 +9977,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mediaSource: 1
-  _mediaReference: {fileID: 11400000, guid: 0d696b76d81c0e640a7dbcc2d148b9ec, type: 2}
+  _mediaReference: {fileID: 11400000, guid: dd228857f0bc21b4682b515c2b698543, type: 2}
   _mediaPath:
-    _pathType: 2
-    _path: BigBuckBunnyENG.mp4
+    _pathType: 0
+    _path: 
   _fallbackMediaHints:
     transparency: 0
     alphaPacking: 0
     stereoPacking: 0
-  _autoOpen: 1
+  _autoOpen: 0
   _autoPlayOnStart: 0
   _loop: 1
   _audioVolume: 1

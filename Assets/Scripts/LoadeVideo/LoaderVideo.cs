@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 
 public class LoaderVideo : MonoBehaviour
 {
-    [SerializeField] private Image _image;
     public languagesEnum _LanguagesEnum;
     public LobbyManagerLocal _Lobby;
     [SerializeField] private Sprite[] _envelope = default;
@@ -19,6 +18,7 @@ public class LoaderVideo : MonoBehaviour
     private List<GameObject> _allVideo = new List<GameObject>();
     private List<GameObject> _engVideoPath = new List<GameObject>();
     private List<GameObject> _herbVideoPath = new List<GameObject>();
+    private string _videoList;
     private string _path;
     private int _name;
     private void Awake()
@@ -30,18 +30,25 @@ public class LoaderVideo : MonoBehaviour
     {
         BetterStreamingAssets.Initialize();
         ClearCellVideo();
-        string[] paths = BetterStreamingAssets.GetFiles("/", "*.mp4", SearchOption.AllDirectories);
-        for (int i = 0; i < paths.Length; i++)
+        if (File.Exists(Path.Combine(Application.persistentDataPath, "ListVideo.Json")))
         {
-            _menuBehavior.path.Add(paths[i]);
+            WWW listVideo = new WWW(Path.Combine(Application.persistentDataPath, "ListVideo.Json"));
+            _videoList = listVideo.text;
+            //_videoList.
+            Debug.Log(_path);
+        }
+        string[] allfiles = Directory.GetFiles(Application.persistentDataPath);
+        for (int i = 0; i < allfiles.Length; i++)
+        {
+            _menuBehavior.path.Add(allfiles[i]);
             var cell = Instantiate(_cellVideo, _content.transform);
             _allVideo.Add(cell);
             cell.GetComponent<VideoCell>().SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, _menuBehavior.path[i]);
-            if (paths[i].Contains("ENG"))
+            if (allfiles[i].Contains("ENG"))
             {
                 _engVideoPath.Add(cell);
             }
-            if (paths[i].Contains("HERB"))
+            if (allfiles[i].Contains("HERB"))
             {
                 _herbVideoPath.Add(cell);
             }
@@ -55,15 +62,15 @@ public class LoaderVideo : MonoBehaviour
         };
         foreach(string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         { //открытие формы для загрузки файла
-            Debug.Log(path);
             _path = path;
             _name = Random.Range(1, 1000);
-            File.Copy(path, Path.Combine(Application.streamingAssetsPath, $"{_name}.mp4"));
+            File.Copy(path, Path.Combine(Application.persistentDataPath, $"{_name}.mp4"));
+            _videoList += $",{_name}";
+            File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), _videoList);
             LoadVideo();
             //AssetDatabase.Refresh();
         }
     }
-
     public void SendVideo()
     {
         byte[] massByteToFile = File.ReadAllBytes(_path);

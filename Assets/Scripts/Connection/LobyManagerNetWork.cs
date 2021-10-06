@@ -61,7 +61,7 @@ public class LobyManagerNetWork : MonoBehaviourPunCallbacks
         Debug.Log($"Conect {_namePlayer} in {_nameRoom}");
         if (!PhotonNetwork.IsMasterClient)
         {
-            _menuBehavior.UnShowControllMenu();
+            _menuBehavior.UnShowControlMenu();
         }
         //update stats in room
         View.RPC("RoomState", RpcTarget.MasterClient);

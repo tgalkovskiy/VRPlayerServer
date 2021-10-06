@@ -22,6 +22,7 @@ public class MenuBehavior : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
          Instance = this;
          _loaderVideo = GetComponent<LoaderVideo>();
     }
@@ -38,7 +39,7 @@ public class MenuBehavior : MonoBehaviour
     public void ChooseVideo(int index)
    {
         Debug.Log(index);
-        _mediaPlayer.OpenMedia(MediaPathType.RelativeToStreamingAssetsFolder, path[index], false);
+        _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path[index], false);
    }
     public void OpenScene(int index)
     {
@@ -60,7 +61,7 @@ public class MenuBehavior : MonoBehaviour
         _mediaPlayer.gameObject.SetActive(true);
    }
     //for client
-   public void UnShowControllMenu()
+   public void UnShowControlMenu()
    {
         //_pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
@@ -69,7 +70,8 @@ public class MenuBehavior : MonoBehaviour
    public void GetData(byte[] data, string format, string name)
    {
        Debug.Log(data.Length);
-       File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath, $"{name}{format}"), data);
+       File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.mp4"), data);
+       File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), name);
        _loaderVideo.LoadVideo();
        //AssetDatabase.Refresh();
    }
