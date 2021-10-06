@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using SFB;
@@ -34,25 +35,25 @@ public class LoaderVideo : MonoBehaviour
         {
             WWW listVideo = new WWW(Path.Combine(Application.persistentDataPath, "ListVideo.Json"));
             _videoList = listVideo.text;
-            //_videoList.
-            Debug.Log(_path);
-        }
-        string[] allfiles = Directory.GetFiles(Application.persistentDataPath);
-        for (int i = 0; i < allfiles.Length; i++)
-        {
-            _menuBehavior.path.Add(allfiles[i]);
-            var cell = Instantiate(_cellVideo, _content.transform);
-            _allVideo.Add(cell);
-            cell.GetComponent<VideoCell>().SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, _menuBehavior.path[i]);
-            if (allfiles[i].Contains("ENG"))
+            string[] _dataList = _videoList.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < _dataList.Length; i++)
             {
-                _engVideoPath.Add(cell);
-            }
-            if (allfiles[i].Contains("HERB"))
-            {
-                _herbVideoPath.Add(cell);
+                _menuBehavior.path.Add(Path.Combine(Application.persistentDataPath, $"{_dataList[i]}.mp4"));
+                var cell = Instantiate(_cellVideo, _content.transform);
+                _allVideo.Add(cell);
+                cell.GetComponent<VideoCell>()
+                    .SetParamertsCell(_envelope[Random.Range(0, _envelope.Length)], i, _menuBehavior.path[i]);
+                if (_dataList[i].Contains("ENG"))
+                {
+                    _engVideoPath.Add(cell);
+                }
+                if (_dataList[i].Contains("HERB"))
+                {
+                    _herbVideoPath.Add(cell);
+                }
             }
         }
+        //string[] allfiles = Directory.GetFiles(Application.persistentDataPath);
     }
     public void OpenFile()
     {
@@ -65,7 +66,7 @@ public class LoaderVideo : MonoBehaviour
             _path = path;
             _name = Random.Range(1, 1000);
             File.Copy(path, Path.Combine(Application.persistentDataPath, $"{_name}.mp4"));
-            _videoList += $",{_name}";
+            _videoList += $"{_name} ";
             File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), _videoList);
             LoadVideo();
             //AssetDatabase.Refresh();
