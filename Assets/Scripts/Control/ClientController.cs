@@ -37,8 +37,8 @@ public class ClientController : MonoBehaviour
 
     public void OnConnected()
     {
-        network.SendCommand(new DeviceInfo
-            { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
+        // network.SendCommand(new DeviceInfo
+        //     { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
         Debug.Log("DeviceInfo sent");
     }
     

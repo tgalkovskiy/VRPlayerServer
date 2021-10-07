@@ -24,17 +24,20 @@ public class LobbyManagerLocal : NetworkManager
         _client = ClientController.Instance;
         networkDiscovery = GetComponent<NetworkDiscovery>();
         _Hud = GetComponent<NetworkDiscoveryHUD>();
+        var mirrorTransport = new MirrorTransport();
         if (isServer)
         {
-            serverController.Init(new MirrorTransport());
+            mirrorTransport.InitServer();
+            serverController.Init(mirrorTransport);
             serverController.ShowControlMenu();
             StartServer();
             networkDiscovery.AdvertiseServer();
         }
         else
         {
+            mirrorTransport.InitClient();
             serverController.UnShowControlMenu();
-            _client.Init(new MirrorTransport());
+            _client.Init(mirrorTransport);
             StartCoroutine(Connect());
         }
     }

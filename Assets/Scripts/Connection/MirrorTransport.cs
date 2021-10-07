@@ -33,10 +33,16 @@ public class MirrorTransport : INetwork, INetworkServer
 {
     EventStream<NetworkCommand> _stream = new EventStream<NetworkCommand>();
 
-    public void Init()
+    public void InitClient()
     {
         if (!NetworkClient.active) return;
         NetworkClient.RegisterHandler<MirrorCommand>(CommandReceived);
+    }
+    
+    public void InitServer()
+    {
+        if (!NetworkServer.active) return;
+        NetworkServer.RegisterHandler<MirrorCommand>(CommandReceived);
     }
 
     private void CommandReceived(NetworkConnection connection, MirrorCommand command)
