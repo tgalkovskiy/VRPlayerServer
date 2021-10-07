@@ -64,6 +64,7 @@ public class ServerController : ConnectableMonoBehaviour
             switch (c)
             {
                 case DeviceInfo info: UpdateList(info.name, info.battery, info.connection); break;
+                //case VideoPath _path: OpenVideo(_path.path); Debug.Log("video chose"); break;
             }
         });
     }
@@ -78,6 +79,10 @@ public class ServerController : ConnectableMonoBehaviour
         }
     }
 
+    public void OpenVideo(string path)
+    {
+        _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path, false);
+    }
     public void UpdateListDevise(List<string> devises)
     {
         string list = null;

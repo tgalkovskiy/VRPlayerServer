@@ -26,19 +26,22 @@ public class ClientController : MonoBehaviour
             Debug.Log("Client command received");
             switch (c)
             {
-                case ClientState st : state.UpdateFrom(st); break;
+                case ClientState st : state.UpdateFrom(st); OpenVideo(); break;
                 case SendDataFile data : DataManager.Instance.SaveDataFile(data.data, data.format, data.name); break;
-                case NumberSceneOpen n : OpenScene(n.numberScene);
-                    break;
+                case NumberSceneOpen n : OpenScene(n.numberScene); break;
+                
             }
         });
         state.BindToPlayer(_mediaPlayer);
-        
         network.SendCommand(new DeviceInfo
             { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
         Debug.Log("DeviceInfo sent");
     }
     
+    public void OpenVideo()
+    {
+        state.BindToPlayer(_mediaPlayer);
+    }
     public void OpenScene(int index)
     {
         SceneManager.LoadScene(index);

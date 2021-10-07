@@ -5773,8 +5773,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CommandControl, Assembly-CSharp
+      - m_Target: {fileID: 1446788800}
+        m_TargetAssemblyTypeName: ServerController, Assembly-CSharp
         m_MethodName: OpenScene
         m_Mode: 3
         m_Arguments:

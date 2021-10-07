@@ -24,6 +24,10 @@ public partial class DeviceInfo : NetworkCommand
     public string connection;
 }
 
+public partial class VideoPath : NetworkCommand
+{
+    public string path;
+}
 public struct MirrorCommand : NetworkMessage
 {
     public byte[] data;
