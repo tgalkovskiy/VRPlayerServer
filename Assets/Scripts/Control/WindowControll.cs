@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 public class WindowControll : MonoBehaviour
 {
     [SerializeField] private GameObject _chooseVideoPanel = default;
+    [SerializeField] private GameObject _content = default;
+    [SerializeField] private GameObject _namePanel = default;
     [SerializeField] private GameObject _VideoPanel = default;
     [SerializeField] private GameObject _chooseExpPanel = default;
     [SerializeField] private GameObject _chooseFavorit = default;
@@ -19,12 +21,14 @@ public class WindowControll : MonoBehaviour
     [SerializeField] private Text _videoDescription = default;
     public static WindowControll Instance;
     private bool isScalePreview = false;
-
+    private string _nameCategory;
+    
     public Button play;
     public Button pause;
     public Button stop;
     public Button back;
     public Slider volume;
+    public Slider time;
    
     private void Awake()
     {
@@ -70,12 +74,25 @@ public class WindowControll : MonoBehaviour
         _chooseFavorit.SetActive(false);
         _chooseEvent.SetActive(false);
     }
+    public void OpenDialogCategory()
+    {
+        _namePanel.SetActive(true);
+    }
+    public void GetNameCategory(InputField _field)
+    {
+        _nameCategory = _field.text;
+    }
+    public void CreateCategory(CategoryCell _categoryCell)
+    {
+       var category = Instantiate(_categoryCell, _content.transform);
+       category.SetName(_nameCategory);
+       _namePanel.SetActive(false);
+    }
     public void ChangeVideoPanel(Sprite sprite, string description)
     {
         _videoIcon.sprite = sprite;
         _videoDescription.text = description;
     }
-
     public void ScalePanelPreview(GameObject gameObject)
     {
         isScalePreview = !isScalePreview;
