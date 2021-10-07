@@ -58,7 +58,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 if (item is VideoItem) return PrefabRef<ReusableView>.ByType(typeof(VideoCell));
                 else if (item is VideoCategory) return PrefabRef<ReusableView>.ByType(typeof(CategoryCell));
                 else throw new NotImplementedException();
-            }, options: PresentOptions.UseChildWithSameTypeAsView
+            }, options: PresentOptions.UseChildWithSameTypeAsView | PresentOptions.PreserveSiblingOrder
         );
     }
 

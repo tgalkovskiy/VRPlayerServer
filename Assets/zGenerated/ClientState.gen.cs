@@ -25,6 +25,7 @@ public partial class ClientState : IUpdatableFrom<ClientState>, IUpdatableFrom<P
         playing.value = otherConcrete.playing.value;
         time.value = otherConcrete.time.value;
         volume.value = otherConcrete.volume.value;
+        mute.value = otherConcrete.mute.value;
     }
     public void UpdateFrom(ClientState other) 
     {
@@ -45,6 +46,7 @@ public partial class ClientState : IUpdatableFrom<ClientState>, IUpdatableFrom<P
         playing.value = reader.ReadBoolean();
         time.value = reader.ReadSingle();
         volume.value = reader.ReadSingle();
+        mute.value = reader.ReadBoolean();
     }
     public override void Serialize(BinaryWriter writer) 
     {
@@ -57,6 +59,7 @@ public partial class ClientState : IUpdatableFrom<ClientState>, IUpdatableFrom<P
         writer.Write(playing.value);
         writer.Write(time.value);
         writer.Write(volume.value);
+        writer.Write(mute.value);
     }
     public  ClientState() 
     {
@@ -64,6 +67,7 @@ public partial class ClientState : IUpdatableFrom<ClientState>, IUpdatableFrom<P
         playing = new ZergRush.ReactiveCore.Cell<System.Boolean>();
         time = new ZergRush.ReactiveCore.Cell<System.Single>();
         volume = new ZergRush.ReactiveCore.Cell<System.Single>();
+        mute = new ZergRush.ReactiveCore.Cell<System.Boolean>();
     }
     public override ushort GetClassId() 
     {

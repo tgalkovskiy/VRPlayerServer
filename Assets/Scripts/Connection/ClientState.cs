@@ -11,6 +11,7 @@ public partial class ClientState : NetworkCommand, ISerializable
     public Cell<bool> playing;
     public Cell<float> time;
     public Cell<float> volume;
+    public Cell<bool> mute;
 
     public void BindToPlayer(MediaPlayer _mediaPlayer)
     {
@@ -32,6 +33,10 @@ public partial class ClientState : NetworkCommand, ISerializable
          volume.Bind(v =>
          {
              _mediaPlayer.AudioVolume = v;
+         });
+         mute.Bind(v =>
+         {
+             _mediaPlayer.AudioMuted = v;
          });
          time.ListenUpdates(time =>
          {
