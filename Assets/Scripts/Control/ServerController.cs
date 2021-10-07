@@ -107,12 +107,13 @@ public class ServerController : ConnectableMonoBehaviour
         _mediaPlayer.gameObject.SetActive(true);
     }
 
-    public void SyncClient()
+    /*public void SyncClient()
     {
         var playingItemValue = state.playingItem.value;
         DataManager.Instance.SendDataFile(playingItemValue.fileName, playingItemValue.filePath);
-    }
+    }*/
 
+    
     public void SendData(byte[] _data, string _format, string _name)
     {
         network.SendCommandAll(new SendDataFile { data = _data, format = _format, name = _name });

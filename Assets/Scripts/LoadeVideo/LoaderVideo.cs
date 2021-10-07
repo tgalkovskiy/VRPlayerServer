@@ -16,7 +16,9 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     ServerLibrary library;
     static string libPath = "lib";
-
+    private string path;
+    private string name;
+    
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
     ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
@@ -106,7 +108,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
         foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
             var name = Path.GetFileNameWithoutExtension(path);
-
+            this.name = name;
+            this.path = path;
             var fillVideoPath = GetFillVideoPath(name);
             if (File.Exists(fillVideoPath))
             {
@@ -121,5 +124,11 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 fileName = name
             });
         }
+    }
+
+    public void SendData()
+    {
+        byte[] mass = File.ReadAllBytes(this.path);
+        ServerController.Instance.SendData(mass, "mp4", this.name);
     }
 }

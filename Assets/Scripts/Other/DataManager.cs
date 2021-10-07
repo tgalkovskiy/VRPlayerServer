@@ -34,11 +34,8 @@ public class DataManager : MonoBehaviour
         }
         _progressSlider.gameObject.SetActive(false);
     }
-    public async void SaveDataFile(byte[] data, string format, string name)
+    public void SaveDataFile(byte[] data, string format, string name)
     {
-        await Task.Run(() =>
-        {
-            File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.{format}"), data);
-        }); 
+        File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.{format}"), data);
     }
 }
