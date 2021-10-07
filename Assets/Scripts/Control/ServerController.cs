@@ -55,7 +55,6 @@ public class ServerController : ConnectableMonoBehaviour
             state.time.value = 0;
             state.playing.value = false;
         });
-
         state.BindToPlayer(_mediaPlayer);
         state.updated.Subscribe(() => { stateDirty = true; });
         network.commandReceived.Subscribe(c =>
