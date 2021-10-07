@@ -85,7 +85,7 @@ public class WindowControll : MonoBehaviour
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
-        MenuBehavior.Instance.videoLoader.AddCategory(_nameCategory);
+        ServerController.Instance.videoLoader.AddCategory(_nameCategory);
        _namePanel.SetActive(false);
     }
     public void ChangeVideoPanel(Sprite sprite, string description)

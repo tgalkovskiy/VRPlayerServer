@@ -13,7 +13,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         ClientState = 2,
         NumberSceneOpen = 3,
         SendDataFile = 4,
-        DataClient = 10,
+        DeviceInfo = 7,
         VideoLibItem = 5,
         LibraryItem = 11,
         VideoItem = 6,
@@ -29,10 +29,10 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         () => new SendDataFile(), // 4
         () => new VideoLibItem(), // 5
         () => new VideoItem(), // 6
-        () => null, // 7
+        () => new DeviceInfo(), // 7
         () => new ServerLibrary(), // 8
         () => new NetworkCommand(), // 9
-        () => new DataClient(), // 10
+        () => null, // 10
         () => new LibraryItem(), // 11
         () => new VideoCategory(), // 12
     };

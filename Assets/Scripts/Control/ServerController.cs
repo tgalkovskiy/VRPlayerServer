@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using UnityEditor;
 
-public class MenuBehavior : ConnectableMonoBehaviour
+public class ServerController : ConnectableMonoBehaviour
 {
     [SerializeField] private GameObject _canvasControl = default;
     [SerializeField] private Text _listDevise = default;
@@ -16,7 +16,7 @@ public class MenuBehavior : ConnectableMonoBehaviour
     private bool mute = false;
     public List<string> path = new List<string>();
     private List<string> devises = new List<string>();
-    public static MenuBehavior Instance;
+    public static ServerController Instance;
     public LobbyManagerLocal _Lobby;
 
     public ClientState state = new ClientState();
@@ -62,6 +62,7 @@ public class MenuBehavior : ConnectableMonoBehaviour
         {
             switch (c)
             {
+                case DeviceInfo info: UpdateList(info.name, info.battery, info.connection); break;
             }
         });
     }

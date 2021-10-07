@@ -18,7 +18,6 @@ public class LoaderVideo : ConnectableMonoBehaviour
     static string libPath = "lib";
 
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
-
     ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
     IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
@@ -43,7 +42,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 {
                     var view = (VideoCell)cell;
                     view.SetParametersCell(_envelope.RandomElement(ZergRandom.global), vi.fileName, vi.description);
-                    cell.connections += view.selected.Subscribe(() => MenuBehavior.Instance.state.playingItem.value = vi);
+                    cell.connections += view.selected.Subscribe(() => ServerController.Instance.state.playingItem.value = vi);
                 }
                 else if (item is VideoCategory cat)
                 {

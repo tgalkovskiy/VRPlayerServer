@@ -17,7 +17,7 @@ public partial class SendDataFile : NetworkCommand
     public string name;
 }
 
-public partial class DataClient : NetworkCommand
+public partial class DeviceInfo : NetworkCommand
 {
     public string name;
     public int battery;

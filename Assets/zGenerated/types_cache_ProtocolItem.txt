@@ -4,8 +4,8 @@ NumberSceneOpen 3
 SendDataFile 4
 VideoLibItem 5
 VideoItem 6
+DeviceInfo 7
 ServerLibrary 8
 NetworkCommand 9
-DataClient 10
 LibraryItem 11
 VideoCategory 12

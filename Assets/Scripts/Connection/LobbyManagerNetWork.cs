@@ -12,7 +12,7 @@ public class LobbyManagerNetWork : MonoBehaviourPunCallbacks
     #region Field
     [SerializeField] private Text _nameText = default;
    [SerializeField] private string _gameVersion = default;
-   private MenuBehavior _menuBehavior = default;
+   private ServerController serverController = default;
    private PhotonView View;
    public static LobbyManagerNetWork Instance;
    private string _namePlayer;
@@ -27,7 +27,7 @@ public class LobbyManagerNetWork : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        _menuBehavior = MenuBehavior.Instance;
+        serverController = ServerController.Instance;
        _namePlayer = SystemInfo.deviceName;
        _nameText.text = _namePlayer;
        _nameRoom = "VR360";
@@ -54,14 +54,14 @@ public class LobbyManagerNetWork : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("Room Create");
-        _menuBehavior.ShowControlMenu();
+        serverController.ShowControlMenu();
     }
     public override void OnJoinedRoom()
     {
         Debug.Log($"Conect {_namePlayer} in {_nameRoom}");
         if (!PhotonNetwork.IsMasterClient)
         {
-            _menuBehavior.UnShowControlMenu();
+            serverController.UnShowControlMenu();
         }
         //update stats in room
         View.RPC("RoomState", RpcTarget.MasterClient);

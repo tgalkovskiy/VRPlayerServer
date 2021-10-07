@@ -11,7 +11,7 @@ using UnityEditor;
 public class LobbyManagerLocal : NetworkManager
 {
     [SerializeField] private bool isServer = default;
-    private MenuBehavior _menuBehavior;
+    private ServerController serverController;
     private ClientController _client;
     private NetworkDiscovery networkDiscovery;
     private NetworkDiscoveryHUD _Hud;
@@ -20,20 +20,20 @@ public class LobbyManagerLocal : NetworkManager
     public void OfflineStart()
     {
         Application.targetFrameRate = 60;
-        _menuBehavior = MenuBehavior.Instance;
+        serverController = ServerController.Instance;
         _client = ClientController.Instance;
         networkDiscovery = GetComponent<NetworkDiscovery>();
         _Hud = GetComponent<NetworkDiscoveryHUD>();
         if (isServer)
         {
-            _menuBehavior.Init(new MirrorTransport());
-            _menuBehavior.ShowControlMenu();
+            serverController.Init(new MirrorTransport());
+            serverController.ShowControlMenu();
             StartServer();
             networkDiscovery.AdvertiseServer();
         }
         else
         {
-            _menuBehavior.UnShowControlMenu();
+            serverController.UnShowControlMenu();
             _client.Init(new MirrorTransport());
             StartCoroutine(Connect());
         }

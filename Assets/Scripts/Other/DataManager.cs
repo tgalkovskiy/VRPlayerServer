@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class DataManager : MonoBehaviour
 {
     public Slider _progressSlider;
-    [FormerlySerializedAs("_lobbyManagerLocal")] public MenuBehavior _serverMenu;
+    [FormerlySerializedAs("_lobbyManagerLocal")] public ServerController _serverMenu;
     public static DataManager Instance;
     private void Awake()
     {
