@@ -10,8 +10,7 @@ public partial class ProtocolItem : ISerializable {}
 public partial class VideoLibItem : ProtocolItem {}
 
 public partial class LibraryItem : ProtocolItem
-{
-    
+{ 
 }
 
 public partial class VideoItem : LibraryItem

@@ -122,9 +122,4 @@ public class LoaderVideo : ConnectableMonoBehaviour
             });
         }
     }
-
-    public void SendData()
-    {
-        //MenuBehavior.Instance.SendData();
-    }
 }

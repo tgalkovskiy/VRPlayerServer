@@ -19,31 +19,26 @@ public class DataManager : MonoBehaviour
     {
         IProgress<int> _progress = new Progress<int>(i => _progressSlider.value = i);
         _progressSlider.gameObject.SetActive(true);
+        
+        await Task.Run(() =>
+        {
+            byte[] massByteToFile = File.ReadAllBytes(_pathFile);
+            _serverMenu.SendData(massByteToFile, ".mp4", _name);
+        }); 
+        
         for (int i = 0; i <= 30; i++)
         {
-            await Task.Run(() =>
-            {
-                byte[] massByteToFile = File.ReadAllBytes(_pathFile);
-                _serverMenu.SendData(massByteToFile, ".mp4", _name);
-            }); 
             Debug.Log("Progress : " + i);
             _progress.Report(i);
+            await Task.Delay(100);
         }
         _progressSlider.gameObject.SetActive(false);
     }
     public async void SaveDataFile(byte[] data, string format, string name)
     {
-        IProgress<int> _progress = new Progress<int>(i => _progressSlider.value = i);
-        _progressSlider.gameObject.SetActive(true);
-        for (int i = 0; i <= 100; i++)
+        await Task.Run(() =>
         {
-            await Task.Run(() =>
-            {
-                File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.mp4"), data);
-                File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), name);
-            }); 
-            Debug.Log("Progress : " + i);
-            _progress.Report(i);
-        }
+            File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.{format}"), data);
+        }); 
     }
 }
