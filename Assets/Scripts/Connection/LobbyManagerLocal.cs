@@ -30,33 +30,32 @@ public class LobbyManagerLocal : NetworkManager
             _menuBehavior.ShowControlMenu();
             StartServer();
             networkDiscovery.AdvertiseServer();
-            //StartCoroutine(Connect());
         }
         else
         {
             _menuBehavior.UnShowControlMenu();
             _client.Init(new MirrorTransport());
             StartCoroutine(Connect());
-            //StartClient();
         }
     }
-    
     public void GetAllConnection()
     {
-        List<string> connection = new List<string>();
+        /*List<string> connection = new List<string>();
         for(int i = 0; i < NetworkServer.connections.Count; i++)
         {
             connection.Add(NetworkServer.connections[i+1].address);
         }
-        MenuBehavior.Instance.UpdateListDevise(connection);
+        MenuBehavior.Instance.UpdateListDevise(connection);*/
     }
-    
     IEnumerator Connect()
     {
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
         yield return new WaitForSeconds(1f);
         _Hud.Search();
+        yield return new WaitForSeconds(1f);
+        new MirrorTransport().SendCommand(new DataClient
+            { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
     }
    
 }

@@ -17,6 +17,13 @@ public partial class SendDataFile : NetworkCommand
     public string name;
 }
 
+public partial class DataClient : NetworkCommand
+{
+    public string name;
+    public int battery;
+    public string connection;
+}
+
 public struct MirrorCommand : NetworkMessage
 {
     public byte[] data;
@@ -25,12 +32,13 @@ public struct MirrorCommand : NetworkMessage
 public class MirrorTransport : INetwork, INetworkServer
 {
     EventStream<NetworkCommand> _stream = new EventStream<NetworkCommand>();
-    
+
     public void Init()
     {
         if (!NetworkClient.active) return;
         NetworkClient.RegisterHandler<MirrorCommand>(CommandReceived);
     }
+
     private void CommandReceived(NetworkConnection connection, MirrorCommand command)
     {
         _stream.Send(command.data.LoadFromBinary<NetworkCommand>());
@@ -38,12 +46,12 @@ public class MirrorTransport : INetwork, INetworkServer
 
     public void SendCommand(NetworkCommand command)
     {
-        NetworkClient.Send(new MirrorCommand{data = command.SaveToBinary()});
+        NetworkClient.Send(new MirrorCommand { data = command.SaveToBinary() });
     }
-    
+
     public void SendCommandAll(NetworkCommand command)
     {
-        NetworkServer.SendToAll(new MirrorCommand{data = command.SaveToBinary()});
+        NetworkServer.SendToAll(new MirrorCommand { data = command.SaveToBinary() });
     }
 
     public IEventStream<NetworkCommand> commandReceived => _stream;

@@ -10,14 +10,14 @@ using UnityEditor;
 
 public class MenuBehavior : ConnectableMonoBehaviour
 { 
-    [SerializeField] private GameObject _canvasControl = default; 
-    [SerializeField] private GameObject _pico = default;
+    [SerializeField] private GameObject _canvasControl = default;
     [SerializeField] private Text _listDevise = default;
     [SerializeField] private MediaPlayer _mediaPlayer = default;
-    public List<string> path = new List<string>();
     private bool mute = false;
-    private LoaderVideo _loaderVideo;
+    public List<string> path = new List<string>();
+    private List<string> devises = new List<string>();
     public static MenuBehavior Instance;
+    public LobbyManagerLocal _Lobby;
 
     public ClientState state = new ClientState();
     public INetworkServer network;
@@ -29,8 +29,10 @@ public class MenuBehavior : ConnectableMonoBehaviour
 
     public void Init(INetworkServer net)
     {
+        Application.targetFrameRate = 60;
+        Instance = this;
+        
         this.network = net;
-         _loaderVideo = GetComponent<LoaderVideo>();
          
          state.BindToPlayer(_mediaPlayer);
          state.updated.Subscribe(() => {
@@ -43,24 +45,30 @@ public class MenuBehavior : ConnectableMonoBehaviour
              }
          });
     }
-   public void UpdateListDevise(List<string> device)
-   {
-        string list =null;
-        for(int i =0;i<device.Count; i++)
+
+    public void UpdateListDevise(List<string> devises)
+    {
+        string list = null;
+        for (int i = 0; i < devises.Count; i++)
         {
-            list += "\n"+device[i];
+            list += "\n" + devises[i];
         }
         _listDevise.text = list;
-   }
-    //for master
+    }
+
+    public void UpdateList(string name, int batteryLevel, string connection)
+    {
+        devises.Add($"{name} {batteryLevel} {connection}");
+        UpdateListDevise(devises);
+    }
     public void ShowControlMenu()
-   {
+    {
         _canvasControl.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
-   }
-    //for client
-   public void UnShowControlMenu()
-   {
+    }
+
+    public void UnShowControlMenu()
+    {
         //_pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
    }

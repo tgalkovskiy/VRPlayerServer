@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using SFB;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using ZergRush;
@@ -49,12 +48,9 @@ public class LoaderVideo : ConnectableMonoBehaviour
             });
         }
     }
-    public void SendVideo()
+
+    public void SendData()
     {
-        //ClientController.Instance.
-        // byte[] massByteToFile = File.ReadAllBytes(_path);
-        // _Lobby.SendData(massByteToFile, ".mp4", _name.ToString());
-        //File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath,"SavedVideo.mp4"), obj);
-        //AssetDatabase.Refresh();
+        GetComponent<DataManager>().SendDataFile(_path, _Name);
     }
 }
