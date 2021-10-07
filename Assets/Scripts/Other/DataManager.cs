@@ -2,23 +2,21 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
     public Slider _progressSlider;
-    public LobbyManagerLocal _lobbyManagerLocal;
-    private LoaderVideo _loaderVideo;
+    [FormerlySerializedAs("_lobbyManagerLocal")] public MenuBehavior _serverMenu;
     public static DataManager Instance;
     private void Awake()
     {
         Instance = this;
-        _loaderVideo = GetComponent<LoaderVideo>();
     }
     
     public async void SendDataFile(string _pathFile, string _name)
     {
-        
         IProgress<int> _progress = new Progress<int>(i => _progressSlider.value = i);
         _progressSlider.gameObject.SetActive(true);
         for (int i = 0; i <= 30; i++)
@@ -26,7 +24,7 @@ public class DataManager : MonoBehaviour
             await Task.Run(() =>
             {
                 byte[] massByteToFile = File.ReadAllBytes(_pathFile);
-                _lobbyManagerLocal.SendData(massByteToFile, ".mp4", _name);
+                _serverMenu.SendData(massByteToFile, ".mp4", _name);
             }); 
             Debug.Log("Progress : " + i);
             _progress.Report(i);

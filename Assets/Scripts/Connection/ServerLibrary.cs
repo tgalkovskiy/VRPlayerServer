@@ -5,7 +5,7 @@ using ZergRush;
 using ZergRush.CodeGen;
 using ZergRush.ReactiveCore;
 
-[GenTask(GenTaskFlags.Serialization | GenTaskFlags.PolymorphicConstruction | GenTaskFlags.UpdateFrom)]
+[GenTask(GenTaskFlags.Serialization | GenTaskFlags.PolymorphicConstruction | GenTaskFlags.UpdateFrom | GenTaskFlags.DefaultConstructor)]
 public partial class ProtocolItem : ISerializable {}
 
 public partial class VideoLibItem : ProtocolItem {}
@@ -17,7 +17,7 @@ public partial class VideoItem : VideoLibItem
     public string fileName;
     public string soundFilename;
     public string subtitlesFileName;
-    public string filePath => fileName;
+    public string filePath => LoaderVideo.GetFillVideoPath(fileName);
 }
 
 public partial class VideoFolder : VideoLibItem

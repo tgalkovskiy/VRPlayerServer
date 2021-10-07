@@ -30,6 +30,11 @@ public partial class ServerLibrary : IUpdatableFrom<ServerLibrary>, IUpdatableFr
         library.Serialize(writer);
         playlists.Serialize(writer);
     }
+    public  ServerLibrary() 
+    {
+        library = new ZergRush.ReactiveCore.ReactiveCollection<VideoItem>();
+        playlists = new ZergRush.ReactiveCore.ReactiveCollection<VideoFolder>();
+    }
     public override ushort GetClassId() 
     {
     return (System.UInt16)Types.ServerLibrary;

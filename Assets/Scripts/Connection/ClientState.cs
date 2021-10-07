@@ -6,9 +6,11 @@ using ZergRush.ReactiveCore;
 [GenTask(GenTaskFlags.UpdateFrom)]
 public partial class ClientState : NetworkCommand, ISerializable
 {
+    [CanBeNull]
     public Cell<VideoItem> playingItem;
     public Cell<bool> playing;
     public Cell<float> time;
+    public Cell<float> volume;
 
     public void BindToPlayer(MediaPlayer _mediaPlayer)
     {
@@ -21,6 +23,10 @@ public partial class ClientState : NetworkCommand, ISerializable
          {
              if (playing) _mediaPlayer.Play();
              else _mediaPlayer.Stop();
+         });
+         volume.Bind(v =>
+         {
+             _mediaPlayer.AudioVolume = v;
          });
          time.ListenUpdates(time =>
          {

@@ -27,6 +27,10 @@ public partial class NumberSceneOpen : IUpdatableFrom<NumberSceneOpen>, IUpdatab
         base.Serialize(writer);
         writer.Write(numberScene);
     }
+    public  NumberSceneOpen() 
+    {
+
+    }
     public override ushort GetClassId() 
     {
     return (System.UInt16)Types.NumberSceneOpen;

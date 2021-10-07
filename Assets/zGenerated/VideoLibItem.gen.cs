@@ -26,6 +26,10 @@ public partial class VideoLibItem : IUpdatableFrom<VideoLibItem>, IUpdatableFrom
         base.Serialize(writer);
 
     }
+    public  VideoLibItem() 
+    {
+
+    }
     public override ushort GetClassId() 
     {
     return (System.UInt16)Types.VideoLibItem;

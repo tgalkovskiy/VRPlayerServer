@@ -39,6 +39,14 @@ public partial class VideoItem : IUpdatableFrom<VideoItem>, IUpdatableFrom<Proto
         writer.Write(soundFilename);
         writer.Write(subtitlesFileName);
     }
+    public  VideoItem() 
+    {
+        id = string.Empty;
+        description = string.Empty;
+        fileName = string.Empty;
+        soundFilename = string.Empty;
+        subtitlesFileName = string.Empty;
+    }
     public override ushort GetClassId() 
     {
     return (System.UInt16)Types.VideoItem;

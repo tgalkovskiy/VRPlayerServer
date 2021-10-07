@@ -13,6 +13,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         ClientState = 2,
         NumberSceneOpen = 3,
         SendDataFile = 4,
+        DataClient = 10,
         VideoLibItem = 5,
         VideoItem = 6,
         VideoFolder = 7,
@@ -30,6 +31,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         () => new VideoFolder(), // 7
         () => new ServerLibrary(), // 8
         () => new NetworkCommand(), // 9
+        () => new DataClient(), // 10
     };
     public static ProtocolItem CreatePolymorphic(System.UInt16 typeId) {
         return polymorphConstructors[typeId]();
@@ -43,6 +45,10 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
 
     }
     public virtual void Serialize(BinaryWriter writer) 
+    {
+
+    }
+    public  ProtocolItem() 
     {
 
     }

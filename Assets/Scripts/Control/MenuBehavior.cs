@@ -9,7 +9,7 @@ using System.IO;
 using UnityEditor;
 
 public class MenuBehavior : ConnectableMonoBehaviour
-{ 
+{
     [SerializeField] private GameObject _canvasControl = default;
     [SerializeField] private Text _listDevise = default;
     [SerializeField] private MediaPlayer _mediaPlayer = default;
@@ -22,28 +22,54 @@ public class MenuBehavior : ConnectableMonoBehaviour
     public ClientState state = new ClientState();
     public INetworkServer network;
 
+    bool stateDirty;
+
     void Awake()
     {
-         Instance = this;
+        Instance = this;
     }
 
     public void Init(INetworkServer net)
     {
         Application.targetFrameRate = 60;
         Instance = this;
-        
+
         this.network = net;
-         
-         state.BindToPlayer(_mediaPlayer);
-         state.updated.Subscribe(() => {
-             network.SendCommandAll(state);
-         });
-         network.commandReceived.Subscribe(c =>
-         {
-             switch (c)
-             {
-             }
-         });
+        
+        WindowControll.Instance.volume.onValueChanged.AddListener(val => {
+            state.volume.value = val;
+        });
+        WindowControll.Instance.play.Subscribe(() => state.playing.value = !state.playing.value);
+        WindowControll.Instance.pause.Subscribe(() => state.playing.value = false);
+        WindowControll.Instance.stop.Subscribe(() =>
+        {
+            state.playing.value = false;
+            state.time.value = 0;
+        });
+        WindowControll.Instance.back.Subscribe(() =>
+        {
+            state.playingItem.value = null;
+            state.time.value = 0;
+            state.playing.value = false;
+        });
+
+        state.BindToPlayer(_mediaPlayer);
+        state.updated.Subscribe(() => { stateDirty = true; });
+        network.commandReceived.Subscribe(c =>
+        {
+            switch (c)
+            {
+            }
+        });
+    }
+
+    void Update()
+    {
+        if (stateDirty)
+        {
+            stateDirty = false;
+            network.SendCommandAll(state);
+        }
     }
 
     public void UpdateListDevise(List<string> devises)
@@ -53,6 +79,7 @@ public class MenuBehavior : ConnectableMonoBehaviour
         {
             list += "\n" + devises[i];
         }
+
         _listDevise.text = list;
     }
 
@@ -61,6 +88,7 @@ public class MenuBehavior : ConnectableMonoBehaviour
         devises.Add($"{name} {batteryLevel} {connection}");
         UpdateListDevise(devises);
     }
+
     public void ShowControlMenu()
     {
         _canvasControl.SetActive(true);
@@ -71,15 +99,15 @@ public class MenuBehavior : ConnectableMonoBehaviour
     {
         //_pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
-   }
-   
+    }
+
     public void SendData(byte[] _data, string _format, string _name)
     {
-        network.SendCommandAll(new SendDataFile{data = _data, format = _format, name = _name});
+        network.SendCommandAll(new SendDataFile { data = _data, format = _format, name = _name });
     }
-    
+
     public void OpenScene(int index)
     {
-        network.SendCommandAll(new NumberSceneOpen{numberScene = index});
+        network.SendCommandAll(new NumberSceneOpen { numberScene = index });
     }
 }

@@ -27,6 +27,10 @@ public partial class VideoFolder : IUpdatableFrom<VideoFolder>, IUpdatableFrom<P
         base.Serialize(writer);
         videoIds.Serialize(writer);
     }
+    public  VideoFolder() 
+    {
+        videoIds = new System.Collections.Generic.List<VideoItem>();
+    }
     public override ushort GetClassId() 
     {
     return (System.UInt16)Types.VideoFolder;

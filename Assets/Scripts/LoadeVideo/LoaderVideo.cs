@@ -16,9 +16,10 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     ServerLibrary library;
     
+    static string libPath = "lib";
     private void Awake()
     {
-        var filename = "lib";
+        var filename = libPath;
         if (FileWrapper.Exists(filename))
         {
             SerializationTools.LoadFromBinaryFile(filename, out library);
@@ -31,8 +32,25 @@ public class LoaderVideo : ConnectableMonoBehaviour
         connections += library.library.Present(_content.transform, PrefabRef<VideoCell>.Auto(), (item, cell) =>
         {
             cell.SetParamertsCell(_envelope.RandomElement(ZergRandom.global), item.fileName, item.description);
+            cell.connections += cell.selected.Subscribe(() => MenuBehavior.Instance.state.playingItem.value = item);
         });
     }
+
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus) OnApplicationQuit();
+    }
+
+    void OnApplicationQuit()
+    {
+        library.SaveToFile("lib", true);
+    }
+
+    public static string GetFillVideoPath(string fileName)
+    {
+        return Path.Combine(Application.persistentDataPath, $"{fileName}.mp4");
+    }
+
     public void OpenFile()
     {
         var extensions = new [] {  //какие файлы вообще можно открыть
@@ -42,15 +60,18 @@ public class LoaderVideo : ConnectableMonoBehaviour
         
         foreach(string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
+            var name = Path.GetFileNameWithoutExtension(path);
+            File.Copy(path, GetFillVideoPath(name));
+            
             library.library.Add(new VideoItem {
                 id = new GUI().ToString(),
-                fileName = Path.GetFileName(path)
+                fileName = name
             });
         }
     }
 
     public void SendData()
     {
-        GetComponent<DataManager>().SendDataFile(_path, _Name);
+        //GetComponent<DataManager>().SendDataFile(_path, _Name);
     }
 }

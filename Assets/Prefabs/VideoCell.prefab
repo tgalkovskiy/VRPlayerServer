@@ -83,7 +83,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6880592311132612690}
+        m_TargetAssemblyTypeName: VideoCell, Assembly-CSharp
+        m_MethodName: OnToggleValue
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &2338302622816182864
 GameObject:
@@ -183,7 +195,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6880592311132612690}
           m_TargetAssemblyTypeName: VideoCell, Assembly-CSharp
-          m_MethodName: SendNumberVideo
+          m_MethodName: OnPress
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -206,9 +218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 7694368628859247657}
-  _descriptionText: {fileID: 1741753530430361327}
-  number: 0
-  _description: 
+  _name: {fileID: 1741753530430361327}
+  _descriptionText: {fileID: 0}
 --- !u!1 &4232049816403573392
 GameObject:
   m_ObjectHideFlags: 0

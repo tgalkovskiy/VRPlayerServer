@@ -26,6 +26,10 @@ public partial class NetworkCommand : IUpdatableFrom<NetworkCommand>, IUpdatable
         base.Serialize(writer);
 
     }
+    public  NetworkCommand() 
+    {
+
+    }
     public override ushort GetClassId() 
     {
     return (System.UInt16)Types.NetworkCommand;

@@ -19,6 +19,13 @@ public class WindowControll : MonoBehaviour
     [SerializeField] private Text _videoDescription = default;
     public static WindowControll Instance;
     private bool isScalePreview = false;
+
+    public Button play;
+    public Button pause;
+    public Button stop;
+    public Button back;
+    public Slider volume;
+   
     private void Awake()
     {
         if (Instance == null)
