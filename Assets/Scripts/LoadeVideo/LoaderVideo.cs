@@ -61,8 +61,14 @@ public class LoaderVideo : ConnectableMonoBehaviour
         foreach(string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
             var name = Path.GetFileNameWithoutExtension(path);
-            File.Copy(path, GetFillVideoPath(name));
             
+            var fillVideoPath = GetFillVideoPath(name);
+            if (File.Exists(fillVideoPath))
+            {
+                File.Delete(fillVideoPath);    
+            }
+            File.Copy(path, fillVideoPath);
+
             library.library.Add(new VideoItem {
                 id = new GUI().ToString(),
                 fileName = name
