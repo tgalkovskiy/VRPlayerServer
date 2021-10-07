@@ -18,8 +18,10 @@ public class LoaderVideo : ConnectableMonoBehaviour
     static string libPath = "lib";
 
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
-    IReactiveCollection<LibraryItem> itemsToShow =>
-        selectedCat.MapWithDefaultIfNull(c => c.items, library.library).Join();
+
+    ICell<ReactiveCollection<LibraryItem>> currentCollection =>
+        selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
+    IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
 
     private void Awake()
@@ -34,26 +36,28 @@ public class LoaderVideo : ConnectableMonoBehaviour
             library = new ServerLibrary();
         }
 
-        connections += itemsToShow.Present(_content.transform, PrefabRef<VideoCell>.Auto(),
+        connections += itemsToShow.Present(_content.transform, PrefabRef<ReusableView>.Auto(),
             (item, cell) =>
             {
                 if (item is VideoItem vi)
                 {
-                    cell.SetParamertsCell(_envelope.RandomElement(ZergRandom.global), vi.fileName, vi.description);
-                    cell.connections += cell.selected.Subscribe(() => MenuBehavior.Instance.state.playingItem.value = vi);
+                    var view = (VideoCell)cell;
+                    view.SetParametersCell(_envelope.RandomElement(ZergRandom.global), vi.fileName, vi.description);
+                    cell.connections += view.selected.Subscribe(() => MenuBehavior.Instance.state.playingItem.value = vi);
                 }
                 else if (item is VideoCategory cat)
                 {
-                    cell.SetParamertsCell(_envelope.RandomElement(ZergRandom.global), cat.name, "");
-                    cell.connections += cell.selected.Subscribe(() =>
+                    var view = (CategoryCell)cell;
+                    view.SetName(cat.name);
+                    cell.connections += view.selected.Subscribe(() =>
                     {
                         selectedCat.value = cat;
                     });
                 }
             }, prefabSelector: item =>
             {
-                if (item is VideoItem) return PrefabRef<VideoCell>.Auto();
-                else if (item is VideoCategory) return PrefabRef<VideoCell>.Auto();
+                if (item is VideoItem) return PrefabRef<ReusableView>.ByType(typeof(VideoCell));
+                else if (item is VideoCategory) return PrefabRef<ReusableView>.ByType(typeof(CategoryCell));
                 else throw new NotImplementedException();
             }
         );
@@ -78,7 +82,11 @@ public class LoaderVideo : ConnectableMonoBehaviour
     {
         selectedCat.value = null;
     }
-    
+
+    public void AddCategory(string catName)
+    {
+        currentCollection.value.Insert(0, new VideoCategory{name = catName});
+    }
 
     public void OpenFile()
     {
@@ -101,7 +109,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
             File.Copy(path, fillVideoPath);
 
-            library.library.Add(new VideoItem
+            currentCollection.value.Add(new VideoItem
             {
                 id = new GUI().ToString(),
                 fileName = name
@@ -111,6 +119,6 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     public void SendData()
     {
-        MenuBehavior.Instance.SendData();
+        //MenuBehavior.Instance.SendData();
     }
 }

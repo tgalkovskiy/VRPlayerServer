@@ -22,11 +22,14 @@ public class MenuBehavior : ConnectableMonoBehaviour
     public ClientState state = new ClientState();
     public INetworkServer network;
 
+    public LoaderVideo videoLoader;
+
     bool stateDirty;
 
     void Awake()
     {
         Instance = this;
+        videoLoader = GetComponent<LoaderVideo>();
     }
 
     public void Init(INetworkServer net)

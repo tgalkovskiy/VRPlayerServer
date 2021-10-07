@@ -74,6 +74,7 @@ public class WindowControll : MonoBehaviour
         _chooseFavorit.SetActive(false);
         _chooseEvent.SetActive(false);
     }
+    
     public void OpenDialogCategory()
     {
         _namePanel.SetActive(true);
@@ -84,8 +85,7 @@ public class WindowControll : MonoBehaviour
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
-       var category = Instantiate(_categoryCell, _content.transform);
-       category.SetName(_nameCategory);
+        MenuBehavior.Instance.videoLoader.AddCategory(_nameCategory);
        _namePanel.SetActive(false);
     }
     public void ChangeVideoPanel(Sprite sprite, string description)

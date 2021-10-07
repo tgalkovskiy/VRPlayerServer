@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 using ZergRush.ReactiveCore;
 using ZergRush.ReactiveUI;
 
-public class VideoCell : ReusableView
+public class VideoCell : ReusableView, IPointerClickHandler
 {
    [SerializeField]private Image _image = default;
    [SerializeField]private Text _name;
@@ -16,6 +17,8 @@ public class VideoCell : ReusableView
    public Cell<bool> toggle = new Cell<bool>();
    public EventStream selected = new EventStream();
 
+   public override bool autoDisableOnRecycle => true;
+
    public void SetParametersCell(Sprite preview, string name, string _description)
     {
         _image.sprite = preview;
@@ -24,13 +27,13 @@ public class VideoCell : ReusableView
             this._descriptionText.text = _description;
     }
 
-   public void OnPress()
-   {
-       selected.Send();
-   }
-
    public void OnToggleValue(bool value)
    {
        toggle.value = value;
+   }
+
+   public void OnPointerClick(PointerEventData eventData)
+   {
+       selected.Send();
    }
 }
