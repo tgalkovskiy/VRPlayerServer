@@ -29,6 +29,10 @@ public class WindowControll : MonoBehaviour
     public Button back;
     public Slider volume;
     public Slider time;
+
+    public Button addVideoButton;
+    public Button addPlayListButton;
+    [FormerlySerializedAs("backButton")] public Button categoryBackButton;
    
     private void Awake()
     {

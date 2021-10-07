@@ -58,8 +58,15 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 if (item is VideoItem) return PrefabRef<ReusableView>.ByType(typeof(VideoCell));
                 else if (item is VideoCategory) return PrefabRef<ReusableView>.ByType(typeof(CategoryCell));
                 else throw new NotImplementedException();
-            }
+            }, options: PresentOptions.UseChildWithSameTypeAsView
         );
+    }
+
+    void Start()
+    {
+        WindowControll.Instance.categoryBackButton.SetActive(canGoBack);
+        WindowControll.Instance.categoryBackButton.Subscribe(GoBack);
+        WindowControll.Instance.addPlayListButton.SetActive(selectedCat.Is(null));
     }
 
     void OnApplicationPause(bool pauseStatus)
