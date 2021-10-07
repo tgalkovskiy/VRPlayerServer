@@ -54,8 +54,7 @@ public class LobbyManagerLocal : NetworkManager
         yield return new WaitForSeconds(1f);
         _Hud.Search();
         yield return new WaitForSeconds(1f);
-        new MirrorTransport().SendCommand(new DataClient
-            { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
+        _client.OnConnected();
     }
    
 }

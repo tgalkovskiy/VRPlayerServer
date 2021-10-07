@@ -17,7 +17,12 @@ public partial class ClientState : NetworkCommand, ISerializable
          playingItem.Bind(v =>
          {
              if (v == null) _mediaPlayer.CloseMedia();
-             if (v != null) _mediaPlayer.OpenMedia(new MediaPath(v.filePath, MediaPathType.AbsolutePathOrURL), false);
+             if (v != null)
+             {
+                 _mediaPlayer.OpenMedia(new MediaPath(v.filePath, MediaPathType.AbsolutePathOrURL), false);
+                 if (v.subtitlesFileName.IsNullOrEmpty() == false)
+                     _mediaPlayer.EnableSubtitles(new MediaPath(v.subFilePath, MediaPathType.AbsolutePathOrURL));
+             }
          });
          playing.Bind(playing =>
          {

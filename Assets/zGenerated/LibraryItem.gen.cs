@@ -5,39 +5,38 @@ using ZergRush.Alive;
 using System.IO;
 #if !INCLUDE_ONLY_CODE_GENERATION
 
-public partial class VideoFolder : IUpdatableFrom<VideoFolder>, IUpdatableFrom<ProtocolItem>, IPolymorphable
+public partial class LibraryItem : IUpdatableFrom<LibraryItem>, IUpdatableFrom<ProtocolItem>, IPolymorphable
 {
     public override void UpdateFrom(ProtocolItem other) 
     {
         base.UpdateFrom(other);
-        var otherConcrete = (VideoFolder)other;
-        videoIds.UpdateFrom(otherConcrete.videoIds);
+        var otherConcrete = (LibraryItem)other;
     }
-    public void UpdateFrom(VideoFolder other) 
+    public void UpdateFrom(LibraryItem other) 
     {
         this.UpdateFrom((ProtocolItem)other);
     }
     public override void Deserialize(BinaryReader reader) 
     {
         base.Deserialize(reader);
-        videoIds.Deserialize(reader);
+
     }
     public override void Serialize(BinaryWriter writer) 
     {
         base.Serialize(writer);
-        videoIds.Serialize(writer);
+
     }
-    public  VideoFolder() 
+    public  LibraryItem() 
     {
-        videoIds = new System.Collections.Generic.List<VideoItem>();
+
     }
     public override ushort GetClassId() 
     {
-    return (System.UInt16)Types.VideoFolder;
+    return (System.UInt16)Types.LibraryItem;
     }
     public override ProtocolItem NewInst() 
     {
-    return new VideoFolder();
+    return new LibraryItem();
     }
 }
 #endif

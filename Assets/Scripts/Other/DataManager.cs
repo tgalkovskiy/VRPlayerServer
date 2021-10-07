@@ -31,7 +31,7 @@ public class DataManager : MonoBehaviour
         }
         _progressSlider.gameObject.SetActive(false);
     }
-    public async void GetDataFile(byte[] data, string format, string name)
+    public async void SaveDataFile(byte[] data, string format, string name)
     {
         IProgress<int> _progress = new Progress<int>(i => _progressSlider.value = i);
         _progressSlider.gameObject.SetActive(true);

@@ -15,8 +15,9 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         SendDataFile = 4,
         DataClient = 10,
         VideoLibItem = 5,
+        LibraryItem = 11,
         VideoItem = 6,
-        VideoFolder = 7,
+        VideoCategory = 12,
         ServerLibrary = 8,
         NetworkCommand = 9,
     }
@@ -28,10 +29,12 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         () => new SendDataFile(), // 4
         () => new VideoLibItem(), // 5
         () => new VideoItem(), // 6
-        () => new VideoFolder(), // 7
+        () => null, // 7
         () => new ServerLibrary(), // 8
         () => new NetworkCommand(), // 9
         () => new DataClient(), // 10
+        () => new LibraryItem(), // 11
+        () => new VideoCategory(), // 12
     };
     public static ProtocolItem CreatePolymorphic(System.UInt16 typeId) {
         return polymorphConstructors[typeId]();

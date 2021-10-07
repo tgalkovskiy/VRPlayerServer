@@ -12,7 +12,6 @@ public partial class ServerLibrary : IUpdatableFrom<ServerLibrary>, IUpdatableFr
         base.UpdateFrom(other);
         var otherConcrete = (ServerLibrary)other;
         library.UpdateFrom(otherConcrete.library);
-        playlists.UpdateFrom(otherConcrete.playlists);
     }
     public void UpdateFrom(ServerLibrary other) 
     {
@@ -22,18 +21,15 @@ public partial class ServerLibrary : IUpdatableFrom<ServerLibrary>, IUpdatableFr
     {
         base.Deserialize(reader);
         library.Deserialize(reader);
-        playlists.Deserialize(reader);
     }
     public override void Serialize(BinaryWriter writer) 
     {
         base.Serialize(writer);
         library.Serialize(writer);
-        playlists.Serialize(writer);
     }
     public  ServerLibrary() 
     {
-        library = new ZergRush.ReactiveCore.ReactiveCollection<VideoItem>();
-        playlists = new ZergRush.ReactiveCore.ReactiveCollection<VideoFolder>();
+        library = new ZergRush.ReactiveCore.ReactiveCollection<LibraryItem>();
     }
     public override ushort GetClassId() 
     {

@@ -24,13 +24,19 @@ public class ClientController : MonoBehaviour
         {
             switch (c)
             {
-                case ClientState state : Debug.Log("asdf"); break;
-                case SendDataFile data : Debug.Log("asdf"); break;
+                case ClientState st : state.UpdateFrom(st); break;
+                case SendDataFile data : DataManager.Instance.SaveDataFile(data.data, data.format, data.name); break;
                 case NumberSceneOpen n : OpenScene(n.numberScene);
                     break;
             }
         });
         state.BindToPlayer(_mediaPlayer);
+    }
+
+    public void OnConnected()
+    {
+        network.SendCommand(new DataClient
+            { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
     }
     
     public void OpenScene(int index)
