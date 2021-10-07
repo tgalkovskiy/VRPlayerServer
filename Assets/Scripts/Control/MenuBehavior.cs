@@ -48,6 +48,8 @@ public class MenuBehavior : MonoBehaviour
     public void ChangeVolumePower(float power)
     {
         _mediaPlayer.AudioVolume = power;
+        //Debug.Log(_mediaPlayer.Info.GetDuration());
+        Debug.Log(_mediaPlayer.Control.GetCurrentTime());
     }
     public void ChooseVideo(string nameVideo)
     {
