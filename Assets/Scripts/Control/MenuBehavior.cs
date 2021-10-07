@@ -79,7 +79,6 @@ public class MenuBehavior : ConnectableMonoBehaviour
         {
             list += "\n" + devises[i];
         }
-
         _listDevise.text = list;
     }
 

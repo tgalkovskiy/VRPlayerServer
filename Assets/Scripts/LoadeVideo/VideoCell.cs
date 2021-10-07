@@ -16,7 +16,7 @@ public class VideoCell : ReusableView
    public Cell<bool> toggle = new Cell<bool>();
    public EventStream selected = new EventStream();
 
-   public void SetParamertsCell(Sprite preview, string name, string _description)
+   public void SetParametersCell(Sprite preview, string name, string _description)
     {
         _image.sprite = preview;
         this._name.text = name;

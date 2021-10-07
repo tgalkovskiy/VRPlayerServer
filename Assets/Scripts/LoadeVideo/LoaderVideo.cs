@@ -31,7 +31,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         //LoadVideo();
         connections += library.library.Present(_content.transform, PrefabRef<VideoCell>.Auto(), (item, cell) =>
         {
-            cell.SetParamertsCell(_envelope.RandomElement(ZergRandom.global), item.fileName, item.description);
+            cell.SetParametersCell(_envelope.RandomElement(ZergRandom.global), item.fileName, item.description);
             cell.connections += cell.selected.Subscribe(() => MenuBehavior.Instance.state.playingItem.value = item);
         });
     }
@@ -62,14 +62,13 @@ public class LoaderVideo : ConnectableMonoBehaviour
         {
             var name = Path.GetFileNameWithoutExtension(path);
             File.Copy(path, GetFillVideoPath(name));
-            
             library.library.Add(new VideoItem {
                 id = new GUI().ToString(),
                 fileName = name
             });
         }
     }
-
+    
     public void SendData()
     {
         //GetComponent<DataManager>().SendDataFile(_path, _Name);
