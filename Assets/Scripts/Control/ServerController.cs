@@ -44,6 +44,7 @@ public class ServerController : ConnectableMonoBehaviour
         });
         WindowControll.Instance.play.Subscribe(() => state.playing.value = !state.playing.value);
         WindowControll.Instance.pause.Subscribe(() => state.playing.value = false);
+        WindowControll.Instance.mute.Subscribe(() => state.mute.value = !state.mute.value);
         WindowControll.Instance.stop.Subscribe(() =>
         {
             state.playing.value = false;

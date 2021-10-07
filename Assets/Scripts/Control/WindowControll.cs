@@ -27,6 +27,7 @@ public class WindowControll : MonoBehaviour
     public Button pause;
     public Button stop;
     public Button back;
+    public Button mute;
     public Slider volume;
     public Slider time;
 
