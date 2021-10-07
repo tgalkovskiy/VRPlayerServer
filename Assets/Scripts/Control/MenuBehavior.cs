@@ -7,9 +7,8 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using UnityEditor;
-using UnityEngine.SceneManagement;
 
-public class MenuBehavior : MonoBehaviour
+public class MenuBehavior : ConnectableMonoBehaviour
 { 
     [SerializeField] private GameObject _canvasControl = default; 
     [SerializeField] private GameObject _pico = default;
@@ -20,29 +19,29 @@ public class MenuBehavior : MonoBehaviour
     private LoaderVideo _loaderVideo;
     public static MenuBehavior Instance;
 
-    private void Awake()
+    public ClientState state = new ClientState();
+    public INetworkServer network;
+
+    void Awake()
     {
-        Application.targetFrameRate = 60;
          Instance = this;
-         _loaderVideo = GetComponent<LoaderVideo>();
     }
-    public void ControlVideo(string command)
-   {
-        switch (command)
-        {
-            case "Play": _mediaPlayer.Play(); break;
-            case "Stop": _mediaPlayer.Stop(); break;
-            case "Mute":  mute = !mute; _mediaPlayer.AudioMuted = mute; break;
-            case "Reboot": _mediaPlayer.Rewind(true); break;
-        }
-   } 
-    public void ChooseVideo(string nameVideo)
-   {
-       _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, Path.Combine(Application.persistentDataPath, nameVideo), false);
-   }
-    public void OpenScene(int index)
+
+    public void Init(INetworkServer net)
     {
-        SceneManager.LoadScene(index);
+        this.network = net;
+         _loaderVideo = GetComponent<LoaderVideo>();
+         
+         state.BindToPlayer(_mediaPlayer);
+         state.updated.Subscribe(() => {
+             network.SendCommandAll(state);
+         });
+         network.commandReceived.Subscribe(c =>
+         {
+             switch (c)
+             {
+             }
+         });
     }
    public void UpdateListDevise(List<string> device)
    {
@@ -65,16 +64,14 @@ public class MenuBehavior : MonoBehaviour
         //_pico.SetActive(true);
         _mediaPlayer.gameObject.SetActive(true);
    }
-
-   public void GetData(byte[] data, string format, string name)
-   {
-       Debug.Log("Get file" + data.Length);
-       File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.mp4"), data);
-       Debug.Log("save file");
-       File.WriteAllText(Path.Combine(Application.persistentDataPath, "ListVideo.Json"), name);
-       Debug.Log("save Json");
-       Debug.Log("Update Video");
-       _loaderVideo.LoadVideo();
-       //AssetDatabase.Refresh();
-   }
+   
+    public void SendData(byte[] _data, string _format, string _name)
+    {
+        network.SendCommandAll(new SendDataFile{data = _data, format = _format, name = _name});
+    }
+    
+    public void OpenScene(int index)
+    {
+        network.SendCommandAll(new NumberSceneOpen{numberScene = index});
+    }
 }

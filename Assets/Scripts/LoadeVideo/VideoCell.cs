@@ -3,30 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using ZergRush.ReactiveUI;
 
-public class VideoCell : MonoBehaviour
+public class VideoCell : ReusableView
 {
    [SerializeField]private Image _image = default;
+   [SerializeField]private Text _name;
    [SerializeField]private Text _descriptionText;
-   [SerializeField]private int number = default;
-   [SerializeField]private string _description = default;
    [SerializeField]private DateTime duration = default;
-   private CommandControl _command;
-   private void Start()
-   {
-       _command = CommandControl.Instance;
-   }
 
-   public void SetParamertsCell(Sprite sprite, int number, string _description)
+   public void SetParamertsCell(Sprite preview, string name, string _description)
     {
-        _image.sprite = sprite;
-        this.number = number;
-        this._description = _description;
+        _image.sprite = preview;
         this._descriptionText.text = _description;
-    }
-    public void SendNumberVideo()
-    {
-        WindowControll.Instance.ChangeVideoPanel(_image.sprite, _description);
-        _command.CommandVideo(_description);
+        this._name.text = name;
     }
 }

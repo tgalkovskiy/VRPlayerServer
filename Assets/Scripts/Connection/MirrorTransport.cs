@@ -1,50 +1,50 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using WebSocketSharp;
+using ZergRush.ReactiveCore;
 
-    public class MirrorTransport : MonoBehaviour
+public partial class NumberSceneOpen : NetworkCommand
+{
+    public int numberScene;
+}
+
+public partial class SendDataFile : NetworkCommand
+{
+    public byte[] data;
+    public string format;
+    public string name;
+}
+
+public struct MirrorCommand : NetworkMessage
+{
+    public byte[] data;
+}
+
+public class MirrorTransport : INetwork, INetworkServer
+{
+    EventStream<NetworkCommand> _stream = new EventStream<NetworkCommand>();
+    
+    public void Init()
     {
-        public struct MessageCommand : NetworkMessage
-        {
-            public string message;
-        }
-        public struct NameVideo : NetworkMessage
-        {
-            public string nameVideo;
-        }
-        public struct NumberSceneOpen: NetworkMessage
-        {
-            public int numberScene;
-        }
-        public struct SendDataFile: NetworkMessage
-        {
-            public byte[] data;
-            public string format;
-            public string name;
-        }
-        private void Start()
-        {
-            if(!NetworkClient.active) return;
-            NetworkClient.RegisterHandler<MessageCommand>(OnGetMessage);
-            NetworkClient.RegisterHandler<NameVideo>(OnGetNumberVideo);
-            NetworkClient.RegisterHandler<NumberSceneOpen>(OnGetNumberScene);
-            NetworkClient.RegisterHandler<SendDataFile>(OnSendData);
-        }
-
-        private void OnGetMessage(NetworkConnection connection, MessageCommand messageCommand)
-        {
-            MenuBehavior.Instance.ControlVideo(messageCommand.message);
-        }
-        private void OnGetNumberVideo(NetworkConnection connection, NameVideo nameVideo)
-        {
-            MenuBehavior.Instance.ChooseVideo(nameVideo.nameVideo);
-        }
-        private void OnGetNumberScene(NetworkConnection connection, NumberSceneOpen numberSceneOpen)
-        {
-            MenuBehavior.Instance.OpenScene(numberSceneOpen.numberScene);
-        }
-        private void OnSendData(NetworkConnection connection, SendDataFile sendDataFile)
-        {
-            MenuBehavior.Instance.GetData(sendDataFile.data, sendDataFile.format, sendDataFile.name);
-        }
+        if (!NetworkClient.active) return;
+        NetworkClient.RegisterHandler<MirrorCommand>(CommandReceived);
     }
+    private void CommandReceived(NetworkConnection connection, MirrorCommand command)
+    {
+        _stream.Send(command.data.LoadFromBinary<NetworkCommand>());
+    }
+
+    public void SendCommand(NetworkCommand command)
+    {
+        NetworkClient.Send(new MirrorCommand{data = command.SaveToBinary()});
+    }
+    
+    public void SendCommandAll(NetworkCommand command)
+    {
+        NetworkServer.SendToAll(new MirrorCommand{data = command.SaveToBinary()});
+    }
+
+    public IEventStream<NetworkCommand> commandReceived => _stream;
+}
