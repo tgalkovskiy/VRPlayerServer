@@ -48,19 +48,19 @@ public class MirrorTransport : INetwork, INetworkServer
     private void CommandReceived(NetworkConnection connection, MirrorCommand command)
     {
         Debug.Log($"Mirror received bytes:{command.data.Length}");
-        _stream.Send(command.data.LoadFromBinary<NetworkCommand>());
+        _stream.Send(command.data.LoadFromBinary<NetworkCommandWrapper>().command);
     }
 
     public void SendCommand(NetworkCommand command)
     {
-        var saveToBinary = command.SaveToBinary();
+        var saveToBinary = new NetworkCommandWrapper{command = command}.SaveToBinary();
         Debug.Log($"Mirror command {command} len:{saveToBinary.Length}");
         NetworkClient.Send(new MirrorCommand { data = saveToBinary });
     }
 
     public void SendCommandAll(NetworkCommand command)
     {
-        NetworkServer.SendToAll(new MirrorCommand { data = command.SaveToBinary() });
+        NetworkServer.SendToAll(new MirrorCommand { data = new NetworkCommandWrapper{command = command}.SaveToBinary() });
     }
 
     public IEventStream<NetworkCommand> commandReceived => _stream;

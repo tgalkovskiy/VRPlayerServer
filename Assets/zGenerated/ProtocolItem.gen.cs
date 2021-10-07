@@ -20,6 +20,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         VideoCategory = 12,
         ServerLibrary = 8,
         NetworkCommand = 9,
+        NetworkCommandWrapper = 10,
     }
     static Func<ProtocolItem> [] polymorphConstructors = new Func<ProtocolItem> [] {
         () => null, // 0
@@ -32,7 +33,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         () => new DeviceInfo(), // 7
         () => new ServerLibrary(), // 8
         () => new NetworkCommand(), // 9
-        () => null, // 10
+        () => new NetworkCommandWrapper(), // 10
         () => new LibraryItem(), // 11
         () => new VideoCategory(), // 12
     };

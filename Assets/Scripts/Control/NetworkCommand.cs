@@ -2,3 +2,8 @@
 {
     
 }
+
+public partial class NetworkCommandWrapper : ProtocolItem
+{
+    public NetworkCommand command;
+}

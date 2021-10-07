@@ -24,20 +24,18 @@ public class LobbyManagerLocal : NetworkManager
         _client = ClientController.Instance;
         networkDiscovery = GetComponent<NetworkDiscovery>();
         _Hud = GetComponent<NetworkDiscoveryHUD>();
-        var mirrorTransport = new MirrorTransport();
         if (isServer)
         {
-            mirrorTransport.InitServer();
+            var mirrorTransport = new MirrorTransport();
             serverController.Init(mirrorTransport);
             serverController.ShowControlMenu();
             StartServer();
             networkDiscovery.AdvertiseServer();
+            mirrorTransport.InitServer();
         }
         else
         {
-            mirrorTransport.InitClient();
             serverController.UnShowControlMenu();
-            _client.Init(mirrorTransport);
             StartCoroutine(Connect());
         }
     }
@@ -57,7 +55,9 @@ public class LobbyManagerLocal : NetworkManager
         yield return new WaitForSeconds(1f);
         _Hud.Search();
         yield return new WaitForSeconds(1f);
-        _client.OnConnected();
+        var mirrorTransport = new MirrorTransport();
+        mirrorTransport.InitClient();
+        _client.OnConnected(mirrorTransport);
     }
    
 }

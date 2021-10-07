@@ -16,7 +16,7 @@ public class ClientController : MonoBehaviour
         Instance = this;
     }
 
-    public void Init(INetwork net)
+    public void OnConnected(INetwork net)
     {
         Debug.Log("Init client controller");
         _mediaPlayer.SetActiveSafe(true);
@@ -33,12 +33,9 @@ public class ClientController : MonoBehaviour
             }
         });
         state.BindToPlayer(_mediaPlayer);
-    }
-
-    public void OnConnected()
-    {
-        // network.SendCommand(new DeviceInfo
-        //     { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
+        
+        network.SendCommand(new DeviceInfo
+            { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
         Debug.Log("DeviceInfo sent");
     }
     
