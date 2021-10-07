@@ -60,6 +60,7 @@ public class ServerController : ConnectableMonoBehaviour
         state.updated.Subscribe(() => { stateDirty = true; });
         network.commandReceived.Subscribe(c =>
         {
+            Debug.Log($"client command received {c}");
             switch (c)
             {
                 case DeviceInfo info: UpdateList(info.name, info.battery, info.connection); break;
@@ -72,6 +73,7 @@ public class ServerController : ConnectableMonoBehaviour
         if (stateDirty)
         {
             stateDirty = false;
+            Debug.Log("client state sent");
             network.SendCommandAll(state);
         }
     }
@@ -101,6 +103,7 @@ public class ServerController : ConnectableMonoBehaviour
     public void UnShowControlMenu()
     {
         //_pico.SetActive(true);
+        _canvasControl.SetActive(false);
         _mediaPlayer.gameObject.SetActive(true);
     }
 

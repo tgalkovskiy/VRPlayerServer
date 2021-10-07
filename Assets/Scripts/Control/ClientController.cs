@@ -18,10 +18,12 @@ public class ClientController : MonoBehaviour
 
     public void Init(INetwork net)
     {
+        Debug.Log("Init client controller");
         _mediaPlayer.SetActiveSafe(true);
         network = net;
         network.commandReceived.Subscribe(c =>
         {
+            Debug.Log("Client command received");
             switch (c)
             {
                 case ClientState st : state.UpdateFrom(st); break;
@@ -37,6 +39,7 @@ public class ClientController : MonoBehaviour
     {
         network.SendCommand(new DeviceInfo
             { name = SystemInfo.deviceName, battery = (int)SystemInfo.batteryLevel, connection = "good" });
+        Debug.Log("DeviceInfo sent");
     }
     
     public void OpenScene(int index)
