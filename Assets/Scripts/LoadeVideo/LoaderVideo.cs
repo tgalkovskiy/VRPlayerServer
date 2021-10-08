@@ -115,7 +115,6 @@ public class LoaderVideo : ConnectableMonoBehaviour
             {
                 File.Delete(fillVideoPath);
             }
-
             File.Copy(path, fillVideoPath);
 
             currentCollection.value.Add(new VideoItem

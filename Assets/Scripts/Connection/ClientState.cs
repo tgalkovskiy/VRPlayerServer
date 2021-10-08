@@ -1,4 +1,5 @@
-﻿using RenderHeads.Media.AVProVideo;
+﻿using System.IO;
+using RenderHeads.Media.AVProVideo;
 using UnityEngine;
 using ZergRush.CodeGen;
 using ZergRush.ReactiveCore;
@@ -21,7 +22,8 @@ public partial class ClientState : NetworkCommand, ISerializable
              if (v == null) _mediaPlayer.CloseMedia();
              if (v != null)
              {
-                 _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, v.filePath, false);
+                 var path = Path.Combine(Application.persistentDataPath, $"{v.fileName}.mp4");
+                 _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path, false);
                  //_mediaPlayer.OpenMedia(new MediaPath(v.filePath, MediaPathType.AbsolutePathOrURL), false);
                  if (v.subtitlesFileName.IsNullOrEmpty() == false)
                      _mediaPlayer.EnableSubtitles(new MediaPath(v.subFilePath, MediaPathType.AbsolutePathOrURL));
