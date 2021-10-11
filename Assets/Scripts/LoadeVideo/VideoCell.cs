@@ -7,15 +7,35 @@ using UnityEngine.EventSystems;
 using ZergRush.ReactiveCore;
 using ZergRush.ReactiveUI;
 
-public class VideoCell : ReusableView, IPointerClickHandler
+public class LibraryItemView : ReusableView, IPointerClickHandler
+{
+    public Image selectedImage;
+   public Cell<bool> toggle = new Cell<bool>();
+   public EventStream selected = new EventStream();
+
+   public void OnToggleValue(bool value)
+   {
+       toggle.value = value;
+   }
+
+   public void OnPointerClick(PointerEventData eventData)
+   {
+       selected.Send();
+   }
+
+   public void SetSelection(bool selected)
+   {
+       selectedImage.SetActiveSafe(selected);
+   }
+}
+
+public class VideoCell : LibraryItemView
 {
    [SerializeField]private Image _image = default;
    [SerializeField]private Text _name;
    [SerializeField]private Text _descriptionText;
    [SerializeField]private DateTime duration = default;
    public string nameVideo;
-   public Cell<bool> toggle = new Cell<bool>();
-   public EventStream selected = new EventStream();
 
    public override bool autoDisableOnRecycle => true;
 
@@ -27,16 +47,4 @@ public class VideoCell : ReusableView, IPointerClickHandler
         if (_descriptionText != null)
             this._descriptionText.text = _description;
     }
-
-   public void OnToggleValue(bool value)
-   {
-       toggle.value = value;
-   }
-
-   public void OnPointerClick(PointerEventData eventData)
-   {
-       selected.Send();
-       LoaderVideo._selectedVideo = this;
-      
-   }
 }

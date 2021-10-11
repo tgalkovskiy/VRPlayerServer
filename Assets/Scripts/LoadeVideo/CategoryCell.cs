@@ -7,22 +7,14 @@ using UnityEngine.UI;
 using ZergRush.ReactiveCore;
 using ZergRush.ReactiveUI;
 
-public class CategoryCell : ReusableView, IPointerClickHandler
+public class CategoryCell : LibraryItemView, IPointerClickHandler
 {
     [SerializeField] private Text _name = default;
 
     public override bool autoDisableOnRecycle => true;
 
-    public EventStream selected = new EventStream();
-
     public void SetName(string name)
     {
         _name.text = name;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        selected.Send();
-        LoaderVideo._selectedCategory = this;
     }
 }

@@ -18,14 +18,17 @@ public class LoaderVideo : ConnectableMonoBehaviour
     static string libPath = "lib";
     private string path;
     private string name;
-    
+
+    public IReactiveCollection<VideoCategory> allCategories => library.library
+        .Filter(i => i is VideoCategory)
+        .Map(i => (VideoCategory)i);
+
+    ReactiveCollection<LibraryItem> selectedItems = new ReactiveCollection<LibraryItem>();
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
     ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
     IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
-    public static CategoryCell _selectedCategory;
-    public static VideoCell _selectedVideo;
     private void Awake()
     {
         var filename = libPath;
@@ -38,14 +41,17 @@ public class LoaderVideo : ConnectableMonoBehaviour
             library = new ServerLibrary();
         }
 
-        connections += itemsToShow.Present(_content.transform, PrefabRef<ReusableView>.Auto(),
+        connections += itemsToShow.Present(_content.transform, PrefabRef<LibraryItemView>.Auto(),
             (item, cell) =>
             {
                 if (item is VideoItem vi)
                 {
                     var view = (VideoCell)cell;
                     view.SetParametersCell(_envelope.RandomElement(ZergRandom.global), vi.fileName, vi.description);
-                    cell.connections += view.selected.Subscribe(() => ServerController.Instance.state.playingItem.value = vi);
+                    cell.connections += view.selected.Subscribe(() =>
+                    {
+                        ServerController.Instance.state.playingItem.value = vi;
+                    });
                 }
                 else if (item is VideoCategory cat)
                 {
@@ -56,10 +62,11 @@ public class LoaderVideo : ConnectableMonoBehaviour
                         selectedCat.value = cat;
                     });
                 }
+                cell.SetSelection(false);
             }, prefabSelector: item =>
             {
-                if (item is VideoItem) return PrefabRef<ReusableView>.ByType(typeof(VideoCell));
-                else if (item is VideoCategory) return PrefabRef<ReusableView>.ByType(typeof(CategoryCell));
+                if (item is VideoItem) return PrefabRef<LibraryItemView>.ByType(typeof(VideoCell));
+                else if (item is VideoCategory) return PrefabRef<LibraryItemView>.ByType(typeof(CategoryCell));
                 else throw new NotImplementedException();
             }, options: PresentOptions.UseChildWithSameTypeAsView | PresentOptions.PreserveSiblingOrder
         );
@@ -98,11 +105,32 @@ public class LoaderVideo : ConnectableMonoBehaviour
     }
     public void  DeleteCell()
     {
-        File.Delete(Path.Combine(Application.persistentDataPath, _selectedVideo.nameVideo));
-        Destroy(_selectedVideo.gameObject);
-        
-        
+        foreach (var selectedItem in selectedItems)
+        {
+            if (currentCollection.value.Contains(selectedItem) == false)
+            {
+                Debug.LogError($"{selectedItem} is not in selected cat {currentCollection.value}");
+            }
+            currentCollection.value.Remove(selectedItem);
+            DeleteLibraryitem(selectedItem);
+        }
     }
+
+    public void DeleteLibraryitem(LibraryItem item)
+    {
+        if (item is VideoItem i)
+        {
+            File.Delete(i.filePath);
+        }
+        else if (item is VideoCategory cat)
+        {
+            foreach (var libraryItem in cat.items)
+            {
+                DeleteLibraryitem(libraryItem);
+            }
+        }
+    }
+    
     
     public void OpenFile()
     {
