@@ -4,20 +4,17 @@ using Mirror;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine.UI;
-using System;
-using System.IO;
-using UnityEditor;
 
 public class ServerController : ConnectableMonoBehaviour
 {
     [SerializeField] private GameObject _canvasControl = default;
-    [SerializeField] private Text _listDevise = default;
     [SerializeField] private MediaPlayer _mediaPlayer = default;
     private bool mute = false;
     public List<string> path = new List<string>();
     private List<string> devises = new List<string>();
     public static ServerController Instance;
     public LobbyManagerLocal _Lobby;
+    public DeviceListController deviceList;
 
     public ClientState state = new ClientState();
     public INetworkServer network;
@@ -58,13 +55,14 @@ public class ServerController : ConnectableMonoBehaviour
         });
         state.BindToPlayer(_mediaPlayer);
         state.updated.Subscribe(() => { stateDirty = true; });
+
+        network.clientDisconnected.Subscribe(deviceList.DeviceDisconnected);
         network.commandReceived.Subscribe(c =>
         {
             Debug.Log($"client command received {c}");
             switch (c)
             {
-                case DeviceInfo info: UpdateList(info.name, info.battery, info.connection); break;
-                //case VideoPath _path: OpenVideo(_path.path); Debug.Log("video chose"); break;
+                case DeviceInfo info: deviceList.DeviceInfoReceived(info); break;
             }
         });
     }
@@ -82,21 +80,6 @@ public class ServerController : ConnectableMonoBehaviour
     public void OpenVideo(string path)
     {
         _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path, false);
-    }
-    public void UpdateListDevise(List<string> devises)
-    {
-        string list = null;
-        for (int i = 0; i < devises.Count; i++)
-        {
-            list += "\n" + devises[i];
-        }
-        _listDevise.text = list;
-    }
-
-    public void UpdateList(string name, int batteryLevel, string connection)
-    {
-        devises.Add($"{name} {batteryLevel} {connection}");
-        UpdateListDevise(devises);
     }
 
     public void ShowControlMenu()

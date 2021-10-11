@@ -22,6 +22,7 @@ public partial class DeviceInfo : NetworkCommand
     public string name;
     public int battery;
     public string connection;
+    public EventStream updated;
 }
 
 public partial class VideoPath : NetworkCommand
@@ -36,6 +37,7 @@ public struct MirrorCommand : NetworkMessage
 public class MirrorTransport : INetwork, INetworkServer
 {
     EventStream<NetworkCommand> _stream = new EventStream<NetworkCommand>();
+    EventStream<int> _disconnectedStream = new EventStream<int>();
 
     public void InitClient()
     {
@@ -47,12 +49,15 @@ public class MirrorTransport : INetwork, INetworkServer
     {
         if (!NetworkServer.active) return;
         NetworkServer.RegisterHandler<MirrorCommand>(CommandReceived);
+        NetworkServer.OnConnectedEvent += connection => _disconnectedStream.Send(connection.connectionId);
     }
 
     private void CommandReceived(NetworkConnection connection, MirrorCommand command)
     {
         Debug.Log($"Mirror received bytes:{command.data.Length}");
-        _stream.Send(command.data.LoadFromBinary<NetworkCommandWrapper>().command);
+        var networkCommand = command.data.LoadFromBinary<NetworkCommandWrapper>().command;
+        networkCommand.connectionId = connection.connectionId;
+        _stream.Send(networkCommand);
     }
 
     public void SendCommand(NetworkCommand command)
@@ -68,4 +73,5 @@ public class MirrorTransport : INetwork, INetworkServer
     }
 
     public IEventStream<NetworkCommand> commandReceived => _stream;
+    public IEventStream<int> clientDisconnected => _disconnectedStream;
 }

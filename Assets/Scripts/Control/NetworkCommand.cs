@@ -1,6 +1,8 @@
-﻿public partial class NetworkCommand : ProtocolItem
+﻿using ZergRush.CodeGen;
+
+public partial class NetworkCommand : ProtocolItem
 {
-    
+    [GenIgnore] public int connectionId;
 }
 
 public partial class NetworkCommandWrapper : ProtocolItem
