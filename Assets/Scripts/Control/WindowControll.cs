@@ -93,6 +93,7 @@ public class WindowControll : MonoBehaviour
         ServerController.Instance.videoLoader.AddCategory(_nameCategory);
        _namePanel.SetActive(false);
     }
+    //public void 
     public void ChangeVideoPanel(Sprite sprite, string description)
     {
         _videoIcon.sprite = sprite;

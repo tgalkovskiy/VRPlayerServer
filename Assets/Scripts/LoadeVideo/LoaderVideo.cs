@@ -24,7 +24,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
     IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
-
+    public static CategoryCell _selectedCategory;
+    public static VideoCell _selectedVideo;
     private void Awake()
     {
         var filename = libPath;
@@ -95,7 +96,14 @@ public class LoaderVideo : ConnectableMonoBehaviour
     {
         currentCollection.value.Insert(0, new VideoCategory{name = catName});
     }
-
+    public void  DeleteCell()
+    {
+        File.Delete(Path.Combine(Application.persistentDataPath, _selectedVideo.nameVideo));
+        Destroy(_selectedVideo.gameObject);
+        
+        
+    }
+    
     public void OpenFile()
     {
         var extensions = new[]
@@ -116,7 +124,6 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 File.Delete(fillVideoPath);
             }
             File.Copy(path, fillVideoPath);
-
             currentCollection.value.Add(new VideoItem
             {
                 id = new GUI().ToString(),

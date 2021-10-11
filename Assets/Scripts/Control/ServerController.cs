@@ -118,6 +118,10 @@ public class ServerController : ConnectableMonoBehaviour
         DataManager.Instance.SendDataFile(playingItemValue.fileName, playingItemValue.filePath);
     }*/
 
+    public void DeleteVideoCategory()
+    {
+        videoLoader.DeleteCell();
+    }
     
     public void SendData(byte[] _data, string _format, string _name)
     {

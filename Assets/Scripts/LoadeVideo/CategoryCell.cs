@@ -23,5 +23,6 @@ public class CategoryCell : ReusableView, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         selected.Send();
+        LoaderVideo._selectedCategory = this;
     }
 }
