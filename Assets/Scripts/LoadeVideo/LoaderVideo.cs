@@ -150,8 +150,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
             {
                 id = new GUI().ToString(),
                 fileName = name,
-                subtitlesFileName = $"Test",
-                soundFilename = "TestAudio"
+                //subtitlesFileName = $"Test",
+                //soundFilename = "TestAudio"
                 //soundFilename = "Sea"
             });
         }
