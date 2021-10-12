@@ -23,8 +23,9 @@ public class WindowControll : MonoBehaviour
     
     public static WindowControll Instance;
     private bool isScalePreview = false;
-    private string _nameCategory;
+    private string _nameContent;
 
+    
     public Button delete;
     public Button showListCatButton;
     public Button play;
@@ -89,20 +90,29 @@ public class WindowControll : MonoBehaviour
         isShowList = !isShowList;
         _listCat.SetActive(isShowList);
     }
-    
-    
+
+    public void CloseWindow(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+    }
     public void OpenDialogCategory()
     {
         _namePanel.SetActive(true);
     }
-    public void GetNameCategory(InputField _field)
+    public void GetName(InputField _field)
     {
-        _nameCategory = _field.text;
+        _nameContent = _field.text;
+    }
+
+    public void CreateVideo()
+    {
+        ServerController.Instance.videoLoader.OpenFile(_nameContent);
+        _namePanel.SetActive(false);
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
-        ServerController.Instance.videoLoader.AddCategory(_nameCategory);
-       _namePanel.SetActive(false);
+        ServerController.Instance.videoLoader.AddCategory(_nameContent);
+        _namePanel.SetActive(false);
     }
     //public void 
     public void ChangeVideoPanel(Sprite sprite, string description)

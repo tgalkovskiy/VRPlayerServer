@@ -126,7 +126,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
     }
     
     
-    public void OpenFile()
+    public void OpenFile(string _name)
     {
         var extensions = new[]
         {
@@ -137,7 +137,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
         foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
-            var name = Path.GetFileNameWithoutExtension(path);
+            var name = _name; //Path.GetFileNameWithoutExtension(path);
             this.name = name;
             this.path = path;
             var fillVideoPath = GetFillVideoPath(name);
@@ -149,7 +149,10 @@ public class LoaderVideo : ConnectableMonoBehaviour
             currentCollection.value.Add(new VideoItem
             {
                 id = new GUI().ToString(),
-                fileName = name
+                fileName = name,
+                subtitlesFileName = $"Test",
+                soundFilename = "TestAudio"
+                //soundFilename = "Sea"
             });
         }
     }

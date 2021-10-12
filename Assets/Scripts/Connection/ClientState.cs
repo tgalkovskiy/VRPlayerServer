@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine;
 using ZergRush.CodeGen;
@@ -13,7 +14,6 @@ public partial class ClientState : NetworkCommand, ISerializable
     public Cell<float> time;
     public Cell<float> volume;
     public Cell<bool> mute;
-
     public void BindToPlayer(MediaPlayer _mediaPlayer)
     {
          playingItem.Bind(v =>
@@ -22,11 +22,18 @@ public partial class ClientState : NetworkCommand, ISerializable
              if (v == null) _mediaPlayer.CloseMedia();
              if (v != null)
              {
-                 var path = Path.Combine(Application.persistentDataPath, $"{v.fileName}.mp4");
-                 _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path, false);
-                 //_mediaPlayer.OpenMedia(new MediaPath(v.filePath, MediaPathType.AbsolutePathOrURL), false);
+                 var pathVideo = Path.Combine(Application.persistentDataPath, $"{v.fileName}.mp4");
+                 _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, pathVideo, false);
                  if (v.subtitlesFileName.IsNullOrEmpty() == false)
-                     _mediaPlayer.EnableSubtitles(new MediaPath(v.subFilePath, MediaPathType.AbsolutePathOrURL));
+                 {
+                      var pathSub = Path.Combine(Application.persistentDataPath, $"{v.subtitlesFileName}.srt");
+                      _mediaPlayer.EnableSubtitles(new MediaPath(pathSub, MediaPathType.AbsolutePathOrURL));
+                 }
+                 if (v.soundFilename.IsNullOrEmpty() == false)
+                 {
+                     Debug.Log("AUDIO!");
+                     AudioLoad(Path.Combine(Application.persistentDataPath, $"{v.soundFilename}.mp3"), _mediaPlayer);
+                 }
              }
          });
          playing.Bind(playing =>
@@ -49,4 +56,15 @@ public partial class ClientState : NetworkCommand, ISerializable
     }
 
     public IEventStream updated => playingItem.updates.MergeWith(playing.updates, time.updates);
+
+    private IEnumerator AudioLoad(string path, MediaPlayer _mediaPlayer)
+    {
+        Debug.Log("AudioLoad");
+        Debug.Log(path);
+        WWW load = new WWW(path);
+        yield return load;
+        AudioClip clip = load.GetAudioClip(false, false);
+        _mediaPlayer.AudioSource.clip = clip;
+    }
+    
 }
