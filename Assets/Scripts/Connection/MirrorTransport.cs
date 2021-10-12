@@ -55,9 +55,16 @@ public class MirrorTransport : INetwork, INetworkServer
     private void CommandReceived(NetworkConnection connection, MirrorCommand command)
     {
         Debug.Log($"Mirror received bytes:{command.data.Length}");
-        var networkCommand = command.data.LoadFromBinary<NetworkCommandWrapper>().command;
-        networkCommand.connectionId = connection.connectionId;
-        _stream.Send(networkCommand);
+        try
+        {
+            var networkCommand = command.data.LoadFromBinary<NetworkCommandWrapper>().command;
+            networkCommand.connectionId = connection.connectionId;
+            _stream.Send(networkCommand);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"error in command received {e.ToError()}");
+        }
     }
 
     public void SendCommand(NetworkCommand command)

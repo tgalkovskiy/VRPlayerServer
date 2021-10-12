@@ -2,6 +2,7 @@
 using System.IO;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine;
+using ZergRush;
 using ZergRush.CodeGen;
 using ZergRush.ReactiveCore;
 
@@ -14,9 +15,13 @@ public partial class ClientState : NetworkCommand, ISerializable
     public Cell<float> time;
     public Cell<float> volume;
     public Cell<bool> mute;
+
+    [GenIgnore]
+    public Connections conns = new Connections();
     public void BindToPlayer(MediaPlayer _mediaPlayer)
     {
-         playingItem.Bind(v =>
+        conns.DisconnectAll();
+         conns += playingItem.Bind(v =>
          {
              Debug.Log("Bind");
              if (v == null) _mediaPlayer.CloseMedia();
@@ -32,24 +37,24 @@ public partial class ClientState : NetworkCommand, ISerializable
                  if (v.soundFilename.IsNullOrEmpty() == false)
                  {
                      Debug.Log("AUDIO!");
-                     AudioLoad(Path.Combine(Application.persistentDataPath, $"{v.soundFilename}.mp3"), _mediaPlayer);
+                     //AudioLoad(Path.Combine(Application.persistentDataPath, $"{v.soundFilename}.mp3"), _mediaPlayer);
                  }
              }
          });
-         playing.Bind(playing =>
+         conns += playing.Bind(playing =>
          {
              if (playing) _mediaPlayer.Play();
              else _mediaPlayer.Stop();
          });
-         volume.Bind(v =>
+         conns += volume.Bind(v =>
          {
              _mediaPlayer.AudioVolume = v;
          });
-         mute.Bind(v =>
+         conns += mute.Bind(v =>
          {
              _mediaPlayer.AudioMuted = v;
          });
-         time.ListenUpdates(time =>
+         conns += time.ListenUpdates(time =>
          {
              Debug.Log($"todo: seek function here {time}");
          });
