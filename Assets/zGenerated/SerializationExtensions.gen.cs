@@ -54,5 +54,17 @@ public static partial class SerializationExtensions
             self.RemoveAt(self.Count - 1);
         }
     }
+    public static void Serialize(this ZergRush.ReactiveCore.EventStream self, BinaryWriter writer) 
+    {
+
+    }
+    public static void Deserialize(this ZergRush.ReactiveCore.EventStream self, BinaryReader reader) 
+    {
+
+    }
+    public static void UpdateFrom(this ZergRush.ReactiveCore.EventStream self, ZergRush.ReactiveCore.EventStream other) 
+    {
+
+    }
 }
 #endif

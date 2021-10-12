@@ -14,6 +14,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         NumberSceneOpen = 3,
         SendDataFile = 4,
         DeviceInfo = 7,
+        VideoPath = 13,
         VideoLibItem = 5,
         LibraryItem = 11,
         VideoItem = 6,
@@ -36,6 +37,7 @@ public partial class ProtocolItem : IUpdatableFrom<ProtocolItem>, IPolymorphable
         () => new NetworkCommandWrapper(), // 10
         () => new LibraryItem(), // 11
         () => new VideoCategory(), // 12
+        () => new VideoPath(), // 13
     };
     public static ProtocolItem CreatePolymorphic(System.UInt16 typeId) {
         return polymorphConstructors[typeId]();

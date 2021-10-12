@@ -14,6 +14,7 @@ public partial class DeviceInfo : IUpdatableFrom<DeviceInfo>, IUpdatableFrom<Pro
         name = otherConcrete.name;
         battery = otherConcrete.battery;
         connection = otherConcrete.connection;
+        updated.UpdateFrom(otherConcrete.updated);
     }
     public void UpdateFrom(DeviceInfo other) 
     {
@@ -25,6 +26,7 @@ public partial class DeviceInfo : IUpdatableFrom<DeviceInfo>, IUpdatableFrom<Pro
         name = reader.ReadString();
         battery = reader.ReadInt32();
         connection = reader.ReadString();
+        updated.Deserialize(reader);
     }
     public override void Serialize(BinaryWriter writer) 
     {
@@ -32,11 +34,13 @@ public partial class DeviceInfo : IUpdatableFrom<DeviceInfo>, IUpdatableFrom<Pro
         writer.Write(name);
         writer.Write(battery);
         writer.Write(connection);
+        updated.Serialize(writer);
     }
     public  DeviceInfo() 
     {
         name = string.Empty;
         connection = string.Empty;
+        updated = new ZergRush.ReactiveCore.EventStream();
     }
     public override ushort GetClassId() 
     {
