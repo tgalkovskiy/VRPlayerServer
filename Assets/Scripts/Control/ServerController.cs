@@ -113,6 +113,8 @@ public class ServerController : ConnectableMonoBehaviour
 
     public void OpenScene(int index)
     {
+        state.playing.value = false;
+        state.playingItem.value = null;
         network.SendCommandAll(new NumberSceneOpen { numberScene = index });
     }
 }

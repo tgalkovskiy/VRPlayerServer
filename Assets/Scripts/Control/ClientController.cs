@@ -44,6 +44,14 @@ public class ClientController : MonoBehaviour
     }
     public void OpenScene(int index)
     {
-        SceneManager.LoadScene(index);
+        _mediaPlayer.SetActiveSafe(index == 0);
+        if (index == 0)
+        {
+            SceneManager.LoadScene(3);
+        }
+        else
+        {
+            SceneManager.LoadScene(index);
+        }
     }
 }
