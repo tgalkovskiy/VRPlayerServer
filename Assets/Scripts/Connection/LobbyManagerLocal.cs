@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using Mirror.Discovery;
@@ -17,8 +18,9 @@ public class LobbyManagerLocal : NetworkManager
     private NetworkDiscoveryHUD _Hud;
     Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
     
-    public void OfflineStart()
+    public async void OfflineStart()
     {
+        Debug.Log($"Offline start isServer:{isServer}");
         Application.targetFrameRate = 60;
         serverController = ServerController.Instance;
         _client = ClientController.Instance;
@@ -36,6 +38,8 @@ public class LobbyManagerLocal : NetworkManager
         else
         {
             serverController.UnShowControlMenu();
+            gameObject.SetActive(true);
+            await Task.Delay(200);
             StartCoroutine(Connect());
         }
     }
@@ -50,13 +54,16 @@ public class LobbyManagerLocal : NetworkManager
     }
     IEnumerator Connect()
     {
+        Debug.Log("Start connect");
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
-        yield return new WaitForSeconds(1f);
-        _Hud.Search();
-        yield return new WaitForSeconds(1f);
+        while (_Hud.Search() == false)
+            yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1);
+        Debug.Log("server found");
         var mirrorTransport = new MirrorTransport();
         mirrorTransport.InitClient();
+        Debug.Log("client initialized");
         _client.OnConnected(mirrorTransport);
     }
    

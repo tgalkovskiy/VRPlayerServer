@@ -117,14 +117,15 @@ namespace Mirror.Discovery
             GUILayout.EndArea();
         }
 
-        public void Search()
+        public bool Search()
         {
             foreach (ServerResponse info in discoveredServers.Values)
             {
                  Debug.Log(info.uri);
                  Connect(info);
+                 return true;
             }
-               
+            return false;
         }
         void Connect(ServerResponse info)
         {
