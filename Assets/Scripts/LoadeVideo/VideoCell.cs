@@ -8,7 +8,7 @@ using ZergRush.ReactiveCore;
 using ZergRush.ReactiveUI;
 
 public class LibraryItemView : ReusableView, IPointerClickHandler
-{
+{ 
     public Image selectedImage;
    public Cell<bool> toggle = new Cell<bool>();
    public EventStream selected = new EventStream();

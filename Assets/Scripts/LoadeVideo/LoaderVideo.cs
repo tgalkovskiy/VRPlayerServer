@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using SFB;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using ZergRush;
 using ZergRush.ReactiveCore;
@@ -12,7 +13,8 @@ using Random = UnityEngine.Random;
 public class LoaderVideo : ConnectableMonoBehaviour
 {
     [SerializeField] private Sprite[] _envelope = default;
-    [SerializeField] private GameObject _content = default;
+    [SerializeField] private GameObject _contentVideo = default;
+    [SerializeField] private GameObject _contentCat;
 
     ServerLibrary library;
     static string libPath = "lib";
@@ -23,11 +25,12 @@ public class LoaderVideo : ConnectableMonoBehaviour
         .Filter(i => i is VideoCategory)
         .Map(i => (VideoCategory)i);
 
-    ReactiveCollection<LibraryItem> selectedItems = new ReactiveCollection<LibraryItem>();
+    public static ReactiveCollection<LibraryItem> selectedItems = new ReactiveCollection<LibraryItem>(); 
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
     ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
-    IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
+    IReactiveCollection<VideoItem> itemsToShow => currentCollection.Join().Filter(i => i is VideoItem)
+        .Map(i => (VideoItem)i);
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
     private void Awake()
     {
@@ -40,36 +43,26 @@ public class LoaderVideo : ConnectableMonoBehaviour
         {
             library = new ServerLibrary();
         }
-
-        connections += itemsToShow.Present(_content.transform, PrefabRef<LibraryItemView>.Auto(),
-            (item, cell) =>
+        connections += itemsToShow.Present(_contentVideo.transform, PrefabRef<VideoCell>.Auto(),
+            (vi, cell) =>
             {
-                if (item is VideoItem vi)
-                {
+                
                     var view = (VideoCell)cell;
                     view.SetParametersCell(_envelope.RandomElement(ZergRandom.global), vi.fileName, vi.description);
                     cell.connections += view.selected.Subscribe(() =>
                     {
                         ServerController.Instance.state.playingItem.value = vi;
                     });
-                }
-                else if (item is VideoCategory cat)
-                {
-                    var view = (CategoryCell)cell;
-                    view.SetName(cat.name);
-                    cell.connections += view.selected.Subscribe(() =>
-                    {
-                        selectedCat.value = cat;
-                    });
-                }
-                cell.SetSelection(false);
-            }, prefabSelector: item =>
-            {
-                if (item is VideoItem) return PrefabRef<LibraryItemView>.ByType(typeof(VideoCell));
-                else if (item is VideoCategory) return PrefabRef<LibraryItemView>.ByType(typeof(CategoryCell));
-                else throw new NotImplementedException();
+                    cell.SetSelection(false);
             }, options: PresentOptions.UseChildWithSameTypeAsView | PresentOptions.PreserveSiblingOrder
         );
+        connections += allCategories.Present(_contentCat.transform, PrefabRef<CategoryCell>.Auto(),
+            (cat, cell) =>
+            {
+                var view = (CategoryCell) cell;
+                view.SetName(cat.name);
+                cell.connections += view.selected.Subscribe(() => { selectedCat.value = cat; });
+            }, options: PresentOptions.UseChildWithSameTypeAsView | PresentOptions.PreserveSiblingOrder);
     }
 
     void Start()
@@ -77,6 +70,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         WindowControll.Instance.categoryBackButton.SetActive(canGoBack);
         WindowControll.Instance.categoryBackButton.Subscribe(GoBack);
         WindowControll.Instance.addPlayListButton.SetActive(selectedCat.Is(null));
+        WindowControll.Instance.delete.onClick.AddListener(DeleteCell);
     }
 
     void OnApplicationPause(bool pauseStatus)
@@ -112,11 +106,11 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 Debug.LogError($"{selectedItem} is not in selected cat {currentCollection.value}");
             }
             currentCollection.value.Remove(selectedItem);
-            DeleteLibraryitem(selectedItem);
+            DeleteLibraryItem(selectedItem);
         }
     }
 
-    public void DeleteLibraryitem(LibraryItem item)
+    private void DeleteLibraryItem(LibraryItem item)
     {
         if (item is VideoItem i)
         {
@@ -126,13 +120,13 @@ public class LoaderVideo : ConnectableMonoBehaviour
         {
             foreach (var libraryItem in cat.items)
             {
-                DeleteLibraryitem(libraryItem);
+                DeleteLibraryItem(libraryItem);
             }
         }
     }
     
     
-    public void OpenFile()
+    public void OpenFile(string _name)
     {
         var extensions = new[]
         {
@@ -143,7 +137,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
         foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
-            var name = Path.GetFileNameWithoutExtension(path);
+            var name = _name; //Path.GetFileNameWithoutExtension(path);
             this.name = name;
             this.path = path;
             var fillVideoPath = GetFillVideoPath(name);
@@ -155,7 +149,10 @@ public class LoaderVideo : ConnectableMonoBehaviour
             currentCollection.value.Add(new VideoItem
             {
                 id = new GUI().ToString(),
-                fileName = name
+                fileName = name,
+                subtitlesFileName = $"Test",
+                soundFilename = "TestAudio"
+                //soundFilename = "Sea"
             });
         }
     }

@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 public class WindowControll : MonoBehaviour
 {
     [SerializeField] private GameObject _chooseVideoPanel = default;
+    [SerializeField] private GameObject _listCat = default;
     [SerializeField] private GameObject _content = default;
     [SerializeField] private GameObject _namePanel = default;
     [SerializeField] private GameObject _VideoPanel = default;
@@ -19,10 +20,14 @@ public class WindowControll : MonoBehaviour
     [SerializeField] private Transform _posPreviewOriginal = default;
     [SerializeField] private Image _videoIcon = default;
     [SerializeField] private Text _videoDescription = default;
+    
     public static WindowControll Instance;
     private bool isScalePreview = false;
-    private string _nameCategory;
+    private string _nameContent;
+
     
+    public Button delete;
+    public Button showListCatButton;
     public Button play;
     public Button pause;
     public Button stop;
@@ -30,11 +35,10 @@ public class WindowControll : MonoBehaviour
     public Button mute;
     public Slider volume;
     public Slider time;
-
     public Button addVideoButton;
     public Button addPlayListButton;
     [FormerlySerializedAs("backButton")] public Button categoryBackButton;
-   
+    public bool isShowList = false;
     private void Awake()
     {
         if (Instance == null)
@@ -45,6 +49,7 @@ public class WindowControll : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        showListCatButton.onClick.AddListener(ShowListCat);
     }
 
     public void ChooseVideo()
@@ -79,19 +84,35 @@ public class WindowControll : MonoBehaviour
         _chooseFavorit.SetActive(false);
         _chooseEvent.SetActive(false);
     }
-    
+
+    private void ShowListCat()
+    {
+        isShowList = !isShowList;
+        _listCat.SetActive(isShowList);
+    }
+
+    public void CloseWindow(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+    }
     public void OpenDialogCategory()
     {
         _namePanel.SetActive(true);
     }
-    public void GetNameCategory(InputField _field)
+    public void GetName(InputField _field)
     {
-        _nameCategory = _field.text;
+        _nameContent = _field.text;
+    }
+
+    public void CreateVideo()
+    {
+        ServerController.Instance.videoLoader.OpenFile(_nameContent);
+        _namePanel.SetActive(false);
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
-        ServerController.Instance.videoLoader.AddCategory(_nameCategory);
-       _namePanel.SetActive(false);
+        ServerController.Instance.videoLoader.AddCategory(_nameContent);
+        _namePanel.SetActive(false);
     }
     //public void 
     public void ChangeVideoPanel(Sprite sprite, string description)
