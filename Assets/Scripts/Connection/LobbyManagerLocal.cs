@@ -17,7 +17,7 @@ public class LobbyManagerLocal : NetworkManager
     private NetworkDiscovery networkDiscovery;
     private NetworkDiscoveryHUD _Hud;
     Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
-    
+
     public async void OfflineStart()
     {
         Debug.Log($"Offline start isServer:{isServer}");

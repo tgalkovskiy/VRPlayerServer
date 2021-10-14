@@ -79,7 +79,7 @@ public class ServerController : ConnectableMonoBehaviour
             Debug.Log($"client state sent {state.playingItem.value?.fileName}");
             videoLoader.selectedItems.Add(state.playingItem.value);
             Debug.Log(videoLoader.selectedItems.Count);
-            network.SendCommandAll(state);
+            SendCommandSelectedDevices(state);
         }
     }
 
@@ -119,20 +119,22 @@ public class ServerController : ConnectableMonoBehaviour
             Debug.Log("No video selected");
             return;
         }
+        SendCommandSelectedDevices(new VideoSyncList{items = {state.playingItem.value}});
+    }
+
+    void SendCommandSelectedDevices(NetworkCommand command)
+    {
         foreach (var device in deviceList.selectedCategory.value.devices)
         {
-            network.SendCommand(device.connectionId, new VideoSyncList{items = {state.playingItem.value}});
+            if (device.disconnected) continue;
+            network.SendCommand(device.connectionId, command);
         }
-    }
-    
-    public void SendData(byte[] _data, string _name)
-    {
     }
 
     public void OpenScene(int index)
     {
         state.playing.value = false;
         state.playingItem.value = null;
-        network.SendCommandAll(new NumberSceneOpen { numberScene = index });
+        SendCommandSelectedDevices(new NumberSceneOpen { numberScene = index });
     }
 }

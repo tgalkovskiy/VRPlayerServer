@@ -20,6 +20,9 @@ public class ClientController : MonoBehaviour
     bool syncInProcess => syncFiles.Count > 0;
     List<string> syncFiles = new List<string>();
     Coroutine syncCoro;
+    
+    public string filePrefix = "";
+    public static string persistentPathFilePrefix => Instance != null ? Instance.filePrefix : "";
 
     void Awake()
     {
@@ -33,11 +36,11 @@ public class ClientController : MonoBehaviour
         network = net;
         network.commandReceived.Subscribe(c =>
         {
-            Debug.Log("Client command received");
+            Debug.Log($"Client command received {c}");
             switch (c)
             {
                 case ClientState st : state.UpdateFrom(st); OpenVideo(); break;
-                case SendDataFile data : SaveDataFile(data.data, data.format, data.name); break;
+                case SendDataFile data : SaveDataFile(data.data, data.name); break;
                 case NumberSceneOpen n : OpenScene(n.numberScene); break;
                 case VideoSyncList videoSync : 
                     if (syncCoro != null) StopCoroutine(syncCoro);
@@ -48,18 +51,19 @@ public class ClientController : MonoBehaviour
         state.BindToPlayer(_mediaPlayer);
         Debug.Log($"DeviceInfo sent battery level: {SystemInfo.batteryLevel}");
         StartCoroutine(UpdateDevice());
+        SendDeviceInfo();
     }
     
-    public void SaveDataFile(byte[] data, string format, string name)
+    public void SaveDataFile(byte[] data, string name)
     {
-        File.WriteAllBytes(Path.Combine(Application.persistentDataPath, $"{name}.{format}"), data);
+        File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
     }
 
     IEnumerator UpdateDevice()
     {
         while (true)
         {
-            SendDeviceInfo();
+            //SendDeviceInfo();
             yield return new WaitForSeconds(3);
         } 
     }
@@ -82,7 +86,7 @@ public class ClientController : MonoBehaviour
     
     public IEnumerator SyncVideos(VideoSyncList videoSync)
     {
-        syncFiles = videoSync.items.SelectMany(RequiredFiles).Where(path => File.Exists(LoaderVideo.GetFillVideoPath(path))).ToList();
+        syncFiles = videoSync.items.SelectMany(RequiredFiles).Where(path => File.Exists(LoaderVideo.GetFillVideoPath(path)) == false).ToList();
         if (syncFiles.Count > 0)
         {
             SendDeviceInfo();

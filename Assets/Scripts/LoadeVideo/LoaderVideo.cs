@@ -87,7 +87,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     public static string GetFillVideoPath(string fileName)
     {
-        return Path.Combine(Application.persistentDataPath, $"{fileName}");
+        return Path.Combine(Application.persistentDataPath, $"{ClientController.persistentPathFilePrefix}{fileName}");
     }
 
     public void GoBack()
