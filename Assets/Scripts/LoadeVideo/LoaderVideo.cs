@@ -24,7 +24,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         .Filter(i => i is VideoCategory)
         .Map(i => (VideoCategory)i);
 
-    public static ReactiveCollection<LibraryItem> selectedItems = new ReactiveCollection<LibraryItem>(); 
+    public ReactiveCollection<VideoItem> selectedItems = new ReactiveCollection<VideoItem>(); 
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
     ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
@@ -95,9 +95,9 @@ public class LoaderVideo : ConnectableMonoBehaviour
         selectedCat.value = null;
     }
 
-    public void AddCategory(string catName)
+    public void AddCategory(string catName, string description)
     {
-        currentCollection.value.Insert(0, new VideoCategory{name = catName});
+        currentCollection.value.Insert(0, new VideoCategory{name = catName, description = description});
     }
     public void  DeleteCell()
     {
@@ -128,7 +128,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
     }
     
     
-    public void OpenFile(string name)
+    public void OpenFile(string name, string description)
     {
         var extensions = new[]
         {
@@ -151,6 +151,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
             {
                 id = new GUI().ToString(),
                 fileName = fileName,
+                description = description
             });
         }
     }
