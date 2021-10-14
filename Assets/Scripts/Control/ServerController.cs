@@ -76,7 +76,7 @@ public class ServerController : ConnectableMonoBehaviour
         {
             stateDirty = false;
             videoLoader.selectedItems.Clear();
-            Debug.Log($"client state sent {state.playingItem.value.fileName}");
+            Debug.Log($"client state sent {state.playingItem.value?.fileName}");
             videoLoader.selectedItems.Add(state.playingItem.value);
             Debug.Log(videoLoader.selectedItems.Count);
             network.SendCommandAll(state);

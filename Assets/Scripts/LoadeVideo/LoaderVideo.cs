@@ -116,6 +116,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
     {
         if (item is VideoItem i)
         {
+            ServerController.Instance.state.playing.value = false;
+            ServerController.Instance.state.playingItem.value = null;
             File.Delete(i.filePath);
         }
         else if (item is VideoCategory cat)
