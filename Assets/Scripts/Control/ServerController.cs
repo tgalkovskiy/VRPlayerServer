@@ -72,7 +72,10 @@ public class ServerController : ConnectableMonoBehaviour
         if (stateDirty)
         {
             stateDirty = false;
-            Debug.Log("client state sent");
+            videoLoader.selectedItems.Clear();
+            Debug.Log($"client state sent {state.playingItem.value.fileName}");
+            videoLoader.selectedItems.Add(state.playingItem.value);
+            Debug.Log(videoLoader.selectedItems.Count);
             network.SendCommandAll(state);
         }
     }

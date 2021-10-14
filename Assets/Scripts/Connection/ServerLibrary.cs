@@ -27,6 +27,7 @@ public partial class VideoItem : LibraryItem
 public partial class VideoCategory : LibraryItem
 {
     public string name;
+    public string description;
     public ReactiveCollection<LibraryItem> items;
 }
 

@@ -32,6 +32,7 @@ public partial class VideoCategory : IUpdatableFrom<VideoCategory>, IUpdatableFr
     }
     public  VideoCategory() 
     {
+        this.description = description;
         name = string.Empty;
         items = new ZergRush.ReactiveCore.ReactiveCollection<LibraryItem>();
     }

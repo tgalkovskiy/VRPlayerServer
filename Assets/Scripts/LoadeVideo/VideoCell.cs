@@ -29,10 +29,11 @@ public class LibraryItemView : ReusableView, IPointerClickHandler
    }
 }
 
-public class VideoCell : LibraryItemView
+public class VideoCell : LibraryItemView, IPointerEnterHandler, IPointerExitHandler
 {
    [SerializeField]private Image _image = default;
    [SerializeField]private Text _name;
+   [SerializeField] private GameObject _iconDescription = default;
    [SerializeField]private Text _descriptionText;
    [SerializeField]private DateTime duration = default;
    public string nameVideo;
@@ -47,4 +48,14 @@ public class VideoCell : LibraryItemView
         if (_descriptionText != null)
             this._descriptionText.text = _description;
     }
+
+   public void OnPointerEnter(PointerEventData eventData)
+   {
+       _iconDescription.SetActive(true);
+   }
+
+   public void OnPointerExit(PointerEventData eventData)
+   {
+       _iconDescription.SetActive(false);
+   }
 }

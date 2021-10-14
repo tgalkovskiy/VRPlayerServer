@@ -24,7 +24,7 @@ public class WindowControll : MonoBehaviour
     public static WindowControll Instance;
     private bool isScalePreview = false;
     private string _nameContent;
-
+    private string _description;
     
     public Button delete;
     public Button showListCatButton;
@@ -104,14 +104,18 @@ public class WindowControll : MonoBehaviour
         _nameContent = _field.text;
     }
 
+    public void GetDescription(InputField _field)
+    {
+        _description = _field.text;
+    }
     public void CreateVideo()
     {
-        ServerController.Instance.videoLoader.OpenFile(_nameContent);
+        ServerController.Instance.videoLoader.OpenFile(_nameContent, _description);
         _namePanel.SetActive(false);
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
-        ServerController.Instance.videoLoader.AddCategory(_nameContent);
+        ServerController.Instance.videoLoader.AddCategory(_nameContent, _description);
         _namePanel.SetActive(false);
     }
     //public void 

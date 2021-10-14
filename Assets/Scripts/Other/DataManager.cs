@@ -2,19 +2,17 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
     public Slider _progressSlider;
-    [FormerlySerializedAs("_lobbyManagerLocal")] public ServerController _serverMenu;
+    public ServerController _serverMenu;
     public static DataManager Instance;
     private void Awake()
     {
         Instance = this;
     }
-    
     public async void SendDataFile(string _pathFile, string _name)
     {
         IProgress<int> _progress = new Progress<int>(i => _progressSlider.value = i);
