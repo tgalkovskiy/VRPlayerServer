@@ -140,7 +140,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
             var ext = Path.GetExtension(path);
-            var fileName = $"{name}.{ext}";
+            var fileName = $"{name}{ext}";
             var fillVideoPath = GetFillVideoPath(fileName);
             if (File.Exists(fillVideoPath))
             {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
 using Mirror;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
@@ -102,14 +103,15 @@ public class ServerController : ConnectableMonoBehaviour
 
     public async void SendFile(int connectionId, string file)
     {
-        var bytes = await Task.Run(() =>
+        /*var bytes = await Task.Run(() =>
         {
-            byte[] massByteToFile = System.IO.File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
-            return massByteToFile;
-        }); 
-        network.SendCommand(connectionId, new SendDataFile { data = bytes, name = file });
+            
+        }); */
+        byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
+        //return massByteToFile;
+        network.SendCommand(connectionId, new SendDataFile { data = massByteToFile, name = file });
     }
-
+    
     public void SyncCall()
     {
         if (state.playingItem.value == null)
