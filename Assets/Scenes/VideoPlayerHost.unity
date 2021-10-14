@@ -3161,7 +3161,7 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
-  isServer: 1
+  isServer: 0
 --- !u!114 &370094809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9014,7 +9014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &1128699906
 Camera:
   m_ObjectHideFlags: 0
@@ -9401,7 +9401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1169060445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9950,7 +9950,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1312140327}
   m_HandleRect: {fileID: 1312140326}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10552,7 +10552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 168586, guid: f4d2c95a82cadba4fb259ca17b5a8404, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198558, guid: f4d2c95a82cadba4fb259ca17b5a8404, type: 3}
       propertyPath: m_IsActive
@@ -11800,6 +11800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mediaPlayer: {fileID: 1551559971}
+  filePrefix: 
 --- !u!1 &1451275484
 GameObject:
   m_ObjectHideFlags: 0

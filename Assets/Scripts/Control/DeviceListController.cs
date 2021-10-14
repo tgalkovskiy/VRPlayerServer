@@ -32,6 +32,7 @@ public class DeviceListController : ConnectableMonoBehaviour
                 (info, itemView) =>
                 {
                     itemView.Show(info);
+                    itemView.selectedBg.SetActiveSafe(false);
                 }, updater: d => d.updated);
             view.button.Subscribe(() =>
             {

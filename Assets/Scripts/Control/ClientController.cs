@@ -63,7 +63,7 @@ public class ClientController : MonoBehaviour
     {
         while (true)
         {
-            //SendDeviceInfo();
+            SendDeviceInfo();
             yield return new WaitForSeconds(3);
         } 
     }
@@ -71,7 +71,7 @@ public class ClientController : MonoBehaviour
     void SendDeviceInfo()
     {
         network.SendCommand(new DeviceInfo { name = SystemInfo.deviceName,
-            battery = (int)SystemInfo.batteryLevel,
+            battery = (int)(SystemInfo.batteryLevel * 100),
             connection = "good",
             syncInProcess = syncInProcess
         });
