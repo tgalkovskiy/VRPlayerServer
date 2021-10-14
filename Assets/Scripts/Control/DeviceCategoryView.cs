@@ -7,6 +7,7 @@ public class DeviceCategoryView : ReusableView
     public Text name;
     public RectTransform deviceContainer;
     public Button button;
+    public Image selectedBg;
     
     public override bool autoDisableOnRecycle => true;
 }

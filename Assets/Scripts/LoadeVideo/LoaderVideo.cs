@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using SFB;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,8 +19,6 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     ServerLibrary library;
     static string libPath = "lib";
-    private string path;
-    private string name;
 
     public IReactiveCollection<VideoCategory> allCategories => library.library
         .Filter(i => i is VideoCategory)
@@ -32,6 +31,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
     IReactiveCollection<VideoItem> itemsToShow => currentCollection.Join().Filter(i => i is VideoItem)
         .Map(i => (VideoItem)i);
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
+    
+    
     private void Awake()
     {
         var filename = libPath;
@@ -82,10 +83,11 @@ public class LoaderVideo : ConnectableMonoBehaviour
     {
         library.SaveToFile("lib", true);
     }
+    
 
     public static string GetFillVideoPath(string fileName)
     {
-        return Path.Combine(Application.persistentDataPath, $"{fileName}.mp4");
+        return Path.Combine(Application.persistentDataPath, $"{fileName}");
     }
 
     public void GoBack()
@@ -126,7 +128,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
     }
     
     
-    public void OpenFile(string _name)
+    public void OpenFile(string name)
     {
         var extensions = new[]
         {
@@ -137,10 +139,9 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
         foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
         {
-            var name = _name; //Path.GetFileNameWithoutExtension(path);
-            this.name = name;
-            this.path = path;
-            var fillVideoPath = GetFillVideoPath(name);
+            var ext = Path.GetExtension(path);
+            var fileName = $"{name}.{ext}";
+            var fillVideoPath = GetFillVideoPath(fileName);
             if (File.Exists(fillVideoPath))
             {
                 File.Delete(fillVideoPath);
@@ -149,17 +150,13 @@ public class LoaderVideo : ConnectableMonoBehaviour
             currentCollection.value.Add(new VideoItem
             {
                 id = new GUI().ToString(),
-                fileName = name,
-                //subtitlesFileName = $"Test",
-                //soundFilename = "TestAudio"
-                //soundFilename = "Sea"
+                fileName = fileName,
             });
         }
     }
 
     public void SendData()
     {
-        byte[] mass = File.ReadAllBytes(this.path);
-        ServerController.Instance.SendData(mass, "mp4", this.name);
+        ServerController.Instance.SyncCall();
     }
 }

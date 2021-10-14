@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
@@ -63,6 +64,7 @@ public class ServerController : ConnectableMonoBehaviour
             switch (c)
             {
                 case DeviceInfo info: deviceList.DeviceInfoReceived(info); break;
+                case NeedFile need: SendFile(need.connectionId, need.fileName); break;
             }
         });
     }
@@ -75,11 +77,6 @@ public class ServerController : ConnectableMonoBehaviour
             Debug.Log("client state sent");
             network.SendCommandAll(state);
         }
-    }
-
-    public void OpenVideo(string path)
-    {
-        _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, path, false);
     }
 
     public void ShowControlMenu()
@@ -95,20 +92,36 @@ public class ServerController : ConnectableMonoBehaviour
         _mediaPlayer.gameObject.SetActive(true);
     }
 
-    /*public void SyncClient()
-    {
-        var playingItemValue = state.playingItem.value;
-        DataManager.Instance.SendDataFile(playingItemValue.fileName, playingItemValue.filePath);
-    }*/
-
     public void DeleteVideoCategory()
     {
         videoLoader.DeleteCell();
     }
-    
-    public void SendData(byte[] _data, string _format, string _name)
+
+    public async void SendFile(int connectionId, string file)
     {
-        network.SendCommandAll(new SendDataFile { data = _data, format = _format, name = _name });
+        var bytes = await Task.Run(() =>
+        {
+            byte[] massByteToFile = System.IO.File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
+            return massByteToFile;
+        }); 
+        network.SendCommand(connectionId, new SendDataFile { data = bytes, name = file });
+    }
+
+    public void SyncCall()
+    {
+        if (state.playingItem.value == null)
+        {
+            Debug.Log("No video selected");
+            return;
+        }
+        foreach (var device in deviceList.selectedCategory.value.devices)
+        {
+            network.SendCommand(device.connectionId, new VideoSyncList{items = {state.playingItem.value}});
+        }
+    }
+    
+    public void SendData(byte[] _data, string _name)
+    {
     }
 
     public void OpenScene(int index)

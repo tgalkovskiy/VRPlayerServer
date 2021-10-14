@@ -9,6 +9,7 @@ public interface INetwork
 public interface INetworkServer
 {
     void SendCommandAll(NetworkCommand command);
+    void SendCommand(int connectionId, NetworkCommand command);
     IEventStream<NetworkCommand> commandReceived { get; }
     IEventStream<int> clientDisconnected { get; }
 }
