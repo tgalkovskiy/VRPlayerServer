@@ -11,3 +11,5 @@ NetworkCommandWrapper 10
 LibraryItem 11
 VideoCategory 12
 VideoPath 13
+NeedFile 14
+VideoSyncList 15

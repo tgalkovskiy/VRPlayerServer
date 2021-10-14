@@ -22,9 +22,10 @@ public partial class DeviceInfo : NetworkCommand
     public string name;
     public int battery;
     public string connection;
-    public EventStream updated;
     public bool disconnected;
     public bool syncInProcess;
+    
+    public EventStream updated;
 }
 
 public partial class NeedFile : NetworkCommand

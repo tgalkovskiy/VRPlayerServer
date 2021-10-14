@@ -87,10 +87,13 @@ public class ClientController : MonoBehaviour
         {
             SendDeviceInfo();
         }
-        foreach (var item in syncFiles)
+
+        for (var i = syncFiles.Count - 1; i >= 0; i--)
         {
-            network.SendCommand(new NeedFile{fileName = item});
+            var item = syncFiles[i];
+            network.SendCommand(new NeedFile { fileName = item });
             yield return new WaitForEvent(network.commandReceived.Filter(c => c is SendDataFile));
+            syncFiles.RemoveLast();
         }
         SendDeviceInfo();
         syncCoro = null;
