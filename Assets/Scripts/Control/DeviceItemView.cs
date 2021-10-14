@@ -9,7 +9,6 @@ public class DeviceItemView : ReusableView
     public Image selectedBg;
     public Button click;
 
-
     public override bool autoDisableOnRecycle => true;
 
     public void Show(DeviceInfo info)

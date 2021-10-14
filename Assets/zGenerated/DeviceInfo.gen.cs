@@ -14,6 +14,8 @@ public partial class DeviceInfo : IUpdatableFrom<DeviceInfo>, IUpdatableFrom<Pro
         name = otherConcrete.name;
         battery = otherConcrete.battery;
         connection = otherConcrete.connection;
+        disconnected = otherConcrete.disconnected;
+        syncInProcess = otherConcrete.syncInProcess;
         updated.UpdateFrom(otherConcrete.updated);
     }
     public void UpdateFrom(DeviceInfo other) 
@@ -26,6 +28,8 @@ public partial class DeviceInfo : IUpdatableFrom<DeviceInfo>, IUpdatableFrom<Pro
         name = reader.ReadString();
         battery = reader.ReadInt32();
         connection = reader.ReadString();
+        disconnected = reader.ReadBoolean();
+        syncInProcess = reader.ReadBoolean();
         updated.Deserialize(reader);
     }
     public override void Serialize(BinaryWriter writer) 
@@ -34,6 +38,8 @@ public partial class DeviceInfo : IUpdatableFrom<DeviceInfo>, IUpdatableFrom<Pro
         writer.Write(name);
         writer.Write(battery);
         writer.Write(connection);
+        writer.Write(disconnected);
+        writer.Write(syncInProcess);
         updated.Serialize(writer);
     }
     public  DeviceInfo() 

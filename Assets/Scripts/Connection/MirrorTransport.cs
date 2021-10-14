@@ -22,7 +22,20 @@ public partial class DeviceInfo : NetworkCommand
     public string name;
     public int battery;
     public string connection;
+    public bool disconnected;
+    public bool syncInProcess;
+    
     public EventStream updated;
+}
+
+public partial class NeedFile : NetworkCommand
+{
+    public string fileName;
+}
+
+public partial class VideoSyncList : NetworkCommand
+{
+    public List<VideoItem> items;
 }
 
 public partial class VideoPath : NetworkCommand
@@ -49,7 +62,7 @@ public class MirrorTransport : INetwork, INetworkServer
     {
         if (!NetworkServer.active) return;
         NetworkServer.RegisterHandler<MirrorCommand>(CommandReceived);
-        NetworkServer.OnConnectedEvent += connection => _disconnectedStream.Send(connection.connectionId);
+        NetworkServer.OnDisconnectedEvent += connection => _disconnectedStream.Send(connection.connectionId);
     }
 
     private void CommandReceived(NetworkConnection connection, MirrorCommand command)
@@ -77,6 +90,12 @@ public class MirrorTransport : INetwork, INetworkServer
     public void SendCommandAll(NetworkCommand command)
     {
         NetworkServer.SendToAll(new MirrorCommand { data = new NetworkCommandWrapper{command = command}.SaveToBinary() });
+    }
+
+    public void SendCommand(int connectionId, NetworkCommand command)
+    {
+        NetworkServer.SendToReady(NetworkServer.connections[connectionId].identity,
+            new MirrorCommand { data = new NetworkCommandWrapper{command = command}.SaveToBinary() });
     }
 
     public IEventStream<NetworkCommand> commandReceived => _stream;

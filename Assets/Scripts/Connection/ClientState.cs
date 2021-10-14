@@ -27,11 +27,11 @@ public partial class ClientState : NetworkCommand, ISerializable
              if (v == null) _mediaPlayer.CloseMedia();
              if (v != null)
              {
-                 var pathVideo = Path.Combine(Application.persistentDataPath, $"{v.fileName}.mp4");
+                 var pathVideo = LoaderVideo.GetFillVideoPath(v.fileName);
                  _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, pathVideo, false);
                  if (v.subtitlesFileName.IsNullOrEmpty() == false)
                  {
-                      var pathSub = Path.Combine(Application.persistentDataPath, $"{v.subtitlesFileName}.srt");
+                      var pathSub = LoaderVideo.GetFillVideoPath(v.subtitlesFileName);
                       _mediaPlayer.EnableSubtitles(new MediaPath(pathSub, MediaPathType.AbsolutePathOrURL));
                  }
                  if (v.soundFilename.IsNullOrEmpty() == false)
@@ -71,5 +71,4 @@ public partial class ClientState : NetworkCommand, ISerializable
         AudioClip clip = load.GetAudioClip(false, false);
         _mediaPlayer.AudioSource.clip = clip;
     }
-    
 }

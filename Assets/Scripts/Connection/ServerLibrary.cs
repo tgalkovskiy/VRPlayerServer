@@ -34,16 +34,4 @@ public partial class VideoCategory : LibraryItem
 public partial class ServerLibrary : ProtocolItem
 {
     public ReactiveCollection<LibraryItem> library;
-
-    // public IEnumerable<string> RequiredFiles(string videoId)
-    // {
-    //     var item = library.Find(v => v.id == videoId);
-    //     yield return item.fileName;
-    //     if (item.soundFilename.IsNullOrEmpty() == false) yield return item.soundFilename;
-    //     if (item.subtitlesFileName.IsNullOrEmpty() == false) yield return item.subtitlesFileName;
-    // }
-    //
-    // public IEnumerable<string> files => library
-    //     .SelectMany(l => new[] { l.fileName, l.soundFilename, l.subtitlesFileName })
-    //     .Where(name => name != null);
 }

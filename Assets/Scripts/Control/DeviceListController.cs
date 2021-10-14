@@ -23,6 +23,7 @@ public class DeviceListController : ConnectableMonoBehaviour
     void Awake()
     {
         categories.Add(new DeviceCategory {name = "All devices"});
+        selectedCategory.value = categories[0];
         connections += categories.Present(devicesRect, PrefabRef<DeviceCategoryView>.Auto(), (category, view) =>
         {
             view.connections +=
@@ -32,7 +33,11 @@ public class DeviceListController : ConnectableMonoBehaviour
                 {
                     itemView.Show(info);
                 }, updater: d => d.updated);
-            view.button.Subscribe(() => selectedCategory.value = category);
+            view.button.Subscribe(() =>
+            {
+                selectedCategory.value = category;
+            });
+            view.connections += view.selectedBg.SetActive(selectedCategory.Is(category));
         });
 
         connections += createCat.Subscribe(() =>
@@ -62,6 +67,18 @@ public class DeviceListController : ConnectableMonoBehaviour
         });
     }
 
+    public IEnumerable<DeviceInfo> CurrentDevicesSelected() => selectedCategory.value.devices;
+
+    public DeviceInfo GetDeviceWithConnection(int connectionId)
+    {
+        foreach (var deviceCategory in categories)
+        {
+            if (deviceCategory.devices.TryFind(d => d.connectionId == connectionId, out var deviceInfo))
+                return deviceInfo;
+        }
+        return null;
+    }
+
     public void AddCategory(string name, IEnumerable<DeviceInfo> devices)
     {
         var deviceCategory = new DeviceCategory {name = name};
@@ -71,10 +88,14 @@ public class DeviceListController : ConnectableMonoBehaviour
 
     public void DeviceDisconnected(int connectionId)
     {
-        foreach (var deviceCategory in categories)
+        var device = GetDeviceWithConnection(connectionId);
+        if (device == null)
         {
-            deviceCategory.devices.RemoveAll(d => d.connectionId == connectionId);
+            Debug.LogError($"device {connectionId} disconnected but not found in device list");
+            return;
         }
+        device.disconnected = true;
+        device.updated.Send();
     }
 
     public void DeviceInfoReceived(DeviceInfo info)
@@ -85,6 +106,7 @@ public class DeviceListController : ConnectableMonoBehaviour
             if (existentDevice != null)
             {
                 existentDevice.UpdateFrom(info);
+                existentDevice.disconnected = false;
                 existentDevice.updated.Send();
             }
             else
