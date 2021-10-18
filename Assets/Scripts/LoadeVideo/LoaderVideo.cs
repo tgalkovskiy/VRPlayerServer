@@ -47,8 +47,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         connections += itemsToShow.Present(_contentVideo.transform, PrefabRef<VideoCell>.Auto(),
             (vi, cell) =>
             {
-                
-                    var view = (VideoCell)cell;
+                var view = (VideoCell)cell;
                     view.SetParametersCell(_envelope.RandomElement(ZergRandom.global), vi.fileName, vi.description);
                     cell.connections += view.selected.Subscribe(() =>
                     {

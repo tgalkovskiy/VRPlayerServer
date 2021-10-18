@@ -6,13 +6,13 @@ using System.Linq;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using ZergRush;
 using ZergRush.ReactiveCore;
 
 public class ClientController : MonoBehaviour
 {
     [SerializeField] private MediaPlayer _mediaPlayer = default;
-
     public static ClientController Instance;
     public ClientState state = new ClientState();
     public INetwork network;

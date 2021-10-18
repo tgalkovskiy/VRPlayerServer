@@ -8,10 +8,13 @@ using Mirror;
 using Mirror.Discovery;
 using SFB;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class LobbyManagerLocal : NetworkManager
 {
     [SerializeField] private bool isServer = default;
+    [SerializeField] private Text _waitText = default;
+    [SerializeField] private GameObject _logo = default;
     private ServerController serverController;
     private ClientController _client;
     private NetworkDiscovery networkDiscovery;
@@ -37,6 +40,8 @@ public class LobbyManagerLocal : NetworkManager
         }
         else
         {
+            _waitText.text = $"{SystemInfo.deviceName} \n wait for connection by the host...";
+            _logo.SetActive(true);
             serverController.UnShowControlMenu();
             gameObject.SetActive(true);
             await Task.Delay(200);
@@ -65,6 +70,7 @@ public class LobbyManagerLocal : NetworkManager
         mirrorTransport.InitClient();
         Debug.Log("client initialized");
         _client.OnConnected(mirrorTransport);
+        _logo.SetActive(false);
     }
    
 }
