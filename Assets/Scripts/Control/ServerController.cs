@@ -104,8 +104,7 @@ public class ServerController : ConnectableMonoBehaviour
     public async void SendFile(int connectionId, string file)
     {
         /*var bytes = await Task.Run(() =>
-        {
-            
+        { 
         }); */
         byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
         //return massByteToFile;

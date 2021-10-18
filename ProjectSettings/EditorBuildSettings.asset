@@ -14,4 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/NewGame2/Scenes/Loading/Persistent.unity
     guid: b5f7adbbffea4124981217075059d6a6
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/Empty.unity
+    guid: aff2dc5d93cffa04eb448723b3aa3510
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: a18222d77baae4e449588a43bdb9d739, type: 2}
