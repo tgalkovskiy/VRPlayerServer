@@ -20,6 +20,7 @@ public partial class VideoItem : LibraryItem
     public string fileName;
     public string soundFilename;
     public string subtitlesFileName;
+    public string extImage;
     public string filePath => LoaderVideo.GetFillVideoPath(fileName);
     public string subFilePath => LoaderVideo.GetFillVideoPath(subtitlesFileName);
 }
@@ -28,6 +29,7 @@ public partial class VideoCategory : LibraryItem
 {
     public string name;
     public string description;
+    public string extImage;
     public ReactiveCollection<LibraryItem> items;
 }
 

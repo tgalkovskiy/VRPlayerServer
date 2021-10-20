@@ -6,6 +6,7 @@ using System;
 using UnityEngine.EventSystems;
 using ZergRush.ReactiveCore;
 using ZergRush.ReactiveUI;
+using System.IO;
 
 public class LibraryItemView : ReusableView, IPointerClickHandler
 { 
@@ -40,13 +41,20 @@ public class VideoCell : LibraryItemView, IPointerEnterHandler, IPointerExitHand
 
    public override bool autoDisableOnRecycle => true;
 
-   public void SetParametersCell(Sprite preview, string name, string _description)
+   public void SetParametersCell(string extImage, string name, string _description)
     {
-        _image.sprite = preview;
+        //_image.sprite = preview;
         this._name.text = name;
         nameVideo = $"{name}.mp4";
         if (_descriptionText != null)
             this._descriptionText.text = _description;
+        if (!extImage.IsNullOrEmpty())
+        {
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(File.ReadAllBytes(Path.Combine(Application.persistentDataPath, extImage)));
+            Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),new Vector2(0,0));
+            _image.sprite = NewSprite;
+        }
     }
 
    public void OnPointerEnter(PointerEventData eventData)

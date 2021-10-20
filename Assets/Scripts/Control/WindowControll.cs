@@ -1,9 +1,10 @@
 
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Serialization;
-
+using SFB;
 
 public class WindowControll : MonoBehaviour
 {
@@ -19,13 +20,14 @@ public class WindowControll : MonoBehaviour
     [SerializeField] private Transform _posScalePreview = default;
     [SerializeField] private Transform _posPreviewOriginal = default;
     [SerializeField] private Image _videoIcon = default;
+    [SerializeField] private Image _loadImage = default;
     [SerializeField] private Text _videoDescription = default;
     
     public static WindowControll Instance;
     private bool isScalePreview = false;
     private string _nameContent;
     private string _description;
-    
+    private string _imagePath;
     public Button delete;
     public Button showListCatButton;
     public Button play;
@@ -33,6 +35,7 @@ public class WindowControll : MonoBehaviour
     public Button stop;
     public Button back;
     public Button mute;
+    public Button addImage;
     public Slider volume;
     public Slider time;
     public Button addVideoButton;
@@ -50,6 +53,7 @@ public class WindowControll : MonoBehaviour
             Destroy(gameObject);
         }
         showListCatButton.onClick.AddListener(ShowListCat);
+        addImage.onClick.AddListener(AddImageContent);
     }
 
     public void ChooseVideo()
@@ -104,19 +108,51 @@ public class WindowControll : MonoBehaviour
         _nameContent = _field.text;
     }
 
+    private void AddImageContent()
+    {
+        var extensions = new[]
+            {
+                //какие файлы вообще можно открыть
+                new ExtensionFilter("Image Files", "png"),
+                new ExtensionFilter("All Files", "*"),
+            };
+            foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))
+            {
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(File.ReadAllBytes(path));
+                Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),new Vector2(0,0));
+                _loadImage.sprite = NewSprite;
+                _imagePath = path;
+            }
+        
+    }
     public void GetDescription(InputField _field)
     {
         _description = _field.text;
     }
     public void CreateVideo()
     {
-        ServerController.Instance.videoLoader.OpenFile(_nameContent, _description);
+        string ext = string.Empty;
+        if (!_imagePath.IsNullOrEmpty())
+        {
+            ext = Path.GetExtension(_imagePath);
+            File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{_nameContent}{Path.GetExtension(_imagePath)}"));
+        }
+        ServerController.Instance.videoLoader.OpenFile(_nameContent, _description, ext);
         _namePanel.SetActive(false);
+        _imagePath = string.Empty;
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
-        ServerController.Instance.videoLoader.AddCategory(_nameContent, _description);
+        string ext = string.Empty;
+        if (!_imagePath.IsNullOrEmpty())
+        {
+            ext = Path.GetExtension(_imagePath);
+            File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{_nameContent}{Path.GetExtension(_imagePath)}"));
+        }
+        ServerController.Instance.videoLoader.AddCategory(_nameContent, _description, ext);
         _namePanel.SetActive(false);
+        _imagePath = string.Empty;
     }
     //public void 
     public void ChangeVideoPanel(Sprite sprite, string description)

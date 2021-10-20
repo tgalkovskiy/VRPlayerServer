@@ -12,6 +12,7 @@ public partial class VideoCategory : IUpdatableFrom<VideoCategory>, IUpdatableFr
         base.UpdateFrom(other);
         var otherConcrete = (VideoCategory)other;
         name = otherConcrete.name;
+        extImage = otherConcrete.extImage;
         items.UpdateFrom(otherConcrete.items);
     }
     public void UpdateFrom(VideoCategory other) 
@@ -22,18 +23,21 @@ public partial class VideoCategory : IUpdatableFrom<VideoCategory>, IUpdatableFr
     {
         base.Deserialize(reader);
         name = reader.ReadString();
+        extImage = reader.ReadString();
         items.Deserialize(reader);
     }
     public override void Serialize(BinaryWriter writer) 
     {
         base.Serialize(writer);
         writer.Write(name);
+        writer.Write(extImage);
         items.Serialize(writer);
     }
     public  VideoCategory() 
     {
         this.description = description;
         name = string.Empty;
+        extImage = string.Empty;
         items = new ZergRush.ReactiveCore.ReactiveCollection<LibraryItem>();
     }
     public override ushort GetClassId() 
