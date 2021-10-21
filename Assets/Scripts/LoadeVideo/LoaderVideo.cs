@@ -52,15 +52,14 @@ public class LoaderVideo : ConnectableMonoBehaviour
                     var view = (VideoCell)cell;
                     view.SetParametersCell(vi.extImage, vi.fileName, vi.description);
                     cell.connections += view.selected.Subscribe(() => ServerController.Instance.state.playingItem.value = vi);
+                   
                 }
                 else if (item is VideoCategory cat)
                 {
                     var view = (CategoryCell)cell;
-                    view.SetParameters(cat.name , cat.extImage);
-                    cell.connections += view.selected.Subscribe(() =>
-                    {
-                        selectedCat.value = cat;
-                    });
+                    view.SetParameters(cat.name , cat.extImage, cat.description);
+                    cell.connections += view.selected.Subscribe(() => { selectedCat.value = cat; });
+                    
                 }
             }, prefabSelector: item =>
             {

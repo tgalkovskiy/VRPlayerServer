@@ -8,6 +8,7 @@ using SFB;
 
 public class WindowControll : MonoBehaviour
 {
+    [SerializeField] private GameObject _changeContent = default;
     [SerializeField] private GameObject _chooseVideoPanel = default;
     [SerializeField] private GameObject _listCat = default;
     [SerializeField] private GameObject _content = default;
@@ -99,15 +100,23 @@ public class WindowControll : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    public void OpenDialogCategory()
+    public void OpenWindowAddContent()
     {
         _namePanel.SetActive(true);
+    }
+
+    public void OpenWindowChangeContent()
+    {
+        _changeContent.SetActive(true);
+    }
+    public void ApplyChangeContent()
+    {
+        _changeContent.SetActive(false);
     }
     public void GetName(InputField _field)
     {
         _nameContent = _field.text;
     }
-
     private void AddImageContent()
     {
         var extensions = new[]

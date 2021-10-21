@@ -12,8 +12,9 @@ public class LibraryItemView : ReusableView, IPointerClickHandler
 { 
     public Image selectedImage;
    public Cell<bool> toggle = new Cell<bool>();
+   public GameObject settingCell;
    public EventStream selected = new EventStream();
-
+   
    public void OnToggleValue(bool value)
    {
        toggle.value = value;
@@ -21,7 +22,14 @@ public class LibraryItemView : ReusableView, IPointerClickHandler
 
    public void OnPointerClick(PointerEventData eventData)
    {
-       selected.Send();
+       if (eventData.button == PointerEventData.InputButton.Left)
+       {
+           selected.Send();
+       }
+       if (eventData.button == PointerEventData.InputButton.Right)
+       {
+           settingCell.SetActive(true);
+       }
    }
 
    public void SetSelection(bool selected)
@@ -33,16 +41,17 @@ public class LibraryItemView : ReusableView, IPointerClickHandler
 public class VideoCell : LibraryItemView, IPointerEnterHandler, IPointerExitHandler
 {
    [SerializeField]private Image _image = default;
-   [SerializeField]private Text _name;
-   [SerializeField] private GameObject _iconDescription = default;
+   [SerializeField]private Text _name; 
+   [SerializeField] private GameObject _settingCell = default;
+   [SerializeField]private GameObject _iconDescription = default;
    [SerializeField]private Text _descriptionText;
    [SerializeField]private DateTime duration = default;
    public string nameVideo;
-
+   
    public override bool autoDisableOnRecycle => true;
 
    public void SetParametersCell(string extImage, string name, string _description)
-    {
+   {
         //_image.sprite = preview;
         this._name.text = name;
         nameVideo = $"{name}.mp4";
@@ -65,5 +74,6 @@ public class VideoCell : LibraryItemView, IPointerEnterHandler, IPointerExitHand
    public void OnPointerExit(PointerEventData eventData)
    {
        _iconDescription.SetActive(false);
+      settingCell.SetActive(false);
    }
 }

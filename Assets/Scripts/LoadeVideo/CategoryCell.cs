@@ -8,9 +8,12 @@ using UnityEngine.UI;
 using ZergRush.ReactiveCore;
 using ZergRush.ReactiveUI;
 
-public class CategoryCell : LibraryItemView, IPointerClickHandler
+public class CategoryCell : LibraryItemView, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Text _name = default;
+    [SerializeField] private GameObject _descriptionPanel = default;
+    [SerializeField] private string _description = default;
+    [SerializeField] private Text _descriptionText = default;
     [SerializeField] private Image _image = default;
 
     public override bool autoDisableOnRecycle => true;
@@ -19,9 +22,14 @@ public class CategoryCell : LibraryItemView, IPointerClickHandler
     {
         _name.text = name;
     }
-    public void SetParameters(string name, string extImage)
+    public void SetParameters(string name, string extImage, string description)
     {
         _name.text = name;
+        if (!description.IsNullOrEmpty())
+        {
+            _description = description;
+            _descriptionText.text = _description;
+        }
         if (!extImage.IsNullOrEmpty())
         {
             Texture2D texture = new Texture2D(2, 2);
@@ -29,5 +37,16 @@ public class CategoryCell : LibraryItemView, IPointerClickHandler
             Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),new Vector2(0,0));
             _image.sprite = NewSprite;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _descriptionPanel.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        settingCell.SetActive(false);
+        _descriptionPanel.SetActive(false);
     }
 }
