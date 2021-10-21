@@ -9,10 +9,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ZergRush;
 using ZergRush.ReactiveCore;
+using DG.Tweening;
 
 public class ClientController : MonoBehaviour
 {
     [SerializeField] private MediaPlayer _mediaPlayer = default;
+    [SerializeField] private Slider _LoadBar = default;
     public static ClientController Instance;
     public ClientState state = new ClientState();
     public INetwork network;
@@ -28,7 +30,7 @@ public class ClientController : MonoBehaviour
     {
         Instance = this;
     }
-
+    
     public void OnConnected(INetwork net)
     {
         Debug.Log("Init client controller");
@@ -56,7 +58,10 @@ public class ClientController : MonoBehaviour
     
     public void SaveDataFile(byte[] data, string name)
     {
+        Sequence sequence = DOTween.Sequence().OnStart(()=>_LoadBar.gameObject.SetActive(true)).Append(
+            DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
         File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
+        
     }
 
     IEnumerator UpdateDevice()
@@ -119,4 +124,5 @@ public class ClientController : MonoBehaviour
             SceneManager.LoadScene(index);
         }
     }
+    
 }
