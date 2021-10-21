@@ -121,8 +121,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     public void AddCategory(string catName, string description, string extImage)
     {
-        currentCollection.value.Insert(0, new VideoCategory{name = catName, description = description, extImage = extImage});
-        
+        currentCollection.value.Insert(0,
+            new VideoCategory {name = catName, description = description, extImage = extImage});
     }
     public void  DeleteCell()
     {
@@ -167,7 +167,11 @@ public class LoaderVideo : ConnectableMonoBehaviour
         {
             var ext = Path.GetExtension(path);
             var fileName = $"{name}{ext}";
-            var imageName = $"{name}{extImage}";
+            var imageName = string.Empty;
+            if (!extImage.IsNullOrEmpty())
+            {
+                imageName= $"{name}{extImage}"; 
+            }
             var fillVideoPath = GetFillVideoPath(fileName);
             if (File.Exists(fillVideoPath))
             {

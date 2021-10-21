@@ -113,7 +113,7 @@ public class WindowControll : MonoBehaviour
         var extensions = new[]
             {
                 //какие файлы вообще можно открыть
-                new ExtensionFilter("Image Files", "png"),
+                new ExtensionFilter("Image Files", "jpg"),
                 new ExtensionFilter("All Files", "*"),
             };
             foreach (string path in StandaloneFileBrowser.OpenFilePanel("Add File", "", extensions, true))

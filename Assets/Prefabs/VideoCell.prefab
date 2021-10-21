@@ -166,7 +166,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b4dd7cf5bb6b7ab4cbb2ea829a7ee054, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -191,6 +191,7 @@ MonoBehaviour:
   selectedImage: {fileID: 0}
   _image: {fileID: 7694368628859247657}
   _name: {fileID: 1741753530430361327}
+  _iconDescription: {fileID: 0}
   _descriptionText: {fileID: 7113859817553865020}
   nameVideo: 
 --- !u!1 &3107218151701112188
