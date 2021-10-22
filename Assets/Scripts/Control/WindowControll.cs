@@ -1,13 +1,16 @@
 
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Serialization;
 using SFB;
+using ZergRush;
 
 public class WindowControll : MonoBehaviour
 {
+    [SerializeField] private GameObject _settingsPanel = default;
     [SerializeField] private GameObject _changeContent = default;
     [SerializeField] private GameObject _chooseVideoPanel = default;
     [SerializeField] private GameObject _listCat = default;
@@ -22,6 +25,9 @@ public class WindowControll : MonoBehaviour
     [SerializeField] private Transform _posPreviewOriginal = default;
     [SerializeField] private Image _videoIcon = default;
     [SerializeField] private Image _loadImage = default;
+    [SerializeField] private Image _audioIcon = default;
+    [SerializeField] private Sprite _onAudio;
+    [SerializeField] private Sprite _ofAudio;
     [SerializeField] private Text _videoDescription = default;
     
     public static WindowControll Instance;
@@ -31,6 +37,9 @@ public class WindowControll : MonoBehaviour
     private string _imagePath;
     public Sprite _defaultImage;
     public Button delete;
+    public Button quit;
+    public Button setting;
+    public Button changeImage;
     public Button showListCatButton;
     public Button play;
     public Button pause;
@@ -44,6 +53,8 @@ public class WindowControll : MonoBehaviour
     public Button addPlayListButton;
     public Button categoryBackButton;
     public bool isShowList = false;
+    private bool isSetting = false;
+    private bool isAudio = true;
     private void Awake()
     {
         if (Instance == null)
@@ -56,9 +67,17 @@ public class WindowControll : MonoBehaviour
         }
         showListCatButton.onClick.AddListener(ShowListCat);
         addImage.onClick.AddListener(AddImageContent);
+        changeImage.onClick.AddListener(AddImageContent);
+        setting.onClick.AddListener(SettingsPanel);
+        quit.onClick.AddListener(Quit);
         //_defaultImage = _loadImage.sprite;
     }
 
+    private void SettingsPanel()
+    {
+        isSetting = !isSetting;
+        _settingsPanel.SetActive(isSetting);
+    }
     public void ChooseVideo()
     {
         UnShowPanels();
@@ -66,6 +85,10 @@ public class WindowControll : MonoBehaviour
         _VideoPanel.SetActive(true);
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
     public void ChooseExp()
     {
         UnShowPanels();
@@ -107,13 +130,46 @@ public class WindowControll : MonoBehaviour
         _namePanel.SetActive(true);
     }
 
+    public void ChangeImageAudio()
+    {
+        isAudio = !isAudio;
+        _audioIcon.sprite = isAudio == true ? (_onAudio) : (_ofAudio);
+    }
     public void OpenWindowChangeContent()
     {
         _changeContent.SetActive(true);
     }
     public void ApplyChangeContent()
     {
-        _changeContent.SetActive(false);
+        if (!_description.IsNullOrEmpty() || !_imagePath.IsNullOrEmpty())
+        {
+            var view = ServerController.Instance.videoLoader.selectedItems[0];
+            var cells = ServerController.Instance.videoLoader.cells;
+            view.description = _description;
+            string ext = string.Empty;
+            if (!_imagePath.IsNullOrEmpty())
+            {
+                ext = Path.GetExtension(_imagePath);
+                string name = Path.GetFileNameWithoutExtension(view.fileName);
+                if (File.Exists(Path.Combine(Application.persistentDataPath, $"{name}{ext}")))
+                {
+                    File.Delete(Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                }
+
+                File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                view.extImage = $"{name}{ext}";
+            }
+
+            if (view is VideoItem)
+            {
+                VideoCell a = cells.Find(x => x.nameVideo == view.fileName);
+                a.SetParametersCell(view.fileName, view.description, view.extImage);
+            }
+
+            _description = string.Empty;
+            _imagePath = string.Empty;
+            _changeContent.SetActive(false);
+        }
     }
     public void GetName(InputField _field)
     {

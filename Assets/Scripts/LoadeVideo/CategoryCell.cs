@@ -22,7 +22,7 @@ public class CategoryCell : LibraryItemView, IPointerEnterHandler, IPointerExitH
     {
         _name.text = name;
     }
-    public void SetParameters(string name, string extImage, string description)
+    public void SetParameters(string name, string description, string extImage)
     {
         _name.text = name;
         if (!description.IsNullOrEmpty())
@@ -41,12 +41,19 @@ public class CategoryCell : LibraryItemView, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _descriptionPanel.SetActive(true);
+        if (settingCell!= null)
+        {
+            _descriptionPanel.SetActive(true);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        settingCell.SetActive(false);
-        _descriptionPanel.SetActive(false);
+        if (settingCell != null)
+        {
+            settingCell.SetActive(false);
+            _descriptionPanel.SetActive(false);
+        }
+        
     }
 }

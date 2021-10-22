@@ -23,16 +23,16 @@ public class LoaderVideo : ConnectableMonoBehaviour
     public IReactiveCollection<VideoCategory> allCategories => library.library
         .Filter(i => i is VideoCategory)
         .Map(i => (VideoCategory)i);
-    IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
+    public IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
     public ReactiveCollection<VideoItem> selectedItems = new ReactiveCollection<VideoItem>(); 
     Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
-    ICell<ReactiveCollection<LibraryItem>> currentCollection =>
+    public ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
     /*IReactiveCollection<VideoItem> itemsToShow => currentCollection.Join().Filter(i => i is VideoItem)
         .Map(i => (VideoItem)i);*/
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
-    
-    
+    public List<VideoCell> cells = new List<VideoCell>();
+
     private void Awake()
     {
         var filename = libPath;
@@ -47,24 +47,24 @@ public class LoaderVideo : ConnectableMonoBehaviour
         connections += itemsToShow.Present(_contentVideo.transform, PrefabRef<ReusableView>.Auto(),
             (item, cell) =>
             {
-                Debug.Log(1);
                 if (item is VideoItem vi)
                 {
                     var view = (VideoCell)cell;
-                    view.SetParametersCell(vi.extImage, vi.fileName, vi.description);
+                    cells.Add(view);
+                    Debug.Log(vi.extImage);
+                    view.SetParametersCell(vi.fileName, vi.description, vi.extImage);
                     cell.connections += view.selected.Subscribe(() => ServerController.Instance.state.playingItem.value = vi);
-                   
                 }
                 else if (item is VideoCategory cat)
                 {
-                    Debug.Log(2);
                     var view = (CategoryCell)cell;
-                    view.SetParameters(cat.name , cat.extImage, cat.description);
+                    view.SetParameters(cat.name , cat.description, cat.extImage);
                     cell.connections += view.selected.Subscribe(() => { selectedCat.value = cat; });
                     
                 }
             }, prefabSelector: item =>
             {
+                Debug.Log("update");
                 if (item is VideoItem) return PrefabRef<ReusableView>.ByType(typeof(VideoCell));
                 else if (item is VideoCategory) return PrefabRef<ReusableView>.ByType(typeof(CategoryCell));
                 else throw new NotImplementedException();
@@ -96,7 +96,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         WindowControll.Instance.categoryBackButton.SetActive(canGoBack);
         WindowControll.Instance.categoryBackButton.Subscribe(GoBack);
         WindowControll.Instance.addPlayListButton.SetActive(selectedCat.Is(null));
-        WindowControll.Instance.delete.onClick.AddListener(DeleteCell);
+        //WindowControll.Instance.delete.onClick.AddListener(DeleteCell);
     }
 
     void OnApplicationPause(bool pauseStatus)
