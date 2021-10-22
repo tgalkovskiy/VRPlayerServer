@@ -47,6 +47,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
         connections += itemsToShow.Present(_contentVideo.transform, PrefabRef<ReusableView>.Auto(),
             (item, cell) =>
             {
+                Debug.Log(1);
                 if (item is VideoItem vi)
                 {
                     var view = (VideoCell)cell;
@@ -56,6 +57,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 }
                 else if (item is VideoCategory cat)
                 {
+                    Debug.Log(2);
                     var view = (CategoryCell)cell;
                     view.SetParameters(cat.name , cat.extImage, cat.description);
                     cell.connections += view.selected.Subscribe(() => { selectedCat.value = cat; });

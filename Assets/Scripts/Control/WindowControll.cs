@@ -144,6 +144,7 @@ public class WindowControll : MonoBehaviour
     public void CreateVideo()
     {
         if (_nameContent.IsNullOrEmpty()){ _nameContent = "content";}
+        if (_description.IsNullOrEmpty()) { _description = "content";}
         string ext = string.Empty;
         if (!_imagePath.IsNullOrEmpty())
         {
@@ -158,6 +159,7 @@ public class WindowControll : MonoBehaviour
     public void CreateCategory(CategoryCell _categoryCell)
     {
         if(_nameContent.IsNullOrEmpty()){ _nameContent = "content";}
+        if (_description.IsNullOrEmpty()) { _description = "content";}
         string ext = string.Empty;
         if (!_imagePath.IsNullOrEmpty())
         {
