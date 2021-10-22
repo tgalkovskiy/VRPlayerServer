@@ -29,6 +29,7 @@ public class WindowControll : MonoBehaviour
     private string _nameContent;
     private string _description;
     private string _imagePath;
+    public Sprite _defaultImage;
     public Button delete;
     public Button showListCatButton;
     public Button play;
@@ -41,7 +42,7 @@ public class WindowControll : MonoBehaviour
     public Slider time;
     public Button addVideoButton;
     public Button addPlayListButton;
-    [FormerlySerializedAs("backButton")] public Button categoryBackButton;
+    public Button categoryBackButton;
     public bool isShowList = false;
     private void Awake()
     {
@@ -55,6 +56,7 @@ public class WindowControll : MonoBehaviour
         }
         showListCatButton.onClick.AddListener(ShowListCat);
         addImage.onClick.AddListener(AddImageContent);
+        //_defaultImage = _loadImage.sprite;
     }
 
     public void ChooseVideo()
@@ -141,6 +143,7 @@ public class WindowControll : MonoBehaviour
     }
     public void CreateVideo()
     {
+        if (_nameContent.IsNullOrEmpty()){ _nameContent = "content";}
         string ext = string.Empty;
         if (!_imagePath.IsNullOrEmpty())
         {
@@ -150,9 +153,11 @@ public class WindowControll : MonoBehaviour
         ServerController.Instance.videoLoader.OpenFile(_nameContent, _description, ext);
         _namePanel.SetActive(false);
         _imagePath = string.Empty;
+        _loadImage.sprite = _defaultImage;
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
+        if(_nameContent.IsNullOrEmpty()){ _nameContent = "content";}
         string ext = string.Empty;
         if (!_imagePath.IsNullOrEmpty())
         {
@@ -162,6 +167,7 @@ public class WindowControll : MonoBehaviour
         ServerController.Instance.videoLoader.AddCategory(_nameContent, _description, ext);
         _namePanel.SetActive(false);
         _imagePath = string.Empty;
+        _loadImage.sprite = _defaultImage;
     }
     //public void 
     public void ChangeVideoPanel(Sprite sprite, string description)
