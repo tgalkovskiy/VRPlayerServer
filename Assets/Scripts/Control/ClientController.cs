@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +21,7 @@ public class ClientController : MonoBehaviour
     public static ClientController Instance;
     public ClientState state = new ClientState();
     public INetwork network;
-
+    private List<byte> Data = new List<byte>();
     bool syncInProcess => syncFiles.Count > 0;
     List<string> syncFiles = new List<string>();
     Coroutine syncCoro;
@@ -30,7 +33,13 @@ public class ClientController : MonoBehaviour
     {
         Instance = this;
     }
-    
+
+    /*private void Start()
+    {
+        byte[] mass = Encoding.ASCII.GetBytes("sdfvsdfs");
+        WriteTextAsync(Path.Combine(Application.persistentDataPath, "TestWriter.mp4"), mass);
+    }*/
+
     public void OnConnected(INetwork net)
     {
         Debug.Log("Init client controller");
@@ -42,7 +51,7 @@ public class ClientController : MonoBehaviour
             switch (c)
             {
                 case ClientState st : state.UpdateFrom(st); OpenVideo(); break;
-                case SendDataFile data : SaveDataFile(data.data, data.name); break;
+                case SendDataFile data : SaveDataFile(data.length ,data.data, data.name); break;
                 case NumberSceneOpen n : OpenScene(n.numberScene); break;
                 case VideoSyncList videoSync : 
                     if (syncCoro != null) StopCoroutine(syncCoro);
@@ -56,14 +65,57 @@ public class ClientController : MonoBehaviour
         SendDeviceInfo();
     }
     
-    public void SaveDataFile(byte[] data, string name)
+    public void SaveDataFile(string length, byte[] data, string name)
     {
-        Sequence sequence = DOTween.Sequence().OnStart(()=>_LoadBar.gameObject.SetActive(true)).Append(
-            DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
-        File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
-        
-    }
+       // Sequence sequence = DOTween.Sequence().OnStart(()=>_LoadBar.gameObject.SetActive(true)).Append(
+            //DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
+        Debug.Log($"get data {length}");
+        if(Data.Count < Convert.ToInt32(length))
+        {
+            Debug.Log($"datacount {Data.Count}");
+            WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
+            //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
 
+            //AsyncWriter(data, name);
+        }
+        /*else
+        {
+            Debug.Log($"Create massByte");
+            Byte[] finalData = new Byte[Data.Count];
+            for (int i = 0; i < finalData.Length; i++)
+            {
+                Debug.Log($"Writer byte");
+                finalData[i] = Data[i];
+            }
+            Debug.Log($"finalize");
+            File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), finalData); 
+            Data.Clear();
+        }*/
+        /*if (File.Exists(name))
+        {
+            byte[] contentOld = File.ReadAllBytes(name);
+            if (contentOld.Length < Convert.ToInt32(length))
+            {
+                //byte[] contentNew = new [contentOld.Length+]
+            }
+        }
+        else
+        {
+           File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data); 
+        }*/
+    }
+ 
+    static async void WriteTextAsync(string name, byte[] data)
+    {
+        await Task.Run((() =>
+        {
+            using (FileStream stream = new FileStream(name, FileMode.Append))
+            {
+                stream.Write(data, 0, data.Length);
+            }
+        }));
+    }
+    
     IEnumerator UpdateDevice()
     {
         while (true)

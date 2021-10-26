@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -101,15 +102,28 @@ public class ServerController : ConnectableMonoBehaviour
         videoLoader.DeleteCell();
     }
 
-    public async void SendFile(int connectionId, string file)
+    public void SendFile(int connectionId, string file)
     {
-        /*var bytes = await Task.Run(() =>
-        { 
-        }); */
         Debug.Log("Send");
         byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
-        //return massByteToFile;
-        network.SendCommand(connectionId, new SendDataFile { data = massByteToFile, name = file });
+        if (massByteToFile.Length > _Lobby._maxSizeFile)
+        {
+            var countPackage = (int) Math.Ceiling((decimal) massByteToFile.Length / (decimal) _Lobby._maxSizeFile);
+            var bufferArray = new byte[countPackage][];
+            for (var i = 0; i < countPackage; i++)
+            {
+                bufferArray[i] = new byte[_Lobby._maxSizeFile];
+                for (var j = 0; j < _Lobby._maxSizeFile && i * countPackage + j < massByteToFile.Length; j++)
+                {
+                    bufferArray[i][j] = massByteToFile[i * countPackage + j];
+                }
+                network.SendCommand(connectionId, new SendDataFile {length =massByteToFile.Length.ToString(), data = bufferArray[i], name = file });
+            }
+        }
+        else
+        {
+            network.SendCommand(connectionId, new SendDataFile {length =massByteToFile.Length.ToString(), data = massByteToFile, name = file });
+        }
     }
     
     public void SyncCall()

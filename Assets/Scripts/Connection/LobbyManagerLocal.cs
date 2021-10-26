@@ -20,9 +20,10 @@ public class LobbyManagerLocal : NetworkManager
     private NetworkDiscovery networkDiscovery;
     private NetworkDiscoveryHUD _Hud;
     Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
-
+    [HideInInspector] public int _maxSizeFile;
     public async void OfflineStart()
     {
+        _maxSizeFile = transport.GetMaxPacketSize()-100;
         Debug.Log($"Offline start isServer:{isServer}");
         Application.targetFrameRate = 60;
         serverController = ServerController.Instance;
