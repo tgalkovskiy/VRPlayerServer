@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 3e9c658e5a2eb804eab0499c5b8c5ad9, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 565966e14de28c748b111443df7ffb15, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -395,6 +395,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7989581888596485655, guid: 0304c5a6cffd70849bbc065e53d8917c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d0414c5bc5082e64c889b024a49a47e4, type: 3}
     - target: {fileID: 7989581888992359845, guid: 0304c5a6cffd70849bbc065e53d8917c, type: 3}
       propertyPath: m_Name
       value: AmountText (TMP)
@@ -1199,7 +1203,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.316
+  m_FillAmount: 0.194
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1696,6 +1700,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7989581888596485655, guid: 0304c5a6cffd70849bbc065e53d8917c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d0414c5bc5082e64c889b024a49a47e4, type: 3}
     - target: {fileID: 7989581888992359845, guid: 0304c5a6cffd70849bbc065e53d8917c, type: 3}
       propertyPath: m_Name
       value: AmountText (TMP)
@@ -3209,6 +3217,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7989581888596485655, guid: 0304c5a6cffd70849bbc065e53d8917c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d0414c5bc5082e64c889b024a49a47e4, type: 3}
     - target: {fileID: 7989581888992359845, guid: 0304c5a6cffd70849bbc065e53d8917c, type: 3}
       propertyPath: m_Name
       value: TimerText (TMP)
