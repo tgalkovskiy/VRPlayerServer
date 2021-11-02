@@ -112,8 +112,9 @@ public class ServerController : ConnectableMonoBehaviour
             var bufferArray = new byte[countPackage][];
             for (var i = 0; i < countPackage; i++)
             {
-                bufferArray[i] = new byte[_Lobby._maxSizeFile];
-                for (var j = 0; j < _Lobby._maxSizeFile && i * countPackage + j < massByteToFile.Length; j++)
+                bufferArray[i] = new byte[Math.Min(_Lobby._maxSizeFile,massByteToFile.Length - i*_Lobby._maxSizeFile)];
+                Debug.Log(bufferArray[i].Length);
+                for (var j = 0; j < bufferArray[i].Length; j++)
                 {
                     bufferArray[i][j] = massByteToFile[i * countPackage + j];
                 }

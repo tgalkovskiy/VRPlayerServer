@@ -18,6 +18,7 @@ public class ClientController : MonoBehaviour
 {
     [SerializeField] private MediaPlayer _mediaPlayer = default;
     [SerializeField] private Slider _LoadBar = default;
+    [SerializeField] private Text _debugText = default;
     public static ClientController Instance;
     public ClientState state = new ClientState();
     public INetwork network;
@@ -42,12 +43,14 @@ public class ClientController : MonoBehaviour
 
     public void OnConnected(INetwork net)
     {
+        _debugText.text += $"\nInit client controller";
         Debug.Log("Init client controller");
         _mediaPlayer.SetActiveSafe(true);
         network = net;
         network.commandReceived.Subscribe(c =>
         {
             Debug.Log($"Client command received {c}");
+            _debugText.text += $"\nClient command received {c}";
             switch (c)
             {
                 case ClientState st : state.UpdateFrom(st); OpenVideo(); break;
@@ -61,6 +64,7 @@ public class ClientController : MonoBehaviour
         });
         state.BindToPlayer(_mediaPlayer);
         Debug.Log($"DeviceInfo sent battery level: {SystemInfo.batteryLevel}");
+        _debugText.text += $"\nDeviceInfo sent battery level: {SystemInfo.batteryLevel}";
         StartCoroutine(UpdateDevice());
         SendDeviceInfo();
     }
@@ -70,12 +74,23 @@ public class ClientController : MonoBehaviour
        // Sequence sequence = DOTween.Sequence().OnStart(()=>_LoadBar.gameObject.SetActive(true)).Append(
             //DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
         Debug.Log($"get data {length}");
+        _debugText.text += $"\nget data {length}";
         if(Data.Count < Convert.ToInt32(length))
         {
-            Debug.Log($"datacount {Data.Count}");
-            WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
+            try
+            {
+                Debug.Log($"datacount {Data.Count}");
+                _debugText.text += $"\ndatacount {Data.Count}";
+                WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"{e}");
+                _debugText.text += $"\n {e}";
+                throw;
+            }
+            
             //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
-
             //AsyncWriter(data, name);
         }
         /*else
