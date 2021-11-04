@@ -75,37 +75,33 @@ public class ClientController : MonoBehaviour
             //DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
         Debug.Log($"get data {length}");
         _debugText.text += $"\nget data {length}";
-        if(Data.Count < Convert.ToInt32(length))
+        try
         {
-            try
-            {
-                Debug.Log($"datacount {Data.Count}");
-                _debugText.text += $"\ndatacount {Data.Count}";
-                WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"{e}");
-                _debugText.text += $"\n {e}";
-                throw;
-            }
-            
-            //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
-            //AsyncWriter(data, name);
+            Debug.Log($"datacount {Data.Count}");
+            _debugText.text += $"\ndatacount {Data.Count}";
+            WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
         }
-        /*else
+        catch (Exception e)
         {
-            Debug.Log($"Create massByte");
-            Byte[] finalData = new Byte[Data.Count];
-            for (int i = 0; i < finalData.Length; i++)
+            Debug.Log($"{e}");
+            _debugText.text += $"\n {e}";
+            throw;
+        }
+        //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
+            //AsyncWriter(data, name);
+            /*else
             {
-                Debug.Log($"Writer byte");
-                finalData[i] = Data[i];
-            }
-            Debug.Log($"finalize");
-            File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), finalData); 
-            Data.Clear();
-        }*/
+                Debug.Log($"Create massByte");
+                Byte[] finalData = new Byte[Data.Count];
+                for (int i = 0; i < finalData.Length; i++)
+                {
+                    Debug.Log($"Writer byte");
+                    finalData[i] = Data[i];
+                }
+                Debug.Log($"finalize");
+                File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), finalData); 
+                Data.Clear();
+            }*/
         /*if (File.Exists(name))
         {
             byte[] contentOld = File.ReadAllBytes(name);
