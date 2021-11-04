@@ -15,7 +15,7 @@ public class CategoryCell : LibraryItemView, IPointerEnterHandler, IPointerExitH
     [SerializeField] private string _description = default;
     [SerializeField] private Text _descriptionText = default;
     [SerializeField] private Image _image = default;
-
+    public string nameCat;
     public override bool autoDisableOnRecycle => true;
 
     public void SetParameters(string name)
@@ -25,6 +25,7 @@ public class CategoryCell : LibraryItemView, IPointerEnterHandler, IPointerExitH
     public void SetParameters(string name, string description, string extImage)
     {
         _name.text = name;
+        nameCat = name;
         if (!description.IsNullOrEmpty())
         {
             _description = description;
@@ -33,7 +34,7 @@ public class CategoryCell : LibraryItemView, IPointerEnterHandler, IPointerExitH
         if (!extImage.IsNullOrEmpty())
         {
             Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(File.ReadAllBytes(Path.Combine(Application.persistentDataPath, $"{name}{extImage}")));
+            texture.LoadImage(File.ReadAllBytes(Path.Combine(Application.persistentDataPath, $"{extImage}")));
             Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),new Vector2(0,0));
             _image.sprite = NewSprite;
         }

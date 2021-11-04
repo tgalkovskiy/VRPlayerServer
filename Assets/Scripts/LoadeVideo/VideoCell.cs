@@ -13,7 +13,9 @@ public class LibraryItemView : ReusableView, IPointerClickHandler
     public Image selectedImage;
    public Cell<bool> toggle = new Cell<bool>();
    public GameObject settingCell;
-   public EventStream selected = new EventStream();
+   public EventStream selectedLeftMouse = new EventStream();
+   public EventStream selectedRigthMouse = new EventStream();
+   
    public void OnToggleValue(bool value)
    {
        toggle.value = value;
@@ -23,10 +25,11 @@ public class LibraryItemView : ReusableView, IPointerClickHandler
    {
        if (eventData.button == PointerEventData.InputButton.Left)
        {
-           selected.Send();
+           selectedLeftMouse.Send();
        }
        if (eventData.button == PointerEventData.InputButton.Right)
        {
+           selectedRigthMouse.Send();
            settingCell.SetActive(true);
        }
    }

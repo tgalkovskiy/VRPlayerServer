@@ -143,29 +143,47 @@ public class WindowControll : MonoBehaviour
     {
         if (!_description.IsNullOrEmpty() || !_imagePath.IsNullOrEmpty())
         {
-            var view = ServerController.Instance.videoLoader.selectedItems[0];
-            var cells = ServerController.Instance.videoLoader.cells;
-            view.description = _description;
-            string ext = string.Empty;
-            if (!_imagePath.IsNullOrEmpty())
+            if (ServerController.Instance.videoLoader.selectedItems[0] is VideoItem)
             {
-                ext = Path.GetExtension(_imagePath);
-                string name = Path.GetFileNameWithoutExtension(view.fileName);
-                if (File.Exists(Path.Combine(Application.persistentDataPath, $"{name}{ext}")))
+                VideoItem view = (VideoItem)ServerController.Instance.videoLoader.selectedItems[0];
+                var cells = ServerController.Instance.videoLoader._videoCells;
+                view.description = _description;
+                string ext = string.Empty;
+                if (!_imagePath.IsNullOrEmpty())
                 {
-                    File.Delete(Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                    ext = Path.GetExtension(_imagePath);
+                    string name = Path.GetFileNameWithoutExtension(view.fileName);
+                    if (File.Exists(Path.Combine(Application.persistentDataPath, $"{name}{ext}")))
+                    {
+                        File.Delete(Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                    }
+                    File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                    view.extImage = $"{name}{ext}";
                 }
-
-                File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
-                view.extImage = $"{name}{ext}";
-            }
-
-            if (view is VideoItem)
-            {
                 VideoCell a = cells.Find(x => x.nameVideo == view.fileName);
                 a.SetParametersCell(view.fileName, view.description, view.extImage);
             }
-
+            else if(ServerController.Instance.videoLoader.selectedItems[0] is VideoCategory)
+            {
+                VideoCategory view = (VideoCategory)ServerController.Instance.videoLoader.selectedItems[0];
+                var cells = ServerController.Instance.videoLoader._categoryCells;
+                view.description = _description;
+                string ext = string.Empty;
+                if (!_imagePath.IsNullOrEmpty())
+                {
+                    ext = Path.GetExtension(_imagePath);
+                    string name = Path.GetFileNameWithoutExtension(view.name);
+                    if (File.Exists(Path.Combine(Application.persistentDataPath, $"{name}{ext}")))
+                    {
+                        File.Delete(Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                    }
+                    File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{name}{ext}"));
+                    view.extImage = $"{name}{ext}";
+                }
+                CategoryCell a = cells.Find(x => x.nameCat == view.name);
+                Debug.Log(view.extImage);
+                a.SetParameters(view.name, view.description, view.extImage);
+            }
             _description = string.Empty;
             _imagePath = string.Empty;
             _changeContent.SetActive(false);

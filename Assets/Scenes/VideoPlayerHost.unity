@@ -3761,8 +3761,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 7777
   NoDelay: 1
-  SendTimeout: 100000
-  ReceiveTimeout: 100000
+  SendTimeout: 2000000000
+  ReceiveTimeout: 2000000000
   serverMaxMessageSize: 200000000
   serverMaxReceivesPerTick: 200000000
   serverSendQueueLimitPerConnection: 200000000

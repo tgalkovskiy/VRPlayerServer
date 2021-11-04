@@ -24,14 +24,18 @@ public class LoaderVideo : ConnectableMonoBehaviour
         .Filter(i => i is VideoCategory)
         .Map(i => (VideoCategory)i);
     public IReactiveCollection<LibraryItem> itemsToShow => currentCollection.Join();
-    public ReactiveCollection<VideoItem> selectedItems = new ReactiveCollection<VideoItem>(); 
-    Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
+    public ReactiveCollection<LibraryItem> selectedItems = new ReactiveCollection<LibraryItem>(); 
+    public Cell<VideoCategory> selectedCat = new Cell<VideoCategory>();
     public ICell<ReactiveCollection<LibraryItem>> currentCollection =>
         selectedCat.MapWithDefaultIfNull(c => c.items, library.library);
     /*IReactiveCollection<VideoItem> itemsToShow => currentCollection.Join().Filter(i => i is VideoItem)
         .Map(i => (VideoItem)i);*/
     public ICell<bool> canGoBack => selectedCat.IsNot(null);
-    public List<VideoCell> cells = new List<VideoCell>();
+    public List<VideoCell> _videoCells = new List<VideoCell>();
+    public List<CategoryCell> _categoryCells = new List<CategoryCell>();
+
+    //public LibraryItem RigthSelect;
+
 
     private void Awake()
     {
@@ -50,16 +54,19 @@ public class LoaderVideo : ConnectableMonoBehaviour
                 if (item is VideoItem vi)
                 {
                     var view = (VideoCell)cell;
-                    cells.Add(view);
-                    Debug.Log(vi.extImage);
+                    _videoCells.Add(view);
                     view.SetParametersCell(vi.fileName, vi.description, vi.extImage);
-                    cell.connections += view.selected.Subscribe(() => ServerController.Instance.state.playingItem.value = vi);
+                    cell.connections += view.selectedLeftMouse.Subscribe(() => ServerController.Instance.state.playingItem.value = vi);
+                    cell.connections += view.selectedRigthMouse.Subscribe(() => selectedItems.Add(vi));
                 }
                 else if (item is VideoCategory cat)
                 {
                     var view = (CategoryCell)cell;
+                    _categoryCells.Add(view);
                     view.SetParameters(cat.name , cat.description, cat.extImage);
-                    cell.connections += view.selected.Subscribe(() => { selectedCat.value = cat; });
+                    cell.connections += view.selectedLeftMouse.Subscribe(() => { selectedCat.value = cat;});
+                    cell.connections += view.selectedRigthMouse.Subscribe(() => selectedItems.Add(cat));
+                    
                     
                 }
             }, prefabSelector: item =>
@@ -87,7 +94,8 @@ public class LoaderVideo : ConnectableMonoBehaviour
             {
                 var view = (CategoryCell) cell;
                 view.SetParameters(cat.name);
-                cell.connections += view.selected.Subscribe(() => { selectedCat.value = cat; });
+                cell.connections += view.selectedLeftMouse.Subscribe(() => { selectedCat.value = cat; });
+
             }, options: PresentOptions.UseChildWithSameTypeAsView | PresentOptions.PreserveSiblingOrder);
     }
 
@@ -123,7 +131,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
     public void AddCategory(string catName, string description, string extImage)
     {
         currentCollection.value.Insert(0,
-            new VideoCategory {name = catName, description = description, extImage = extImage});
+            new VideoCategory {name = catName, description = description, extImage = $"{catName}{extImage}"});
     }
     public void  DeleteCell()
     {
