@@ -75,7 +75,8 @@ public class ClientController : MonoBehaviour
             //DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
         Debug.Log($"get data {length}");
         _debugText.text += $"\nget data {length}";
-        try
+        File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
+        /*try
         {
             Debug.Log($"datacount {Data.Count}");
             _debugText.text += $"\ndatacount {Data.Count}";
@@ -86,7 +87,7 @@ public class ClientController : MonoBehaviour
             Debug.Log($"{e}");
             _debugText.text += $"\n {e}";
             throw;
-        }
+        }*/
         //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
             //AsyncWriter(data, name);
             /*else
