@@ -105,7 +105,8 @@ public class ServerController : ConnectableMonoBehaviour
     {
         Debug.Log("Send");
         byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
-        if (massByteToFile.Length > _Lobby._maxSizeFile)
+        network.SendCommand(connectionId, new SendDataFile {length =massByteToFile.Length.ToString(), data = massByteToFile, name = file });
+        /*if (massByteToFile.Length > _Lobby._maxSizeFile)
         {
             var countPackage = (int) Math.Ceiling((decimal) massByteToFile.Length / (decimal) _Lobby._maxSizeFile);
             var bufferArray = new byte[countPackage][];
@@ -122,8 +123,8 @@ public class ServerController : ConnectableMonoBehaviour
         }
         else
         {
-            network.SendCommand(connectionId, new SendDataFile {length =massByteToFile.Length.ToString(), data = massByteToFile, name = file });
-        }
+           
+        }*/
     }
     
     public void SyncCall()

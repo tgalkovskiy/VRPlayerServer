@@ -3761,16 +3761,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 7777
   NoDelay: 1
-  SendTimeout: 2000000000
-  ReceiveTimeout: 2000000000
-  serverMaxMessageSize: 200000000
-  serverMaxReceivesPerTick: 200000000
-  serverSendQueueLimitPerConnection: 200000000
-  serverReceiveQueueLimitPerConnection: 200000000
-  clientMaxMessageSize: 200000000
-  clientMaxReceivesPerTick: 200000000
-  clientSendQueueLimit: 200000000
-  clientReceiveQueueLimit: 200000000
+  SendTimeout: 10000
+  ReceiveTimeout: 500000
+  serverMaxMessageSize: 100000000
+  serverMaxReceivesPerTick: 100000000
+  serverSendQueueLimitPerConnection: 100000000
+  serverReceiveQueueLimitPerConnection: 100000000
+  clientMaxMessageSize: 100000000
+  clientMaxReceivesPerTick: 100000000
+  clientSendQueueLimit: 100000000
+  clientReceiveQueueLimit: 100000000
 --- !u!1 &388742785
 GameObject:
   m_ObjectHideFlags: 0
