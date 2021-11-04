@@ -28,7 +28,10 @@ public partial class ClientState : NetworkCommand, ISerializable
              if (v != null)
              {
                  var pathVideo = LoaderVideo.GetFillVideoPath(v.fileName);
-                 _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, pathVideo, false);
+                 if (File.Exists(pathVideo))
+                 {
+                     _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, pathVideo, false);
+                 }
                  if (v.subtitlesFileName.IsNullOrEmpty() == false)
                  {
                       var pathSub = LoaderVideo.GetFillVideoPath(v.subtitlesFileName);
