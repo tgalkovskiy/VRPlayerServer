@@ -18,7 +18,7 @@ public class ServerController : ConnectableMonoBehaviour
     public static ServerController Instance;
     public LobbyManagerLocal _Lobby;
     public DeviceListController deviceList;
-
+    private byte[] massByteToFile;
     public ClientState state = new ClientState();
     public INetworkServer network;
 
@@ -101,11 +101,21 @@ public class ServerController : ConnectableMonoBehaviour
         videoLoader.DeleteCell();
     }
 
-    public void SendFile(int connectionId, string file)
+    public void SendFile(int connectionId, string name)
     {
         Debug.Log("Send");
-        byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
-        network.SendCommand(connectionId, new SendDataFile {length =massByteToFile.Length.ToString(), data = massByteToFile, name = file });
+        string file = LoaderVideo.GetFillVideoPath(name);
+        ReadAsync(connectionId, file, name);
+        //network.SendCommand(connectionId, new SendDataFile {data = ReadAsync(name).Result, name = file });
+        
+        /*using (FileStream SourceStream =new FileStream(name, FileMode.Open))
+        {
+            massByteToFile = new byte[SourceStream.Length];
+            await SourceStream.ReadAsync(massByteToFile, 0, (int)SourceStream.Length);
+        }
+        Debug.Log($"{massByteToFile.Length}");*/
+        //byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
+        
         /*if (massByteToFile.Length > _Lobby._maxSizeFile)
         {
             var countPackage = (int) Math.Ceiling((decimal) massByteToFile.Length / (decimal) _Lobby._maxSizeFile);
@@ -126,7 +136,20 @@ public class ServerController : ConnectableMonoBehaviour
            
         }*/
     }
-    
+    private async Task<byte[]> ReadAsync(int ID, string file, string name)
+    {
+        Debug.Log("Start Async");
+        using (FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        {
+            Debug.Log("create stream");
+            massByteToFile = new byte[stream.Length];
+            await stream.ReadAsync(massByteToFile, 0, (int) stream.Length);
+        }
+        Debug.Log(massByteToFile.Length);
+        network.SendCommand(ID, new SendDataFile {data = massByteToFile, name = name});
+        Debug.Log("Send Data");
+        return massByteToFile;
+    }
     public void SyncCall()
     {
         if (state.playingItem.value == null)

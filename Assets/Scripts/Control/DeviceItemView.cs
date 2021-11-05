@@ -18,7 +18,8 @@ public class DeviceItemView : ReusableView
         batteryLevel.text = info.battery + "%";
         batteryFull.fillAmount = info.battery / 100f;
         deviceName.text = info.name;
-        syncIcon.SetActiveSafe(info.syncInProcess);
+        syncIcon.color = info.syncInProcess ? (Color.yellow) : (Color.green);
+        //syncIcon.SetActiveSafe(info.syncInProcess);
         deviceName.color = info.disconnected ? new Color(0.68f, 0f, 0f) : Color.white;
     }
 }

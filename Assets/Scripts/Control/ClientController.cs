@@ -54,7 +54,7 @@ public class ClientController : MonoBehaviour
             switch (c)
             {
                 case ClientState st : state.UpdateFrom(st); OpenVideo(); break;
-                case SendDataFile data : SaveDataFile(data.length ,data.data, data.name); break;
+                case SendDataFile data : SaveDataFile(data.data, data.name); break;
                 case NumberSceneOpen n : OpenScene(n.numberScene); break;
                 case VideoSyncList videoSync : 
                     if (syncCoro != null) StopCoroutine(syncCoro);
@@ -69,18 +69,17 @@ public class ClientController : MonoBehaviour
         SendDeviceInfo();
     }
     
-    public void SaveDataFile(string length, byte[] data, string name)
+    public void SaveDataFile(byte[] data, string name)
     {
+        WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
        // Sequence sequence = DOTween.Sequence().OnStart(()=>_LoadBar.gameObject.SetActive(true)).Append(
             //DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
-        Debug.Log($"get data {length}");
-        _debugText.text += $"\nget data {length}";
-        File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
+            //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
         /*try
         {
             Debug.Log($"datacount {Data.Count}");
             _debugText.text += $"\ndatacount {Data.Count}";
-            WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
+           
         }
         catch (Exception e)
         {
