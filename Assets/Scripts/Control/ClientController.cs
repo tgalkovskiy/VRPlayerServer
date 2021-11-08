@@ -118,6 +118,7 @@ public class ClientController : MonoBehaviour
  
     static async void WriteTextAsync(string name, byte[] data)
     {
+        Debug.Log("GedData");
         await Task.Run((() =>
         {
             using (FileStream stream = new FileStream(name, FileMode.Append))

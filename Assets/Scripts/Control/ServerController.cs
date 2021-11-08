@@ -134,21 +134,32 @@ public class ServerController : ConnectableMonoBehaviour
         else
         {
            
-        }*/
+        }#1#*/
     }
-    private async Task<byte[]> ReadAsync(int ID, string file, string name)
+    private async Task ReadAsync(int ID, string file, string name)
     {
         Debug.Log("Start Async");
-        using (FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        using(FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
             Debug.Log("create stream");
             massByteToFile = new byte[stream.Length];
-            await stream.ReadAsync(massByteToFile, 0, (int) stream.Length);
+            Debug.Log("Star Read File");
+            await Task.Run((() => {stream.ReadAsync(massByteToFile, 0, (int) stream.Length);}));
+            Debug.Log("Contactation");
+            int countPackage = (int)Math.Ceiling((decimal)massByteToFile.Length /1000000);
+            Debug.Log(countPackage);
+            for (int i = 0; i < countPackage; i++)
+            {
+                await Task.Run((() =>
+                {
+                    byte[] mass = new Byte[Math.Min(1000000, stream.Length-i*1000000)];
+                    Debug.Log($"Send {i} length{mass.Length}");
+                    Array.Copy(massByteToFile, i*1000000, mass, 0, mass.Length);
+                    network.SendCommand(ID, new SendDataFile {data = mass, name = name}); 
+                }));
+            }
         }
-        Debug.Log(massByteToFile.Length);
-        network.SendCommand(ID, new SendDataFile {data = massByteToFile, name = name});
         Debug.Log("Send Data");
-        return massByteToFile;
     }
     public void SyncCall()
     {
