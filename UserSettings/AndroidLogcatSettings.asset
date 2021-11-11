@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "PA7B50NGEB110236W",
     "m_SelectedPackage": {
-        "deviceId": "PA7B50NGEB110236W",
-        "name": "com.DefaultCompany.VRPlayer",
-        "processId": 27256,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,6 +12,18 @@
             "deviceId": "PA7B50NGEB110236W",
             "name": "com.DefaultCompany.VRPlayer",
             "processId": 27256,
+            "exited": true
+        },
+        {
+            "deviceId": "PA7B50NGEB110236W",
+            "name": "com.BetterVR.VRPlayerHost",
+            "processId": 6722,
+            "exited": true
+        },
+        {
+            "deviceId": "PA7B50NGEB110236W",
+            "name": "com.BetterVR.VRPlayerHost",
+            "processId": 7737,
             "exited": false
         }
     ],

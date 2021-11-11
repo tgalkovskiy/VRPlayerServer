@@ -13,12 +13,14 @@ using UnityEngine.UI;
 using ZergRush;
 using ZergRush.ReactiveCore;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 public class ClientController : MonoBehaviour
 {
     [SerializeField] private MediaPlayer _mediaPlayer = default;
-    [SerializeField] private Slider _LoadBar = default;
+    [SerializeField] private Slider _loadBar = default;
     [SerializeField] private Text _debugText = default;
+    [SerializeField] private LobbyManagerLocal _lobbyManagerLocal = default;
     public static ClientController Instance;
     public ClientState state = new ClientState();
     public INetwork network;
@@ -26,7 +28,8 @@ public class ClientController : MonoBehaviour
     bool syncInProcess => syncFiles.Count > 0;
     List<string> syncFiles = new List<string>();
     Coroutine syncCoro;
-    
+    public GameObject _3DPlane;
+    public GameObject _2DPlane;
     public string filePrefix = "";
     public static string persistentPathFilePrefix => Instance != null ? Instance.filePrefix : "";
 
@@ -34,13 +37,7 @@ public class ClientController : MonoBehaviour
     {
         Instance = this;
     }
-
-    /*private void Start()
-    {
-        byte[] mass = Encoding.ASCII.GetBytes("sdfvsdfs");
-        WriteTextAsync(Path.Combine(Application.persistentDataPath, "TestWriter.mp4"), mass);
-    }*/
-
+    
     public void OnConnected(INetwork net)
     {
         _debugText.text += $"\nInit client controller";
@@ -53,8 +50,8 @@ public class ClientController : MonoBehaviour
             _debugText.text += $"\nClient command received {c}";
             switch (c)
             {
-                case ClientState st : state.UpdateFrom(st); OpenVideo(); break;
-                case SendDataFile data : SaveDataFile(data.data, data.name); break;
+                case ClientState st : state.UpdateFrom(st); OpenVideo(); _lobbyManagerLocal.IsActiveLogo(false);  break;
+                case SendDataFile data : SaveDataFile(data.percent, data.data, data.name); break;
                 case NumberSceneOpen n : OpenScene(n.numberScene); break;
                 case VideoSyncList videoSync : 
                     if (syncCoro != null) StopCoroutine(syncCoro);
@@ -69,9 +66,20 @@ public class ClientController : MonoBehaviour
         SendDeviceInfo();
     }
     
-    public void SaveDataFile(byte[] data, string name)
+    public void SaveDataFile(int percent, byte[] data, string name)
     {
-        WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data);
+        try
+        {
+            _debugText.text += $"get data";
+            WriteTextAsync(LoaderVideo.GetFillVideoPath(name), data, percent);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            _debugText.text += $"\n {e}";
+            throw;
+        }
+       
        // Sequence sequence = DOTween.Sequence().OnStart(()=>_LoadBar.gameObject.SetActive(true)).Append(
             //DOTween.To(() => _LoadBar.value, x => _LoadBar.value = x, 100, 2)).Play().OnComplete((() => _LoadBar.gameObject.SetActive(false)));
             //File.WriteAllBytes(LoaderVideo.GetFillVideoPath(name), data);
@@ -116,20 +124,30 @@ public class ClientController : MonoBehaviour
         }*/
     }
  
-    static async void WriteTextAsync(string name, byte[] data)
+    public void WriteTextAsync(string name, byte[] data, int percent)
     {
-        Debug.Log("GedData");
-        await Task.Run((() =>
+        Debug.Log($"get data");
+        using (FileStream stream = new FileStream(name, FileMode.Append))
         {
-            using (FileStream stream = new FileStream(name, FileMode.Append))
+            stream.Write(data, 0, data.Length);
+            if (percent < 95)
             {
-                stream.Write(data, 0, data.Length);
+                Debug.Log(percent);
+                _loadBar.gameObject.SetActive(true);
+                _loadBar.value = percent;
             }
-        }));
+            else
+            {
+                _loadBar.gameObject.SetActive(false);
+                _loadBar.value = 0;
+            }
+        }
+       
     }
     
     IEnumerator UpdateDevice()
     {
+        
         while (true)
         {
             SendDeviceInfo();

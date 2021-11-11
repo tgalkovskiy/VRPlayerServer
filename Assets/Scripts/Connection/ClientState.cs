@@ -31,6 +31,9 @@ public partial class ClientState : NetworkCommand, ISerializable
                  if (File.Exists(pathVideo))
                  {
                      _mediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, pathVideo, false);
+                     Debug.Log(v.is2DVideo);
+                     ClientController.Instance._3DPlane.SetActive(!v.is2DVideo);
+                     ClientController.Instance._2DPlane.SetActive(v.is2DVideo);
                  }
                  if (v.subtitlesFileName.IsNullOrEmpty() == false)
                  {

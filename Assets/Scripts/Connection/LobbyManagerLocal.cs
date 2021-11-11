@@ -23,7 +23,6 @@ public class LobbyManagerLocal : NetworkManager
     [HideInInspector] public int _maxSizeFile;
     public async void OfflineStart()
     {
-        _maxSizeFile = transport.GetMaxPacketSize()-100;
         Debug.Log($"Offline start isServer:{isServer}");
         Application.targetFrameRate = 60;
         serverController = ServerController.Instance;
@@ -41,8 +40,8 @@ public class LobbyManagerLocal : NetworkManager
         }
         else
         {
-            _waitText.text = $"{SystemInfo.deviceName} \n wait for connection by the host...";
-            _logo.SetActive(true);
+            _waitText.text = $"{SystemInfo.deviceName} \n wait for connection by the host..."; 
+            //_logo.SetActive(true);
             serverController.UnShowControlMenu();
             gameObject.SetActive(true);
             await Task.Delay(200);
@@ -71,7 +70,12 @@ public class LobbyManagerLocal : NetworkManager
         mirrorTransport.InitClient();
         Debug.Log("client initialized");
         _client.OnConnected(mirrorTransport);
-        _logo.SetActive(false);
+        IsActiveLogo(true);
+    }
+
+    public void IsActiveLogo(bool isActive)
+    {
+        _logo.SetActive(isActive);
     }
    
 }

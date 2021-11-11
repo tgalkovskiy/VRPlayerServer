@@ -1,4 +1,5 @@
 
+using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -31,10 +32,15 @@ public class WindowControll : MonoBehaviour
     [SerializeField] private Text _videoDescription = default;
     
     public static WindowControll Instance;
+    public Text _progressPercent;
     private bool isScalePreview = false;
     private string _nameContent;
     private string _description;
     private string _imagePath;
+    public Toggle _is2D;
+    public InputField _nameInput;
+    public InputField _descriptionInput;
+    public InputField _changeDescription;
     public Sprite _defaultImage;
     public Button delete;
     public Button quit;
@@ -49,6 +55,7 @@ public class WindowControll : MonoBehaviour
     public Button addImage;
     public Slider volume;
     public Slider time;
+    public Slider progress;
     public Button addVideoButton;
     public Button addPlayListButton;
     public Button categoryBackButton;
@@ -70,6 +77,9 @@ public class WindowControll : MonoBehaviour
         changeImage.onClick.AddListener(AddImageContent);
         setting.onClick.AddListener(SettingsPanel);
         quit.onClick.AddListener(Quit);
+        _nameInput.onValueChanged.AddListener(GetName);
+        _descriptionInput.onValueChanged.AddListener(GetDescription);
+        _changeDescription.onValueChanged.AddListener(GetDescription);
         //_defaultImage = _loadImage.sprite;
     }
 
@@ -187,11 +197,14 @@ public class WindowControll : MonoBehaviour
             _description = string.Empty;
             _imagePath = string.Empty;
             _changeContent.SetActive(false);
+            _nameInput.text = string.Empty;
+            _descriptionInput.text = string.Empty;
+            _changeDescription.text = string.Empty;
         }
     }
-    public void GetName(InputField _field)
+    private void GetName(string name)
     {
-        _nameContent = _field.text;
+        _nameContent = name;
     }
     private void AddImageContent()
     {
@@ -211,9 +224,9 @@ public class WindowControll : MonoBehaviour
             }
         
     }
-    public void GetDescription(InputField _field)
+    private void GetDescription(string description)
     {
-        _description = _field.text;
+        _description = description;
     }
     public void CreateVideo()
     {
@@ -225,10 +238,13 @@ public class WindowControll : MonoBehaviour
             ext = Path.GetExtension(_imagePath);
             File.Copy(_imagePath, Path.Combine(Application.persistentDataPath, $"{_nameContent}{Path.GetExtension(_imagePath)}"));
         }
-        ServerController.Instance.videoLoader.OpenFile(_nameContent, _description, ext);
+        ServerController.Instance.videoLoader.OpenFile(_nameContent, _description, ext, _is2D.isOn);
         _namePanel.SetActive(false);
         _imagePath = string.Empty;
         _loadImage.sprite = _defaultImage;
+        _nameInput.text = string.Empty;
+        _descriptionInput.text = string.Empty;
+        _is2D.isOn = false;
     }
     public void CreateCategory(CategoryCell _categoryCell)
     {
@@ -244,7 +260,10 @@ public class WindowControll : MonoBehaviour
         _namePanel.SetActive(false);
         _imagePath = string.Empty;
         _loadImage.sprite = _defaultImage;
+        _nameInput.text = string.Empty;
+        _descriptionInput.text = string.Empty;
     }
+    
     //public void 
     public void ChangeVideoPanel(Sprite sprite, string description)
     {

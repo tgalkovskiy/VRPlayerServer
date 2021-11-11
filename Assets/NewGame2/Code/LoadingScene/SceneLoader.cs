@@ -30,10 +30,10 @@ public class SceneLoader : Singleton<SceneLoader>
 
     private IEnumerator LoadScene(string sceneName)
     {
-        isLoading = true;
+        /*isLoading = true;
 
         OnLoadBegin.Invoke();
-        yield return screenFader.StartFadeIn();
+        yield return screenFader.StartFadeIn(); 
         yield return StartCoroutine(UnloadCurrent());
 
         // For testing
@@ -43,7 +43,8 @@ public class SceneLoader : Singleton<SceneLoader>
         yield return screenFader.StartFadeOut();
         OnLoadEnd.Invoke();
 
-        isLoading = false;
+        isLoading = false;*/
+        yield return null;
     }
 
     private IEnumerator UnloadCurrent()

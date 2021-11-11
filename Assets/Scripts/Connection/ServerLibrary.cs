@@ -16,6 +16,7 @@ public partial class LibraryItem : ProtocolItem
 public partial class VideoItem : LibraryItem
 {
     public string id;
+    public bool is2DVideo;
     public string description;
     public string fileName;
     public string soundFilename;

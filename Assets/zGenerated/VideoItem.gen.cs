@@ -12,6 +12,7 @@ public partial class VideoItem : IUpdatableFrom<VideoItem>, IUpdatableFrom<Proto
         base.UpdateFrom(other);
         var otherConcrete = (VideoItem)other;
         id = otherConcrete.id;
+        is2DVideo = otherConcrete.is2DVideo;
         description = otherConcrete.description;
         fileName = otherConcrete.fileName;
         extImage = otherConcrete.extImage;
@@ -26,6 +27,7 @@ public partial class VideoItem : IUpdatableFrom<VideoItem>, IUpdatableFrom<Proto
     {
         base.Deserialize(reader);
         id = reader.ReadString();
+        is2DVideo = reader.ReadBoolean();
         description = reader.ReadString();
         fileName = reader.ReadString();
         extImage = reader.ReadString();
@@ -36,6 +38,7 @@ public partial class VideoItem : IUpdatableFrom<VideoItem>, IUpdatableFrom<Proto
     {
         base.Serialize(writer);
         writer.Write(id);
+        writer.Write(is2DVideo);
         writer.Write(description);
         writer.Write(fileName);
         writer.Write(extImage);
@@ -45,6 +48,7 @@ public partial class VideoItem : IUpdatableFrom<VideoItem>, IUpdatableFrom<Proto
     public  VideoItem() 
     {
         id = string.Empty;
+        is2DVideo = false;
         description = string.Empty;
         fileName = string.Empty;
         extImage = string.Empty;

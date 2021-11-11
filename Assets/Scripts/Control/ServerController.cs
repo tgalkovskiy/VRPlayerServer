@@ -12,6 +12,7 @@ public class ServerController : ConnectableMonoBehaviour
 {
     [SerializeField] private GameObject _canvasControl = default;
     [SerializeField] private MediaPlayer _mediaPlayer = default;
+    
     private bool mute = false;
     public List<string> path = new List<string>();
     private List<string> devises = new List<string>();
@@ -23,13 +24,18 @@ public class ServerController : ConnectableMonoBehaviour
     public INetworkServer network;
 
     public LoaderVideo videoLoader;
-
     bool stateDirty;
-
+    private Slider _progress;
+    private Text _progressPercent;
     void Awake()
     {
         Instance = this;
         videoLoader = GetComponent<LoaderVideo>();
+    }
+    private void Start()
+    {
+        _progress = WindowControll.Instance.progress;
+        _progressPercent = WindowControll.Instance._progressPercent;
     }
 
     public void Init(INetworkServer net)
@@ -107,7 +113,6 @@ public class ServerController : ConnectableMonoBehaviour
         string file = LoaderVideo.GetFillVideoPath(name);
         ReadAsync(connectionId, file, name);
         //network.SendCommand(connectionId, new SendDataFile {data = ReadAsync(name).Result, name = file });
-        
         /*using (FileStream SourceStream =new FileStream(name, FileMode.Open))
         {
             massByteToFile = new byte[SourceStream.Length];
@@ -115,7 +120,6 @@ public class ServerController : ConnectableMonoBehaviour
         }
         Debug.Log($"{massByteToFile.Length}");*/
         //byte[] massByteToFile =File.ReadAllBytes(LoaderVideo.GetFillVideoPath(file));
-        
         /*if (massByteToFile.Length > _Lobby._maxSizeFile)
         {
             var countPackage = (int) Math.Ceiling((decimal) massByteToFile.Length / (decimal) _Lobby._maxSizeFile);
@@ -141,23 +145,25 @@ public class ServerController : ConnectableMonoBehaviour
         Debug.Log("Start Async");
         using(FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         {
-            Debug.Log("create stream");
             massByteToFile = new byte[stream.Length];
-            Debug.Log("Star Read File");
-            await Task.Run((() => {stream.ReadAsync(massByteToFile, 0, (int) stream.Length);}));
-            Debug.Log("Contactation");
+            await stream.ReadAsync(massByteToFile, 0, (int) stream.Length);
             int countPackage = (int)Math.Ceiling((decimal)massByteToFile.Length /1000000);
-            Debug.Log(countPackage);
+            int percent;
+            _progress.gameObject.SetActive(true);
+            _progress.maxValue = countPackage;
             for (int i = 0; i < countPackage; i++)
             {
-                await Task.Run((() =>
-                {
-                    byte[] mass = new Byte[Math.Min(1000000, stream.Length-i*1000000)];
-                    Debug.Log($"Send {i} length{mass.Length}");
-                    Array.Copy(massByteToFile, i*1000000, mass, 0, mass.Length);
-                    network.SendCommand(ID, new SendDataFile {data = mass, name = name}); 
-                }));
+                byte[] mass = new Byte[Math.Min(1000000, stream.Length - i * 1000000)];
+                Debug.Log($"Send {i} length{mass.Length}");
+                Array.Copy(massByteToFile, i * 1000000, mass, 0, mass.Length);
+                _progress.value += 1;
+                percent = (int) ((double) i / countPackage * 100);
+                _progressPercent.text =$"{percent}%";
+                network.SendCommand(ID, new SendDataFile {percent = percent, data = mass, name = name});
+                await Task.Delay(500);
             }
+            _progress.value = 0;
+            _progress.gameObject.SetActive(false);
         }
         Debug.Log("Send Data");
     }

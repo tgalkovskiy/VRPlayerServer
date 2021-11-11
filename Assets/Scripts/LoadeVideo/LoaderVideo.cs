@@ -130,8 +130,13 @@ public class LoaderVideo : ConnectableMonoBehaviour
 
     public void AddCategory(string catName, string description, string extImage)
     {
+        string image = String.Empty;
+        if (!extImage.IsNullOrEmpty())
+        {
+            image = $"{catName}{extImage}";
+        }
         currentCollection.value.Insert(0,
-            new VideoCategory {name = catName, description = description, extImage = $"{catName}{extImage}"});
+            new VideoCategory {name = catName, description = description, extImage = image});
     }
     public void  DeleteCell()
     {
@@ -164,7 +169,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
     }
     
     
-    public void OpenFile(string name, string description, string extImage)
+    public void OpenFile(string name, string description, string extImage, bool is2DVideo)
     {
         var extensions = new[]
         {
@@ -190,6 +195,7 @@ public class LoaderVideo : ConnectableMonoBehaviour
             currentCollection.value.Add(new VideoItem
             {
                 id = new GUI().ToString(),
+                is2DVideo = is2DVideo,
                 fileName = fileName,
                 description = description,
                 extImage = imageName

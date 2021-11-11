@@ -11,6 +11,7 @@ public partial class SendDataFile : IUpdatableFrom<SendDataFile>, IUpdatableFrom
     {
         base.UpdateFrom(other);
         var otherConcrete = (SendDataFile)other;
+        percent = otherConcrete.percent;
         data = otherConcrete.data;
         format = otherConcrete.format;
         name = otherConcrete.name;
@@ -22,6 +23,7 @@ public partial class SendDataFile : IUpdatableFrom<SendDataFile>, IUpdatableFrom
     public override void Deserialize(BinaryReader reader) 
     {
         base.Deserialize(reader);
+        percent = reader.ReadInt32();
         data = reader.ReadByteArray();
         format = reader.ReadString();
         name = reader.ReadString();
@@ -29,6 +31,7 @@ public partial class SendDataFile : IUpdatableFrom<SendDataFile>, IUpdatableFrom
     public override void Serialize(BinaryWriter writer) 
     {
         base.Serialize(writer);
+        writer.Write(percent);
         writer.WriteByteArray(data);
         writer.Write(format);
         writer.Write(name);
@@ -36,6 +39,7 @@ public partial class SendDataFile : IUpdatableFrom<SendDataFile>, IUpdatableFrom
     public  SendDataFile() 
     {
         data = Array.Empty<System.Byte>();
+        percent = default;
         format = string.Empty;
         name = string.Empty;
     }

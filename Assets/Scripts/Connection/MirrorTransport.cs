@@ -12,7 +12,7 @@ public partial class NumberSceneOpen : NetworkCommand
 
 public partial class SendDataFile : NetworkCommand
 {
-    public string length;
+    public int percent;
     public byte[] data;
     public string format;
     public string name;
