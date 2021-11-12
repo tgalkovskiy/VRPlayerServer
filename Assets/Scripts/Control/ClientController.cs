@@ -130,7 +130,7 @@ public class ClientController : MonoBehaviour
         using (FileStream stream = new FileStream(name, FileMode.Append))
         {
             stream.Write(data, 0, data.Length);
-            if (percent < 95)
+            if (percent < 90)
             {
                 Debug.Log(percent);
                 _loadBar.gameObject.SetActive(true);
